@@ -102,19 +102,19 @@ local MENU_ITEMS = {
         end,
     },
     {   -- center: ToDo
-        icon    = C_Item.GetItemIconByID(32620) or "Interface\\Icons\\INV_Misc_Note_01",
+        icon    = "Interface\\Icons\\INV_Scroll_03",
         tooltip = L["menu_todo"] or "ToDo List",
         onClick = function()
             if AklimeMod_TodoList then AklimeMod_TodoList:Toggle() end
         end,
     },
     {   -- bottom-center: Character Tracker
-        icon    = C_Item.GetItemIconByID(272339) or "Interface\\GossipFrame\\DailyActiveQuestIcon",
+        icon    = "Interface\\Icons\\INV_Misc_Book_11",
         tooltip = L["menu_char_tracker"] or "Character Tracker",
         onClick = function() AklimeMod_CT_Toggle() end,
     },
     {   -- bottom-center: Played Time
-        icon    = C_Item.GetItemIconByID(162690) or "Interface\\Icons\\Achievement_BG_returnxflags_def_WSG",
+        icon    = "Interface\\Icons\\INV_Misc_PocketWatch_01",
         tooltip = L["menu_played_time"] or "Played Time",
         onClick = function()
             if AklimeMod_PlayedTime then AklimeMod_PlayedTime:Toggle() end
