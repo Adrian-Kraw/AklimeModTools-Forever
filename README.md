@@ -20,7 +20,6 @@ Overview page with all available slash commands and contact information.
 Visual adjustments to the game client.
 
 - **Elite Frame**: Adds the dragon on the player portrait with one of four styles (silver/gold, with or without wings)
-- **Dungeon Eye**: Moves the LFG eye to the minimap border, freely positionable via drag
 - **Raid Frame Centering**: Automatically centers raid frames, adapts to group size
 - **Hide Macro Names**: Hides the label below macro buttons in the action bar
 - **Damage Meter Collapse Down**: Collapses compatible damage meters downward instead of upward
@@ -140,8 +139,7 @@ Drag the button to move it along the minimap border.
 | `/akm ignore` | Open / close extended ignore list |
 | `/akm played` | Show playtime of all characters |
 | `/rl` `/nl` | Reload interface |
-| `/akmana` | Show mana warning status |
-| `/akmana test` | Send mana warning test message |
+
 
 ---
 ---
@@ -167,7 +165,6 @@ Persönliches WoW Addon für Midnight (12.0.7).
 Visuelle Anpassungen am Spielclient.
 
 - **Elite Frame**: Fügt den Drachen am Spielerportrait mit einem von vier Stilen (silber/gold, mit oder ohne Flügel)
-- **Dungeon Eye**: Verschiebt das LFG-Auge an den Minimap-Rand, frei per Drag positionierbar
 - **Raid Frame Zentrierung**: Zentriert die Raid-Frames automatisch, passt sich an die Gruppengröße an
 - **Makro-Namen ausblenden**: Versteckt die Beschriftung unter Makro-Buttons in der Aktionsleiste
 - **Schadensanzeige nach unten klappen**: Klappt kompatible Schadensanzeigen nach unten statt nach oben

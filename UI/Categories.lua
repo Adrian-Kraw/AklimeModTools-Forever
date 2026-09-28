@@ -536,15 +536,6 @@ local function addInterfaceNodes(dp)
         )
     end
 
-    local dungeonEyeNode = addModule(dp, L["mod_dungeon_eye"],
-        function() return AklimeMod_DungeonEye.IsEnabled() end,
-        function(v) AklimeMod_DungeonEye.SetEnabled(v) end
-    )
-    addToggle(dungeonEyeNode, L["toggle_lock_minimap"],
-        function() return AklimeMod_DungeonEye.IsLocked() end,
-        function(v) AklimeMod_DungeonEye.SetLocked(v) end
-    )
-
     local raidCenterNode = addModule(dp, L["mod_raid_center"],
         function() return AklimeMod_RaidFrameCenter.IsEnabled() end,
         function(v) AklimeMod_RaidFrameCenter.SetEnabled(v) end
@@ -777,17 +768,6 @@ local function BuildInterfaceContent(filter)
             end
         )
     end
-
-    -- Dungeon Eye
-    local dungeonEyeNode = addModule(dp3, L["mod_dungeon_eye"],
-        function() return AklimeMod_DungeonEye.IsEnabled() end,
-        function(v) AklimeMod_DungeonEye.SetEnabled(v) end
-    )
-    addToggle(dungeonEyeNode, L["toggle_lock_minimap"],
-        function() return AklimeMod_DungeonEye.IsLocked() end,
-        function(v) AklimeMod_DungeonEye.SetLocked(v) end
-    )
-    addInfo(dungeonEyeNode, L["info_dungeon_eye"])
 
     -- Raid frame centering
     local raidCenterNode = addModule(dp3, L["mod_raid_center"],

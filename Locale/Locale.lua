@@ -51,7 +51,6 @@ L["sec_currencies"]  = "Currencies"
 
 -- Module names
 L["mod_elite_frame"]      = "Elite Frame"
-L["mod_dungeon_eye"]      = "Dungeon Eye"
 L["mod_raid_center"]      = "Raid Frame Centering"
 L["mod_hide_macro"]       = "Hide Macro Names"
 L["mod_dm_collapse"]      = "Damage Meter: Collapse Down"
@@ -127,7 +126,6 @@ L["elite_gold"]        = "Golden Dragon"
 L["elite_gold_wing"]   = "Golden Dragon with Wings"
 
 -- Toggle labels
-L["toggle_lock_minimap"]       = "Lock to Minimap Border"
 L["toggle_include_own"]        = "Include Own Aklime Mod Tools Button"
 L["toggle_mm_tracking"]        = "Tracking Icon"
 L["toggle_mm_zone"]            = "Zone Info"
@@ -348,7 +346,6 @@ L["info_raid_center_short"] = "Centers raid frames dynamically."
 L["info_hide_macro_short"]  = "Hides macro names on all action buttons."
 L["info_dm_collapse_short"] = "Changes the collapse direction of the Blizzard damage meter."
 
-L["info_dungeon_eye"]      = "No checkmark = freely movable by drag.\nCheckmark = snaps to minimap border."
 L["info_raid_center"]      = "Centers raid frames dynamically.\nGroups always arrange around screen center.\nInactive in edit mode."
 L["info_hide_macro"]       = "Hides macro names on all action buttons.\nNewly created macros are hidden immediately."
 L["info_dm_collapse"]      = "Changes the collapse direction of the Blizzard damage meter.\nWith this toggle it collapses downward instead of upward."
@@ -509,7 +506,6 @@ if GetLocale() == "deDE" then
     L["elite_gold"]        = "Goldener Drachen"
     L["elite_gold_wing"]   = "Goldener Drachen mit Flügeln"
 
-    L["toggle_lock_minimap"]       = "An Minimap-Rand fixieren"
     L["toggle_include_own"]        = "Eigenen Aklime Mod Tools-Button einschließen"
     L["toggle_mm_tracking"]        = "Verfolgungssymbol"
     L["toggle_mm_zone"]            = "Zoneninfo"
@@ -650,8 +646,6 @@ if GetLocale() == "deDE" then
     L["info_hide_macro_short"]  = "Versteckt die Makro-Namen auf allen Action Buttons."
     L["info_dm_collapse_short"] = "Ändert die Klapp-Richtung der Blizzard-Schadensanzeige."
 
-    L["mod_dungeon_eye"]       = "Dungeon Auge"
-    L["info_dungeon_eye"]      = "Kein Haken = frei per Drag ziehbar.\nHaken = springt an den Minimap-Rand."
     L["info_raid_center"]      = "Zentriert Raid-Frames dynamisch.\nGruppen werden immer um die Bildschirmmitte angeordnet.\nIm Bearbeitungsmodus inaktiv."
     L["info_hide_macro"]       = "Versteckt die Makro-Namen auf allen Action Buttons.\nNeu erstellte Makros werden ebenfalls sofort ausgeblendet."
     L["info_dm_collapse"]      = "Ändert die Klapp-Richtung der Blizzard-Schadensanzeige.\nMit diesem Toggle klappt sie nach unten statt nach oben."

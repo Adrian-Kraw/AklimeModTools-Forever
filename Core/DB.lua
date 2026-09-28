@@ -29,10 +29,6 @@ function AklimeMod_InitDB()
     def(db.chatInteraction, "clickLinks", false)
     def(db.chatInteraction, "btnLocked",  false)
 
-    db.dungeonEye = db.dungeonEye or {}
-    def(db.dungeonEye, "enabled", false)
-    def(db.dungeonEye, "locked",  false)
-
     db.reloadUI = db.reloadUI or {}
     def(db.reloadUI, "enabled", false)
 
