@@ -7,35 +7,22 @@
 -- Tracked currency IDs, resolved through C_CurrencyInfo.
 -- ============================================================
 local CURRENCY_IDS = {
-    81, 515, 2588, 3363, 241,
-    391, 416,
-    402, 697, 738, 752, 776, 777, 789,
-    823, 824, 994, 1101, 1129, 1149, 1155, 1166,
-    1220, 1226, 1273, 1275, 1299, 1314, 1342, 1501, 1508, 1533,
-    1710, 1580, 1560, 1587, 1716, 1717, 1718, 1721, 1719, 1755, 1803,
-    1754, 1191, 1602, 1792, 1822, 1767, 1828, 1810, 1813, 1816,
-    1819, 1820, 1885, 1906, 1931, 1977, 1979, 2009, 2000,
-    2003, 2245, 2123, 2797, 2118, 2122,
-    2533, 2594, 2650, 2651, 2777, 2796,
-    2706, 2707, 2708, 2709,
-    2657, 2912, 2806, 2807, 2809, 2812, 2778,
-    3089, 2803, 2815, 3056, 3008, 2813, 2914, 2915, 2916, 2917,
-    3100, 3090, 3218, 3220, 3226, 3116, 3107, 3108, 3109, 3110,
-    3149, 3278, 3303, 3356, 3269, 3284, 3286, 3288, 3290, 3141,
-    3319, 3316, 3376, 3377, 3379, 3385, 3392, 3400, 3373, 3393, 3405,
-    3256, 3257, 3258, 3259, 3260, 3261, 3262, 3263, 3264, 3265, 3266,
-    3028, 3310, 3212, 3378, 3383, 3341, 3343, 3345, 3347, 3418,
-    3442, 3443, 3444, 3445, 3446, 3448, 3465, 3509,
+    515,   -- Darkmoon Prize Ticket
+    1792,  -- Honor
+    3402,  -- Merchant's Favor
+    3468,  -- Rank Points
+    3469,  -- Tarnished Undermine Real
 }
 
 -- ============================================================
--- EJ cache: name (normalized) + EJ ID maps to expansion (0-11)
+-- EJ cache: name (normalized) + EJ ID maps to expansion (only Classic = 0)
 -- Global so it can be debugged via /dump AklimeMod_InstExpCache.
 -- The expansion comes from the tier index, not from the tier name. Tier names
 -- are localized and inconsistently spelled, so any name table goes stale on
 -- the next rename.
 -- ============================================================
-local MAX_EXPANSION = 11
+-- Forever only has Classic content
+local MAX_EXPANSION = 0
 
 -- The journal abbreviates articles that the lockout API spells out. EJ has
 -- "Terrasse d. endlosen Fruehlings" where GetSavedInstanceInfo returns

@@ -277,7 +277,7 @@ L["news_forever_title"] = "Aklime Mod Tools Forever"
 L["news_forever"]       = "Aklime Mod Tools from Retail is now available in Forever too."
 
 -- Currency expansion categories
-L["curr_cat_season"] = "Season"
+L["curr_cat_professions"] = "Professions"
 L["curr_cat_raids"]  = "Dungeons & Raids"
 L["curr_cat_pvp"]    = "Player vs. Player"
 L["curr_cat_misc"]   = "Miscellaneous"
@@ -642,7 +642,7 @@ if GetLocale() == "deDE" then
     L["news_forever_title"] = "Aklime Mod Tools Forever"
     L["news_forever"]       = "Aklime Mod Tools aus Retail ist jetzt auch in Forever verfügbar."
 
-    L["curr_cat_season"] = "Saison"
+    L["curr_cat_professions"] = "Berufe"
     L["curr_cat_raids"]  = "Dungeon & Schlachtzug"
     L["curr_cat_pvp"]    = "Spieler gegen Spieler"
     L["curr_cat_misc"]   = "Verschiedenes"

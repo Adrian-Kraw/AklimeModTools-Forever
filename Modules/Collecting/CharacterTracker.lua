@@ -4,55 +4,16 @@
 
 local L = AklimeModL or {}
 
--- ============================================================
--- Hidden and do-not-track currencies that must not be shown.
--- ============================================================
-local HIDDEN_CURRENCY_IDS = {
-    [2409]=true, [2410]=true, [2411]=true, [2412]=true,  -- DNT Crest Fragments
-    [2413]=true,  -- 10.1 Professions - S2 Spark (Hidden)
-    [2774]=true,  -- 10.2 Professions - S3 Spark (Hidden)
-    [2800]=true,  -- 10.2.6 Professions - S4 Spark (Hidden)
-    [3010]=true,  -- 10.2.6 Rewards - S4 Dinar (Hidden)
-    [3023]=true,  -- 11.0 Professions - S1 Spark (Hidden)
-    [3132]=true,  -- 11.1 Professions - S2 Spark (Hidden)
-    [1889]=true,  -- Adventure Campaign Progress
-    [2045]=true,  -- Dragon Glyph Embers (intern)
-}
-
 -- All currency IDs tracked by the addon.
 local TRACKED_CURRENCY_IDS = {
-    -- Season
-    3310, 2803, 3378, 3418, 3028, 3356, 3383, 3341, 3343, 3345, 3347, 3212,
-    3442, 3443, 3444, 3445, 3446, 3465, 3509,
+    -- Professions
+    3402,
     -- Dungeon & Raid
-    1166,
+    3469,
     -- Player vs. Player
-    391, 2123, 1792, 1602,
+    1792, 3468,
     -- Miscellaneous
-    2588, 402, 81, 3363, 515, 2032,
-    -- Midnight
-    3373, 3405, 3393, 3316, 3385, 3376, 3392, 3379, 3377, 3400, 3448,
-    3256, 3257, 3258, 3260, 3261, 3262, 3263, 3264, 3265, 3266,
-    -- The War Within
-    3220, 3055, 3093, 3089, 3090, 3056, 3218, 3226, 2815, 3303, 3149,
-    -- Dragonflight
-    2118, 2657, 2594, 2650, 2122, 2777, 2003,
-    -- Shadowlands
-    1754, 1979, 1885, 1820, 1931, 2009, 1819, 1813, 1828, 1906, 1767, 1977, 1816, 1904,
-    -- Battle for Azeroth
-    1717, 1716, 1803, 1299, 1560, 1755, 1721, 1710, 1580, 1719,
-    -- Legion
-    1149, 1533, 1342, 1275, 1226, 1220, 1273, 1155, 1508,
-    -- Warlords of Draenor
-    994, 823, 824, 1101, 1129,
-    -- Mists of Pandaria
-    738, 752, 776, 777, 789, 697,
-    -- Cataclysm
-    416,
-    -- Wrath of the Lich King
-    241,
-    -- The Burning Crusade
-    1704,
+    515,
 }
 
 -- ============================================================
@@ -82,28 +43,14 @@ local DIFF_COLOR = {
 
 local EXP_NAMES = {
     [0]  = "Classic",
-    [1]  = "The Burning Crusade",
-    [2]  = "Wrath of the Lich King",
-    [3]  = "Cataclysm",
-    [4]  = "Mists of Pandaria",
-    [5]  = "Warlords of Draenor",
-    [6]  = "Legion",
-    [7]  = "Battle for Azeroth",
-    [8]  = "Shadowlands",
-    [9]  = "Dragonflight",
-    [10] = "The War Within",
-    [11] = "Midnight",
     [12] = L["curr_cat_misc"]   or "Miscellaneous",
     [13] = L["curr_cat_pvp"]    or "Player vs. Player",
     [14] = L["curr_cat_raids"]  or "Dungeons & Raids",
-    [15] = L["curr_cat_season"] or "Season",
+    [15] = L["curr_cat_professions"] or "Professions",
 }
 
--- expansionLevel is stored directly as 0 to 11, so no mapping is needed.
--- This only guards against old or invalid stored values.
+-- Forever only has Classic content, so every instance counts as Classic.
 local function NormalizeExpansion(exp)
-    if not exp then return 0 end
-    if exp >= 0 and exp <= 11 then return exp end
     return 0
 end
 
@@ -210,38 +157,14 @@ local CURRENCY_EXP = {}
 local function SetExp(exp, ids)
     for _, id in ipairs(ids) do CURRENCY_EXP[id] = exp end
 end
--- Season (15) -- crest currencies + season currencies
-SetExp(15, {3310,2803,3378,3418,3028,3356,3383,3341,3343,3345,3347,3212,
-            3442,3443,3444,3445,3446,3465,3509})
+-- Professions (15)
+SetExp(15, {3402})
 -- Dungeon & Raid (14)
-SetExp(14, {1166})
+SetExp(14, {3469})
 -- Player vs. Player (13)
-SetExp(13, {391,2123,1792,1602})
+SetExp(13, {1792,3468})
 -- Miscellaneous (12)
-SetExp(12, {2588,402,81,3363,515,2032})
--- Midnight (11) -- content + profession currencies
-SetExp(11, {3373,3405,3393,3316,3385,3376,3392,3379,3377,3400,3448,
-            3256,3257,3258,3260,3261,3262,3263,3264,3265,3266})
--- The War Within (10)
-SetExp(10, {3220,3055,3093,3089,3090,3056,3218,3226,2815,3303,3149})
--- Dragonflight (9)
-SetExp(9,  {2118,2657,2594,2650,2122,2777,2003})
--- Shadowlands (8)
-SetExp(8,  {1754,1979,1885,1820,1931,2009,1819,1813,1828,1906,1767,1977,1816,1904})
--- Battle for Azeroth (7)
-SetExp(7,  {1717,1716,1803,1299,1560,1755,1721,1710,1580,1719})
--- Legion (6)
-SetExp(6,  {1149,1533,1342,1275,1226,1220,1273,1155,1508})
--- Warlords of Draenor (5)
-SetExp(5,  {994,823,824,1101,1129})
--- Mists of Pandaria (4)
-SetExp(4,  {738,752,776,777,789,697})
--- Cataclysm (3)
-SetExp(3,  {416})
--- Wrath of the Lich King (2)
-SetExp(2,  {241})
--- The Burning Crusade (1)
-SetExp(1,  {1704})
+SetExp(12, {515})
 
 local currInfoCache = {}
 local function GetCurrInfo(id)
@@ -382,8 +305,7 @@ local function BuildCurrencies(sel)
         local toon = trackerDB.Toons[ch]
         if toon and toon.currency then
             for id, data in pairs(toon.currency) do
-                if type(id) == "number" and data.amount and data.amount > 0
-                and not HIDDEN_CURRENCY_IDS[id] then
+                if type(id) == "number" and data.amount and data.amount > 0 then
                     present[id] = true
                 end
             end
