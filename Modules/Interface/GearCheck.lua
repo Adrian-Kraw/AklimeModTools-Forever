@@ -15,28 +15,9 @@ local ENCHANT_PATTERN    = ENCHANTED_TOOLTIP_LINE and ENCHANTED_TOOLTIP_LINE:gsu
 local ITEM_LEVEL_PATTERN = ITEM_LEVEL and ITEM_LEVEL:gsub("%%d", "(%%d+)")
 
 -- Enchantable slots by expansion number.
--- New DLC: add a new block [N] = { [INVSLOT_...]=true, ... }.
-local ENCHANT_SLOTS_BY_EXP = {
-    [11] = {
-        [INVSLOT_MAINHAND]=true, [INVSLOT_HEAD]=true,
-        [INVSLOT_SHOULDER]=true, [INVSLOT_CHEST]=true,
-        [INVSLOT_LEGS]=true,     [INVSLOT_FEET]=true,
-        [INVSLOT_FINGER1]=true,  [INVSLOT_FINGER2]=true,
-    },
-    [10] = {
-        [INVSLOT_BACK]=true,    [INVSLOT_CHEST]=true,
-        [INVSLOT_WRIST]=true,   [INVSLOT_LEGS]=true,
-        [INVSLOT_FEET]=true,    [INVSLOT_MAINHAND]=true,
-        [INVSLOT_FINGER1]=true, [INVSLOT_FINGER2]=true,
-    },
-    [9] = {
-        [INVSLOT_HEAD]=true,    [INVSLOT_BACK]=true,
-        [INVSLOT_CHEST]=true,   [INVSLOT_WRIST]=true,
-        [INVSLOT_WAIST]=true,   [INVSLOT_LEGS]=true,
-        [INVSLOT_FEET]=true,    [INVSLOT_MAINHAND]=true,
-        [INVSLOT_FINGER1]=true, [INVSLOT_FINGER2]=true,
-    },
-}
+-- Forever slots are not defined yet, so no slot shows an enchant status.
+-- Add them as [0] = { [INVSLOT_...]=true, ... }.
+local ENCHANT_SLOTS_BY_EXP = {}
 
 -- Left column of the character frame: indicators appear to the right of the slot.
 -- Right column: indicators appear to the left of the slot.
@@ -197,13 +178,6 @@ local function GetEnchantStatus(unit, slotID)
     local expansion = GetExpansionForLevel and GetExpansionForLevel(UnitLevel(unit))
     local slots = expansion and ENCHANT_SLOTS_BY_EXP[expansion] or {}
     local canEnchant = slots[slotID]
-    if not canEnchant and slotID == INVSLOT_OFFHAND then
-        local link = GetInventoryItemLink(unit, slotID)
-        if link then
-            local equiploc = select(4, GetItemInfoInstant(link))
-            canEnchant = equiploc ~= "INVTYPE_HOLDABLE" and equiploc ~= "INVTYPE_SHIELD"
-        end
-    end
     if not canEnchant then return nil end
     if not (C_TooltipInfo and C_TooltipInfo.GetInventoryItem) then return nil end
     local data = C_TooltipInfo.GetInventoryItem(unit, slotID)
