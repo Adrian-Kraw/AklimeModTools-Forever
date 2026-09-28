@@ -73,6 +73,7 @@ local suppressHook    = false  -- Prevents a hook loop during restore
 
 local RADIUS  = 99
 local BTN_SIZE = 32
+local ICON_SIZE = 30
 local SPACING  = 36
 
 -- ============================================================
@@ -338,7 +339,7 @@ local function CreateCollector()
     btn:RegisterForDrag("LeftButton")
 
     local icon = btn:CreateTexture(nil, "ARTWORK")
-    icon:SetSize(26, 26)
+    icon:SetSize(ICON_SIZE, ICON_SIZE)
     icon:SetPoint("CENTER", btn, "CENTER", 0, 0)
     icon:SetTexture("Interface\\Minimap\\Tracking\\None")
 
