@@ -46,7 +46,7 @@ L["sec_quest"]       = "Quest"
 L["sec_health"]      = "Health"
 L["sec_playtime"]    = "Played Time"
 L["sec_hud_fading"]  = "Interface Fading"
-L["sec_colorizer"]   = "Color Customization"
+L["cat_colorizer"]   = "Interface - Coloring"
 L["sec_currencies"]  = "Currencies"
 
 -- Module names
@@ -432,7 +432,7 @@ if GetLocale() == "deDE" then
     L["sec_health"]      = "Gesundheit"
     L["sec_playtime"]    = "Spielzeit"
     L["sec_hud_fading"]  = "Interface Ausblendung"
-    L["sec_colorizer"]   = "Farbliche Anpassungen"
+    L["cat_colorizer"]   = "Interface - Färben"
     L["sec_currencies"]  = "Währungen"
 
     L["mod_raid_center"]      = "Raid Frame Zentrierung"

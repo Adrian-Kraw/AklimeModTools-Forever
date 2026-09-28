@@ -701,33 +701,29 @@ local function addInterfaceNodes(dp)
     end
 end
 
+-- Extended factory (Elite support), shared by the Interface and the coloring page
+local function extendedFactory(factory, node)
+    local d = node:GetData()
+    if d.Template == "AklimeMod_ModuleHeaderTemplate" then
+        factory(d.Template, moduleHeaderInitializer)
+    elseif d.Template == "AklimeMod_DropdownTemplate" then
+        factory(d.Template, dropdownInitializer)
+    elseif d.Template == "AklimeMod_ToggleTemplate" and d.name then
+        factory(d.Template, toggleInitializer)
+    elseif d.Template == "AklimeMod_SubColorTemplate" and (d.mouseRingColor or d.mouseTrailColor) then
+        factory(d.Template, mouseColorInitializer)
+    else
+        -- All colorizer templates
+        AklimeMod_ColorizerRightFactory(factory, node)
+    end
+end
+
 local function BuildInterfaceContent(filter)
     lastCategoryFn = BuildInterfaceContent
     AklimeMod_SetRightHeader("Interface")
     ShowScrollView()
     currentBuildFn = BuildInterfaceContent
 
-    -- Switch the factory to the colorizer factory
-    RSV():SetElementFactory(AklimeMod_ColorizerRightFactory, function() end)
-
-    local dp = CreateTreeDataProvider()
-
-    -- Extended factory (Elite + Rare support)
-    local function extendedFactory(factory, node)
-        local d = node:GetData()
-        if d.Template == "AklimeMod_ModuleHeaderTemplate" then
-            factory(d.Template, moduleHeaderInitializer)
-        elseif d.Template == "AklimeMod_DropdownTemplate" then
-            factory(d.Template, dropdownInitializer)
-        elseif d.Template == "AklimeMod_ToggleTemplate" and d.name then
-            factory(d.Template, toggleInitializer)
-        elseif d.Template == "AklimeMod_SubColorTemplate" and (d.mouseRingColor or d.mouseTrailColor) then
-            factory(d.Template, mouseColorInitializer)
-        else
-            -- All colorizer templates
-            AklimeMod_ColorizerRightFactory(factory, node)
-        end
-    end
     RSV():SetElementFactory(extendedFactory, function() end)
 
     local dp3 = CreateTreeDataProvider()
@@ -1008,29 +1004,94 @@ local function BuildInterfaceContent(filter)
         end
     end
 
-    -- Insert colorizer nodes directly into dp3
-    local function insertColorizerNodes(targetDP, searchFilter)
-        local C = AklimeMod_Colorizer
+    RSV():SetDataProvider(dp3)
+end
+AklimeMod_BuildInterfaceContent = BuildInterfaceContent
 
-        targetDP:Insert({
-            Template = "AklimeMod_SeparatorTemplate",
-            label    = L["sec_colorizer"],
-            centered = true,
-        })
+-- Colorizer nodes, shown on their own page "Interface - Färben"
+local function insertColorizerNodes(targetDP, searchFilter)
+    local C = AklimeMod_Colorizer
 
-        -- Master toggle: all skins on/off
-        local function AllEnabled()
-            for _, group in ipairs(C.groupOrder) do
-                for _, key in ipairs(group.keys) do
-                    if not C:IsEnabled(key) then return false end
+    -- Master toggle: all skins on/off
+    local function AllEnabled()
+        for _, group in ipairs(C.groupOrder) do
+            for _, key in ipairs(group.keys) do
+                if not C:IsEnabled(key) then return false end
+            end
+        end
+        return true
+    end
+
+    local function SetAll(v)
+        for _, group in ipairs(C.groupOrder) do
+            for _, key in ipairs(group.keys) do
+                AklimeModDB.colorizer[key] = AklimeModDB.colorizer[key] or {}
+                AklimeModDB.colorizer[key].enabled = v
+                local skin = C.skins[key]
+                if skin then
+                    if v then pcall(function() skin:apply() end)
+                    else      pcall(function() skin:remove() end) end
                 end
             end
-            return true
+        end
+        -- Only update visible checkboxes. A complete rebuild would
+        -- collapse all expanded sections again.
+        AklimeMod_RefreshRightToggles()
+    end
+
+    local allNode = targetDP:Insert({
+        Template   = "AklimeMod_ModuleHeaderTemplate",
+        name       = L["mod_colorizer_all"],
+        getEnabled = AllEnabled,
+        setEnabled = SetAll,
+    })
+    allNode:SetCollapsed(true)
+    allNode:Insert({
+        Template      = "AklimeMod_SubColorTemplate",
+        isGlobalColor = true,
+    })
+    allNode:Insert({
+        Template = "AklimeMod_ActionButtonTemplate",
+        label    = L["action_restore_default"],
+        onClick  = function()
+            local d = AklimeMod_Colorizer.defaults.main
+            AklimeMod_Colorizer.ApplyGlobalColor(d.r, d.g, d.b, d.a)
+            if AklimeMod_BuildColorizerContent then AklimeMod_BuildColorizerContent() end
+        end,
+    })
+
+    for _, group in ipairs(C.groupOrder) do
+        local groupHasMatch = true
+        if searchFilter and searchFilter ~= "" then
+            groupHasMatch = false
+            if group.label:lower():find(searchFilter, 1, true) then groupHasMatch = true end
+            if not groupHasMatch then
+                for _, key in ipairs(group.keys) do
+                    local skin = C.skins[key]
+                    if skin and skin.label:lower():find(searchFilter, 1, true) then
+                        groupHasMatch = true; break
+                    end
+                end
+            end
         end
 
-        local function SetAll(v)
-            for _, group in ipairs(C.groupOrder) do
-                for _, key in ipairs(group.keys) do
+        if groupHasMatch then
+            targetDP:Insert({
+                Template = "AklimeMod_SeparatorTemplate",
+                label    = group.label,
+                sublabel = true,
+            })
+
+            -- Group master toggle
+            local grpKeys = group.keys
+            local function GroupAllEnabled()
+                for _, key in ipairs(grpKeys) do
+                    if not C:IsEnabled(key) then return false end
+                end
+                return true
+            end
+            local function SetGroup(v)
+                for _, key in ipairs(grpKeys) do
                     AklimeModDB.colorizer[key] = AklimeModDB.colorizer[key] or {}
                     AklimeModDB.colorizer[key].enabled = v
                     local skin = C.skins[key]
@@ -1039,167 +1100,109 @@ local function BuildInterfaceContent(filter)
                         else      pcall(function() skin:remove() end) end
                     end
                 end
+                AklimeMod_RefreshRightToggles()
             end
-            -- Only update visible checkboxes. A complete rebuild would
-            -- collapse all expanded sections again.
-            AklimeMod_RefreshRightToggles()
-        end
+            targetDP:Insert({
+                Template   = "AklimeMod_ModuleHeaderTemplate",
+                name       = string.format(L["colorizer_group_toggle"], group.label),
+                getEnabled = GroupAllEnabled,
+                setEnabled = SetGroup,
+            })
 
-        local allNode = targetDP:Insert({
-            Template   = "AklimeMod_ModuleHeaderTemplate",
-            name       = L["mod_colorizer_all"],
-            getEnabled = AllEnabled,
-            setEnabled = SetAll,
-        })
-        allNode:SetCollapsed(true)
-        allNode:Insert({
-            Template      = "AklimeMod_SubColorTemplate",
-            isGlobalColor = true,
-        })
-        allNode:Insert({
-            Template = "AklimeMod_ActionButtonTemplate",
-            label    = L["action_restore_default"],
-            onClick  = function()
-                local d = AklimeMod_Colorizer.defaults.main
-                AklimeMod_Colorizer.ApplyGlobalColor(d.r, d.g, d.b, d.a)
-                if AklimeMod_BuildInterfaceContent then AklimeMod_BuildInterfaceContent() end
-            end,
-        })
-
-        for _, group in ipairs(C.groupOrder) do
-            local groupHasMatch = true
-            if searchFilter and searchFilter ~= "" then
-                groupHasMatch = false
-                if group.label:lower():find(searchFilter, 1, true) then groupHasMatch = true end
-                if not groupHasMatch then
-                    for _, key in ipairs(group.keys) do
-                        local skin = C.skins[key]
-                        if skin and skin.label:lower():find(searchFilter, 1, true) then
-                            groupHasMatch = true; break
-                        end
+            for _, key in ipairs(group.keys) do
+                local skin = C.skins[key]
+                if skin then
+                    local skinMatches = true
+                    if searchFilter and searchFilter ~= "" then
+                        skinMatches = skin.label:lower():find(searchFilter, 1, true)
+                            or group.label:lower():find(searchFilter, 1, true)
                     end
-                end
-            end
+                    if skinMatches then
+                        local headerNode = targetDP:Insert({
+                            Template = "AklimeMod_SkinHeaderTemplate",
+                            skinKey  = key,
+                            name     = skin.label,
+                        })
+                        headerNode:SetCollapsed(true)
 
-            if groupHasMatch then
-                targetDP:Insert({
-                    Template = "AklimeMod_SeparatorTemplate",
-                    label    = group.label,
-                    sublabel = true,
-                })
-
-                -- Group master toggle
-                local grpKeys = group.keys
-                local function GroupAllEnabled()
-                    for _, key in ipairs(grpKeys) do
-                        if not C:IsEnabled(key) then return false end
-                    end
-                    return true
-                end
-                local function SetGroup(v)
-                    for _, key in ipairs(grpKeys) do
-                        AklimeModDB.colorizer[key] = AklimeModDB.colorizer[key] or {}
-                        AklimeModDB.colorizer[key].enabled = v
-                        local skin = C.skins[key]
-                        if skin then
-                            if v then pcall(function() skin:apply() end)
-                            else      pcall(function() skin:remove() end) end
+                        -- Toggles
+                        if skin.toggles then
+                            for tk, td in pairs(skin.toggles) do
+                                headerNode:Insert({
+                                    Template    = "AklimeMod_ToggleTemplate",
+                                    skinKey     = key,
+                                    toggleKey   = tk,
+                                    toggleLabel = td.label or tk,
+                                })
+                            end
                         end
-                    end
-                    AklimeMod_RefreshRightToggles()
-                end
-                targetDP:Insert({
-                    Template   = "AklimeMod_ModuleHeaderTemplate",
-                    name       = string.format(L["colorizer_group_toggle"], group.label),
-                    getEnabled = GroupAllEnabled,
-                    setEnabled = SetGroup,
-                })
 
-                for _, key in ipairs(group.keys) do
-                    local skin = C.skins[key]
-                    if skin then
-                        local skinMatches = true
-                        if searchFilter and searchFilter ~= "" then
-                            skinMatches = skin.label:lower():find(searchFilter, 1, true)
-                                or group.label:lower():find(searchFilter, 1, true)
+                        -- Colors (sorted)
+                        if skin.colors then
+                            local sortedColors = {}
+                            for ck, cd in pairs(skin.colors) do
+                                table.insert(sortedColors, { key=ck, def=cd, order=cd.order or 99 })
+                            end
+                            table.sort(sortedColors, function(a,b) return a.order < b.order end)
+                            for _, entry in ipairs(sortedColors) do
+                                headerNode:Insert({
+                                    Template   = "AklimeMod_SubColorTemplate",
+                                    skinKey    = key,
+                                    colorKey   = entry.key,
+                                    colorLabel = entry.def.label or entry.key,
+                                })
+                            end
                         end
-                        if skinMatches then
-                            local headerNode = targetDP:Insert({
-                                Template = "AklimeMod_SkinHeaderTemplate",
-                                skinKey  = key,
-                                name     = skin.label,
+
+                        -- Only for the own window skin: color everything at
+                        -- once and reset all colors to default
+                        if key == "winAklimeMod" then
+                            headerNode:Insert({
+                                Template     = "AklimeMod_SubColorTemplate",
+                                skinKey      = key,
+                                skinAllColor = true,
+                                colorLabel   = L["color_all_skin"] or "Color everything",
                             })
-                            headerNode:SetCollapsed(true)
-
-                            -- Toggles
-                            if skin.toggles then
-                                for tk, td in pairs(skin.toggles) do
-                                    headerNode:Insert({
-                                        Template    = "AklimeMod_ToggleTemplate",
-                                        skinKey     = key,
-                                        toggleKey   = tk,
-                                        toggleLabel = td.label or tk,
-                                    })
-                                end
-                            end
-
-                            -- Colors (sorted)
-                            if skin.colors then
-                                local sortedColors = {}
-                                for ck, cd in pairs(skin.colors) do
-                                    table.insert(sortedColors, { key=ck, def=cd, order=cd.order or 99 })
-                                end
-                                table.sort(sortedColors, function(a,b) return a.order < b.order end)
-                                for _, entry in ipairs(sortedColors) do
-                                    headerNode:Insert({
-                                        Template   = "AklimeMod_SubColorTemplate",
-                                        skinKey    = key,
-                                        colorKey   = entry.key,
-                                        colorLabel = entry.def.label or entry.key,
-                                    })
-                                end
-                            end
-
-                            -- Only for the own window skin: color everything at
-                            -- once and reset all colors to default
-                            if key == "winAklimeMod" then
-                                headerNode:Insert({
-                                    Template     = "AklimeMod_SubColorTemplate",
-                                    skinKey      = key,
-                                    skinAllColor = true,
-                                    colorLabel   = L["color_all_skin"] or "Color everything",
-                                })
-                                headerNode:Insert({
-                                    Template = "AklimeMod_ActionButtonTemplate",
-                                    label    = L["action_restore_default"],
-                                    onClick  = function()
-                                        local skdb = AklimeModDB.colorizer[key]
-                                        if skdb and skin.colors then
-                                            for ck, cd in pairs(skin.colors) do
-                                                skdb.colors[ck] = { r=cd.r, g=cd.g, b=cd.b, a=cd.a, followClassColor=false }
-                                            end
+                            headerNode:Insert({
+                                Template = "AklimeMod_ActionButtonTemplate",
+                                label    = L["action_restore_default"],
+                                onClick  = function()
+                                    local skdb = AklimeModDB.colorizer[key]
+                                    if skdb and skin.colors then
+                                        for ck, cd in pairs(skin.colors) do
+                                            skdb.colors[ck] = { r=cd.r, g=cd.g, b=cd.b, a=cd.a, followClassColor=false }
                                         end
-                                        if C:IsEnabled(key) then
-                                            pcall(function() skin:apply() end)
-                                        else
-                                            pcall(function() skin:remove() end)
-                                        end
-                                        -- Rebuild so the color swatches show the default
-                                        if AklimeMod_BuildInterfaceContent then AklimeMod_BuildInterfaceContent() end
-                                    end,
-                                })
-                            end
+                                    end
+                                    if C:IsEnabled(key) then
+                                        pcall(function() skin:apply() end)
+                                    else
+                                        pcall(function() skin:remove() end)
+                                    end
+                                    -- Rebuild so the color swatches show the default
+                                    if AklimeMod_BuildColorizerContent then AklimeMod_BuildColorizerContent() end
+                                end,
+                            })
                         end
                     end
                 end
             end
         end
     end
-
-    insertColorizerNodes(dp3, filter)
-    RSV():SetDataProvider(dp3)
 end
-AklimeMod_BuildInterfaceContent = BuildInterfaceContent
+
+local function BuildColorizerContent(filter)
+    lastCategoryFn = BuildColorizerContent
+    AklimeMod_SetRightHeader(L["cat_colorizer"])
+    ShowScrollView()
+    currentBuildFn = BuildColorizerContent
+
+    RSV():SetElementFactory(extendedFactory, function() end)
+
+    local dp = CreateTreeDataProvider()
+    insertColorizerNodes(dp, filter)
+    RSV():SetDataProvider(dp)
+end
+AklimeMod_BuildColorizerContent = BuildColorizerContent
 
 -- ============================================================
 -- Quality of Life
@@ -2103,10 +2106,11 @@ end
 local categories = {
     { order=1, name="Dashboard",       callback=BuildDashboardContent                        },
     { order=2, name="Interface",       callback=BuildInterfaceContent                        },
-    { order=3, name="Quality of Life", callback=BuildQoLContent                              },
-    { order=4, name=L["cat_collecting"], callback=BuildCollectingContent                      },
-    { order=5, name="PvP",             callback=function() AklimeMod_BuildPvPContent() end   },
-    { order=6, name=L["cat_news"],     callback=BuildNewsContent                             },
+    { order=3, name=L["cat_colorizer"], callback=BuildColorizerContent                       },
+    { order=4, name="Quality of Life", callback=BuildQoLContent                              },
+    { order=5, name=L["cat_collecting"], callback=BuildCollectingContent                      },
+    { order=6, name="PvP",             callback=function() AklimeMod_BuildPvPContent() end   },
+    { order=7, name=L["cat_news"],     callback=BuildNewsContent                             },
 }
 
 local function SetSelected(clickedButton)

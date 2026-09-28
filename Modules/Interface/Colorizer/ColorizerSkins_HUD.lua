@@ -142,11 +142,24 @@ local function skinChatBorderOf(frameName, bordersColor, desaturation)
     end
 end
 
+-- The input bar takes the color only partially, a full tint makes it too dark.
+-- 1 = full color, 0 = original look.
+local EDITBOX_TINT_STRENGTH = 0.5
+
+local function Soften(value)
+    return value + (1 - value) * (1 - EDITBOX_TINT_STRENGTH)
+end
+
 local function applyToChatFrame(chatFrameName, mc, bgc, boc, cc, tc, des)
     for _,tex in pairs({
         _G[chatFrameName.."EditBoxLeft"], _G[chatFrameName.."EditBoxMid"], _G[chatFrameName.."EditBoxRight"],
         _G[chatFrameName.."EditBoxFocusLeft"], _G[chatFrameName.."EditBoxFocusMid"], _G[chatFrameName.."EditBoxFocusRight"],
-    }) do if tex then tex:SetDesaturation(des); tex:SetVertexColor(mc[1],mc[2],mc[3],mc[4]) end end
+    }) do
+        if tex then
+            tex:SetDesaturation(des * EDITBOX_TINT_STRENGTH)
+            tex:SetVertexColor(Soften(mc[1]), Soften(mc[2]), Soften(mc[3]), mc[4])
+        end
+    end
     for _,tex in pairs({
         _G[chatFrameName.."Background"], _G[chatFrameName.."ButtonFrameBackground"],
     }) do

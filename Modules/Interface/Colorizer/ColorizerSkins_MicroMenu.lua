@@ -68,6 +68,10 @@ C:Register("microChar", {
 local microButtons = {
     { key="microProfession", label="Professions",             btn="ProfessionMicroButton"    },
     { key="microSpells",     label="Talents & Spellbook",     btn="PlayerSpellsMicroButton"  },
+    -- Forever only
+    { key="microSpellbook",  label="Spellbook",               btn="SpellbookMicroButton"     },
+    { key="microTalents",    label="Talents",                 btn="TalentMicroButton"        },
+    { key="microLegacy",     label="Classic",                 btn="LegacyMicroButton"        },
     { key="microAchieve",    label="Achievements",            btn="AchievementMicroButton"   },
     { key="microQuest",      label="Quest Log",               btn="QuestLogMicroButton"      },
     { key="microHousing",    label="Housing Dashboard",       btn="HousingMicroButton"       },
