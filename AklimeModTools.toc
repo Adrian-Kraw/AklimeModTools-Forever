@@ -1,0 +1,85 @@
+## Interface: 120105, 120100
+## Title: Aklime Mod Tools
+## X-Curse-Project-ID: 1548949
+## Notes: /akm — Aklime Mod Tools
+## Author: Aklime
+## Version: 1.4.2
+## SavedVariables: AklimeModDB
+## AddonCompartmentFunc: AklimeMod_OpenSettings
+## IconTexture: Interface\AddOns\AklimeModTools\Assets\icon
+
+Locale\Locale.lua
+
+Templates\AklimeMod_Templates.xml
+
+Core\DB.lua
+Core\DataCollector.lua
+
+Modules\Interface\EliteFrame.lua
+Modules\Interface\RareFrame.lua
+Modules\Interface\RaidFrameCenter.lua
+Modules\Interface\DungeonEye.lua
+Modules\Interface\HideMacroNames.lua
+Modules\Interface\DamageMeterCollapseDown.lua
+Modules\Interface\MinimapButtonCollector.lua
+Modules\Interface\MinimapElementHider.lua
+Modules\Interface\GearCheck.lua
+Modules\Interface\CombatTooltip.lua
+Modules\Interface\BNetToastMover.lua
+Modules\Interface\ActionBarCompact.lua
+Modules\Interface\HUDFader.lua
+Modules\Interface\Colorizer\ColorizerCore.lua
+Modules\Interface\Colorizer\ColorizerSkins_UnitFrames.lua
+Modules\Interface\Colorizer\ColorizerSkins_HUD.lua
+Modules\Interface\Colorizer\ColorizerSkins_MicroMenu.lua
+Modules\Interface\Colorizer\ColorizerSkins_ActionBars.lua
+Modules\Interface\Colorizer\ColorizerSkins_Windows.lua
+
+Modules\QoL\AutoRepair.lua
+Modules\QoL\EasyDelete.lua
+Modules\QoL\BuyConfirm.lua
+Modules\QoL\ChatInteraction.lua
+Modules\QoL\ManaWarning.lua
+Modules\QoL\AutoSellJunk.lua
+Modules\QoL\LeaveServiceChannel.lua
+Modules\QoL\DrinkReminder.lua
+Modules\QoL\Clock24h.lua
+Modules\QoL\MapCoords.lua
+Modules\QoL\PreyPercent.lua
+Modules\QoL\Merchant.lua
+Modules\QoL\QuestTracker.lua
+Modules\QoL\QuestAutomation.lua
+Modules\QoL\PvPChatBlock.lua
+Modules\QoL\ChatLearnFilter.lua
+Modules\QoL\ChatIcons.lua
+Modules\QoL\ChatFade.lua
+Modules\QoL\FriendsListDecor.lua
+Modules\QoL\ChatFontSize.lua
+Modules\QoL\HeroismTracker.lua
+Modules\QoL\DeathSound.lua
+Modules\QoL\TalentReminder.lua
+Modules\QoL\BlockRequests.lua
+Modules\QoL\ReadyCheck.lua
+Modules\QoL\SkipCinematic.lua
+Modules\QoL\ChatHistory.lua
+Modules\QoL\Summons.lua
+Modules\QoL\GroupInvites.lua
+Modules\QoL\Mailbox.lua
+Modules\QoL\TodoList.lua
+Modules\QoL\PlayedTime.lua
+Modules\QoL\ExtendedIgnore.lua
+Modules\QoL\HideMicroNotifications.lua
+
+Modules\Mouse\MouseEffects.lua
+
+Modules\PvP\NameplateColorizer.lua
+
+Modules\Collecting\CharacterTracker.lua
+
+UI\MainWindow.lua
+UI\ColorizerUI.lua
+UI\NewsPanel.lua
+UI\Categories.lua
+
+AklimeMod.lua
+Core\Commands.lua

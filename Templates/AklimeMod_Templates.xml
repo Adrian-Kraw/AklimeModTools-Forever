@@ -1,0 +1,339 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/UI.xsd">
+
+  <!--
+    Flat design:
+    - Dark, slightly purple background
+    - Thin warm borders (rust orange)
+    - Orange as accent and selection color
+    Boxes are built from two textures: borderFill (full area, border color)
+    and bg (inset by 1px, fill color). Produces a 1px border without Backdrop.
+  -->
+
+  <Frame name="AklimeModFrame" parent="UIParent" inherits="BackdropTemplate" hidden="true">
+    <Size x="950" y="550"/>
+    <Anchors><Anchor point="CENTER"/></Anchors>
+  </Frame>
+
+  <!-- Category button: rounded box via Backdrop (fill and border are colored in Lua via AklimeMod_ApplyRowTheme) -->
+  <Button name="AklimeMod_CategoryButtonTemplate" inherits="BackdropTemplate" virtual="true">
+    <Size y="36"/>
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontHighlightLeft">
+          <Anchors><Anchor point="LEFT" x="12" y="0"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+  </Button>
+
+  <!-- Module header: enable checkbox + name + expand arrow -->
+  <Button name="AklimeMod_ModuleHeaderTemplate" virtual="true">
+    <Size y="32"/>
+    <HighlightTexture file="Interface\BUTTONS\WHITE8X8" alphaMode="ADD">
+      <Color r="1" g="0.82" b="0" a="0.06"/>
+    </HighlightTexture>
+    <Layers>
+      <Layer level="BACKGROUND" textureSubLevel="0">
+        <Texture parentKey="borderFill" file="Interface\BUTTONS\WHITE8X8" setAllPoints="true">
+          <Color r="0.50" g="0.40" b="0.12" a="0.7"/>
+        </Texture>
+      </Layer>
+      <Layer level="BACKGROUND" textureSubLevel="1">
+        <Texture parentKey="bg" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.08" g="0.075" b="0.06" a="1"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="1" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="LEFT" x="40" y="0"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <CheckButton parentKey="enableButton">
+        <Size x="22" y="22"/>
+        <Anchors><Anchor point="LEFT" x="10" y="0"/></Anchors>
+        <NormalTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <PushedTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <HighlightTexture atlas="checkbox-minimal" useAtlasSize="true" alphaMode="ADD"/>
+        <CheckedTexture   atlas="checkmark-minimal" useAtlasSize="true"/>
+      </CheckButton>
+    </Frames>
+  </Button>
+
+  <!-- Skin header (identical to ModuleHeader) -->
+  <Button name="AklimeMod_SkinHeaderTemplate" virtual="true">
+    <Size y="32"/>
+    <HighlightTexture file="Interface\BUTTONS\WHITE8X8" alphaMode="ADD">
+      <Color r="1" g="0.82" b="0" a="0.06"/>
+    </HighlightTexture>
+    <Layers>
+      <Layer level="BACKGROUND" textureSubLevel="0">
+        <Texture parentKey="borderFill" file="Interface\BUTTONS\WHITE8X8" setAllPoints="true">
+          <Color r="0.50" g="0.40" b="0.12" a="0.7"/>
+        </Texture>
+      </Layer>
+      <Layer level="BACKGROUND" textureSubLevel="1">
+        <Texture parentKey="bg" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.08" g="0.075" b="0.06" a="1"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="1" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="LEFT" x="40" y="0"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <CheckButton parentKey="enableButton">
+        <Size x="22" y="22"/>
+        <Anchors><Anchor point="LEFT" x="10" y="0"/></Anchors>
+        <NormalTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <PushedTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <HighlightTexture atlas="checkbox-minimal" useAtlasSize="true" alphaMode="ADD"/>
+        <CheckedTexture   atlas="checkmark-minimal" useAtlasSize="true"/>
+      </CheckButton>
+    </Frames>
+  </Button>
+
+  <!--
+    Sub color row:
+    - Name on the left
+    - Class color checkbox on the right (followClassColor)
+    - Round color swatch on the far right (colorPicker with parentKey="swatch" as Texture)
+    When followClassColor: swatch shows class icon atlas instead of color
+  -->
+  <Button name="AklimeMod_SubColorTemplate" virtual="true">
+    <Size y="32"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="backgroundTexture" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.60" g="0.55" b="0.40" a="0.08"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="LEFT" x="15" y="0"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <!-- followClassColor Checkbox -->
+      <CheckButton parentKey="followClassColor">
+        <Size x="28" y="28"/>
+        <Anchors><Anchor point="RIGHT" x="-38"/></Anchors>
+        <NormalTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <PushedTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <HighlightTexture atlas="checkbox-minimal" useAtlasSize="true" alphaMode="ADD"/>
+        <CheckedTexture   atlas="checkmark-minimal" useAtlasSize="true"/>
+      </CheckButton>
+      <!-- Color swatch button: round, shows color or class icon -->
+      <Button parentKey="colorPicker">
+        <Size x="24" y="24"/>
+        <Anchors><Anchor point="RIGHT" x="-8"/></Anchors>
+        <HighlightTexture atlas="ArtifactsFX-YellowRing" setAllPoints="true"/>
+        <Layers>
+          <!-- Background color texture (tinted via Lua) -->
+          <Layer level="ARTWORK" textureSubLevel="1">
+            <Texture parentKey="swatch" setAllPoints="true">
+              <Color r="0.28" g="0.28" b="0.28" a="1"/>
+            </Texture>
+            <!-- Round mask so the swatch is circular -->
+            <MaskTexture atlas="CircleMaskScalable" useAtlasSize="false" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE" setAllPoints="true">
+              <MaskedTextures>
+                <MaskedTexture childKey="swatch"/>
+              </MaskedTextures>
+            </MaskTexture>
+          </Layer>
+          <!-- Gold ring border (like FrameColor) -->
+          <Layer level="ARTWORK" textureSubLevel="2">
+            <Texture atlas="talents-node-choiceflyout-circle-yellow" useAtlasSize="true" setAllPoints="true"/>
+          </Layer>
+        </Layers>
+      </Button>
+    </Frames>
+  </Button>
+
+  <!-- Toggle row -->
+  <Button name="AklimeMod_ToggleTemplate" virtual="true">
+    <Size y="32"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="backgroundTexture" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.60" g="0.55" b="0.40" a="0.08"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="LEFT" x="15" y="2"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <CheckButton parentKey="toggle">
+        <Size x="28" y="28"/>
+        <Anchors><Anchor point="RIGHT" x="-10" y="2"/></Anchors>
+        <NormalTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <PushedTexture    atlas="checkbox-minimal" useAtlasSize="true"/>
+        <HighlightTexture atlas="checkbox-minimal" useAtlasSize="true" alphaMode="ADD"/>
+        <CheckedTexture   atlas="checkmark-minimal" useAtlasSize="true"/>
+      </CheckButton>
+    </Frames>
+  </Button>
+
+  <!-- Dropdown row: label left, Blizzard dropdown right -->
+  <Frame name="AklimeMod_DropdownTemplate" virtual="true">
+    <Size y="32"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="backgroundTexture" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.60" g="0.55" b="0.40" a="0.08"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="name" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="LEFT" x="15" y="0"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <DropdownButton parentKey="dropdown" inherits="WowStyle1DropdownTemplate">
+        <Size x="140" y="26"/>
+        <Anchors><Anchor point="RIGHT" x="-10" y="0"/></Anchors>
+      </DropdownButton>
+    </Frames>
+  </Frame>
+
+  <!-- Info text. Warm light color, a small indent and extra line spacing to
+       match the gold theme. addInfo in UI/Categories.lua uses the same line
+       spacing for the row height. -->
+  <Button name="AklimeMod_InfoTextTemplate" virtual="true">
+    <Size y="24"/>
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString parentKey="info" inherits="GameFontHighlightSmall" justifyH="LEFT">
+          <Color r="0.82" g="0.79" b="0.72" a="1"/>
+          <Anchors>
+            <Anchor point="LEFT"  x="22" y="0"/>
+            <Anchor point="RIGHT" x="-15" y="0"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <OnLoad>self.info:SetSpacing(3)</OnLoad>
+    </Scripts>
+  </Button>
+
+  <!-- Action row: centered, rounded button. Appearance and colors are set by AklimeMod_StyleActionButton in Lua. -->
+  <Button name="AklimeMod_ActionButtonTemplate" virtual="true">
+    <Size y="46"/>
+    <Frames>
+      <Button parentKey="button" inherits="BackdropTemplate">
+        <Size x="220" y="30"/>
+        <Anchors><Anchor point="CENTER"/></Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <FontString parentKey="label" inherits="GameFontHighlight">
+              <Anchors><Anchor point="CENTER"/></Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+      </Button>
+    </Frames>
+  </Button>
+
+  <!-- Slider row -->
+  <Frame name="AklimeMod_SliderTemplate" virtual="true">
+    <Size y="52"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="backgroundTexture" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.60" g="0.55" b="0.40" a="0.08"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="label" inherits="GameFontNormalLeft">
+          <Anchors><Anchor point="TOPLEFT" x="15" y="-5"/></Anchors>
+        </FontString>
+        <FontString parentKey="valueText" inherits="GameFontHighlightSmall" justifyH="RIGHT">
+          <Color r="1" g="0.82" b="0" a="1"/>
+          <Anchors><Anchor point="TOPRIGHT" x="-15" y="-5"/></Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Slider parentKey="slider" orientation="HORIZONTAL" enableMouse="true">
+        <Size y="17"/>
+        <Anchors>
+          <Anchor point="BOTTOMLEFT"  x="15" y="8"/>
+          <Anchor point="BOTTOMRIGHT" x="-15" y="8"/>
+        </Anchors>
+        <ThumbTexture file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+          <Size x="32" y="18"/>
+        </ThumbTexture>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture file="Interface\Buttons\UI-SliderBar-Background">
+              <Size y="8"/>
+              <Anchors>
+                <Anchor point="LEFT"  x="10" y="0"/>
+                <Anchor point="RIGHT" x="-10" y="0"/>
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+      </Slider>
+    </Frames>
+  </Frame>
+
+  <!-- Divider -->
+  <Button name="AklimeMod_SeparatorTemplate" virtual="true">
+    <Size y="50"/>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture parentKey="lineBottom" file="Interface\BUTTONS\WHITE8X8">
+          <Color r="0.85" g="0.68" b="0.15" a="0.6"/>
+          <Size y="1"/>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT"  x="0" y="12"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="12"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <FontString parentKey="label" inherits="GameFontNormalLarge" justifyH="LEFT">
+          <Color r="1" g="0.82" b="0" a="1"/>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" x="8" y="4"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+  </Button>
+
+</Ui>
