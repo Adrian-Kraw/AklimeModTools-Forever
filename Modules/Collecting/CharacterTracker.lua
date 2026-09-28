@@ -605,6 +605,9 @@ local mainFrame    = nil
 local contentFrame = nil
 local view         = "main"
 
+local FRAME_WIDTH  = 960
+local FRAME_HEIGHT = 320  -- Forever has only a few currencies, so half the Retail height
+
 local function ClearContent()
     if not contentFrame then return end
     for _, c in ipairs({contentFrame:GetChildren()}) do c:SetParent(nil); c:Hide() end
@@ -615,7 +618,7 @@ local function CreateUI()
     if mainFrame then return end
 
     mainFrame = CreateFrame("Frame", "AklimeModCTFrame", UIParent, "BackdropTemplate")
-    mainFrame:SetSize(960, 640)
+    mainFrame:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
     mainFrame:SetPoint("CENTER")
     mainFrame:SetFrameStrata("HIGH")
     mainFrame:SetMovable(true)
@@ -801,6 +804,10 @@ end
 -- Character header button with a hover tooltip.
 local function MkCharHeader(parent, y, colX, sel, trackerDB)
     local hRow = MkHdr(parent, y)
+    -- Label of the name row, same style as the section headers
+    local labelFs = hRow:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    labelFs:SetPoint("LEFT", hRow, "LEFT", 8, 0)
+    labelFs:SetText(NORMAL_FONT_COLOR_CODE .. (L["ct_col_name"] or "Name") .. FONT_COLOR_CODE_CLOSE)
     for i, name in ipairs(sel) do
         local toon = trackerDB.Toons[name]
         local label = ShortName(name)

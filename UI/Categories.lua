@@ -1881,6 +1881,7 @@ local function BuildCollectingContent()
         label    = L["sec_currencies"],
         centered = true,
     })
+    addInfo(dp, L["info_currencies"])
 
     local ALL_CURR_EXP = {
         {15,L["curr_cat_professions"]},{14,L["curr_cat_raids"]},
