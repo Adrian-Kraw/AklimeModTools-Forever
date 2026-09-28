@@ -147,7 +147,7 @@ local easyDeleteFrame = CreateFrame("Frame")
 easyDeleteFrame:RegisterEvent("ADDON_LOADED")
 easyDeleteFrame:RegisterEvent("DELETE_ITEM_CONFIRM")
 easyDeleteFrame:SetScript("OnEvent", function(_, event, arg1)
-    if event == "ADDON_LOADED" and arg1 == "AklimeModTools" then
+    if event == "ADDON_LOADED" and arg1 == "AklimeModTools-Forever" then
         Setup()
         HookConfirmDialogs()
     elseif event == "DELETE_ITEM_CONFIRM" then

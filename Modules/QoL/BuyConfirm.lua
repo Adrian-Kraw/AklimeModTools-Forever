@@ -30,7 +30,7 @@ local NO_REFUND_CONFIRM = {
     CONFIRM_MAIL_ITEM_UNREFUNDABLE = true,  -- sending by mail
 }
 
-local ADDON_NAME = "AklimeModTools"
+local ADDON_NAME = "AklimeModTools-Forever"
 
 -- Blizzard blocks the confirmation when it rates the call path as unsafe.
 -- The event fires during the call, so this flag tells us whether it went through.

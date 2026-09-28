@@ -6,7 +6,7 @@
 
 local L = AklimeModL or {}
 
-local ADDON_NAME      = "AklimeModTools"
+local ADDON_NAME      = "AklimeModTools-Forever"
 local NEWS_HINT_DELAY = 3    -- Chat history restores old messages right after login
 
 -- Layout in pixels

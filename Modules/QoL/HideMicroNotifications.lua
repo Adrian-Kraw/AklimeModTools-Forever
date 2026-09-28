@@ -52,7 +52,7 @@ frame:RegisterEvent("ADDON_LOADED")
 
 frame:SetScript("OnEvent", function(_, event, addon)
     if event == "ADDON_LOADED" then
-        if addon == "AklimeModTools" then
+        if addon == "AklimeModTools-Forever" then
             frame:RegisterEvent("PLAYER_ENTERING_WORLD")
         elseif addon == "Blizzard_MicroMenu"
             or addon == "Blizzard_StoreUI"

@@ -540,7 +540,7 @@ f:RegisterEvent("UNIT_INVENTORY_CHANGED")
 
 f:SetScript("OnEvent", function(_, event, arg1, arg2)
     if event == "ADDON_LOADED" then
-        if arg1 == "AklimeModTools" then
+        if arg1 == "AklimeModTools-Forever" then
             hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
                 if AklimeMod_GearCheck.IsEnabled() then
                     UpdateSlot("player", button:GetID(), button)

@@ -6,7 +6,7 @@
 ## Version: 1.4.2
 ## SavedVariables: AklimeModDB
 ## AddonCompartmentFunc: AklimeMod_OpenSettings
-## IconTexture: Interface\AddOns\AklimeModTools\Assets\icon
+## IconTexture: Interface\AddOns\AklimeModTools-Forever\Assets\icon
 
 Locale\Locale.lua
 

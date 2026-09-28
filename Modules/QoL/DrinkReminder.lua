@@ -173,7 +173,7 @@ frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 frame:SetScript("OnEvent", function(_, event, arg1, isLogin, isReload)
-    if event == "ADDON_LOADED" and arg1 == "AklimeModTools" then
+    if event == "ADDON_LOADED" and arg1 == "AklimeModTools-Forever" then
         CreateAlertFrame()
         UpdateTicker()
     elseif event == "PLAYER_ENTERING_WORLD" then

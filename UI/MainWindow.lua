@@ -169,7 +169,7 @@ end)
 frame.closeButton:SetScript("OnClick", function() frame:Hide() end)
 
 -- Version number bottom left
-local version = C_AddOns.GetAddOnMetadata("AklimeModTools", "Version") or ""
+local version = C_AddOns.GetAddOnMetadata("AklimeModTools-Forever", "Version") or ""
 frame.versionText = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
 frame.versionText:SetPoint("BOTTOMLEFT", 14, 10)
 frame.versionText:SetText(version ~= "" and ("v" .. version) or "")
@@ -179,7 +179,7 @@ frame.versionText:SetText(version ~= "" and ("v" .. version) or "")
 frame.portrait = frame:CreateTexture(nil, "OVERLAY", nil, 2)
 frame.portrait:SetSize(52, 52)
 frame.portrait:SetPoint("TOPLEFT", -10, 10)
-frame.portrait:SetTexture("Interface\\AddOns\\AklimeModTools\\Assets\\icon")
+frame.portrait:SetTexture("Interface\\AddOns\\AklimeModTools-Forever\\Assets\\icon")
 
 local portraitMask = frame:CreateMaskTexture()
 portraitMask:SetAtlas("CircleMaskScalable")

@@ -24,7 +24,7 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(_, _, arg1)
-    if arg1 ~= "AklimeModTools" then return end
+    if arg1 ~= "AklimeModTools-Forever" then return end
 
     local origSlash = SlashCmdList["AKLIMEMOD"]
     SlashCmdList["AKLIMEMOD"] = function(input)

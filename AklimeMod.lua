@@ -21,7 +21,7 @@ minimapBtn:RegisterForDrag("LeftButton")
 local btnIcon = minimapBtn:CreateTexture(nil, "ARTWORK")
 btnIcon:SetSize(30, 30)
 btnIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, 0)
-btnIcon:SetTexture("Interface\\AddOns\\AklimeModTools\\Assets\\icon")
+btnIcon:SetTexture("Interface\\AddOns\\AklimeModTools-Forever\\Assets\\icon")
 
 local mask = minimapBtn:CreateMaskTexture()
 mask:SetAllPoints(btnIcon)
@@ -242,7 +242,7 @@ eventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:SetScript("OnEvent", function(_, event, arg1)
 
-    if event == "ADDON_LOADED" and arg1 == "AklimeModTools" then
+    if event == "ADDON_LOADED" and arg1 == "AklimeModTools-Forever" then
         AklimeMod_InitDB()
         if AklimeMod_Colorizer then AklimeMod_Colorizer:Init() end
         UpdateMinimapPos()
