@@ -26,10 +26,15 @@ local ELEMENTS = {
             "PlayerSpellsMicroButton","AchievementMicroButton","QuestLogMicroButton",
             "GuildMicroButton","LFDMicroButton","CollectionsMicroButton",
             "EJMicroButton","StoreMicroButton","MainMenuMicroButton",
-            "HousingMicroButton" }) do
+            "HousingMicroButton",
+            -- Forever only
+            "SpellbookMicroButton","TalentMicroButton","LegacyMicroButton",
+            "HelpMicroButton" }) do
             if _G[n] then f[#f+1] = _G[n] end
         end
         if MicroButtonAndBagsBar then f[#f+1] = MicroButtonAndBagsBar end
+        -- Forever draws a border and background on the menu frame itself
+        if MicroMenu then f[#f+1] = MicroMenu end
         return f
     end },
     { key = "bags", frames = function()
@@ -185,6 +190,9 @@ local function GetChatFrames()
     for i = 1, 10 do
         local cf = _G["ChatFrame" .. i]
         if cf and cf:IsShown() then f[#f+1] = cf end
+        -- The input box does not follow the chat frame alpha and needs its own fade
+        local editBox = _G["ChatFrame" .. i .. "EditBox"]
+        if cf and cf:IsShown() and editBox then f[#f+1] = editBox end
     end
     if GeneralDockManager then f[#f+1] = GeneralDockManager end
     return f
