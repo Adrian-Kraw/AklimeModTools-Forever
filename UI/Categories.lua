@@ -442,10 +442,7 @@ local function GetOrCreateDashboard(parent)
     local y = -40
     Label("|cFFFFD100" .. L["dash_contact"] .. "|r", y, "GameFontNormalLarge"); y = y - 28
     Separator(y); y = y - 18
-    Label("|cFF00CCFFIngame:|r", y); y = y - 22
-    Label("  Yodabär-Blackmoore", y); y = y - 22
-    Label("  Aklime-Blackmoore", y); y = y - 22
-    Label("  Sattarnna-Un'Goro", y); y = y - 30
+    Label("|cFF00CCFFIngame:|r", y); y = y - 30
     Separator(y); y = y - 18
     Label("|cFFFFD100" .. L["dash_commands"] .. "|r", y, "GameFontNormalLarge"); y = y - 28
     Separator(y); y = y - 18
