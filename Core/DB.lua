@@ -43,9 +43,6 @@ function AklimeMod_InitDB()
     def(db.buyConfirm, "refundEnabled", false)
     def(db.buyConfirm, "noRefundEnabled", false)
 
-    db.manaWarning = db.manaWarning or {}
-    def(db.manaWarning, "enabled", false)
-
     db.autoSellJunk = db.autoSellJunk or {}
     def(db.autoSellJunk, "enabled", false)
 

@@ -73,7 +73,6 @@ Convenience features for everyday gameplay.
 - **Vendor Window — 20 Items per Page**: Shows 20 instead of 10 items per vendor page
 
 **Gameplay**
-- **Mana Warning (Work in Progress)**: Warns the group with a chat message when being low mana
 - **Heroism Tracker**: Shows when Heroism / Drums is active
 - **Death Sound**: Plays a sound when your character dies
 - **Lazy Ready Check**: Automatically confirms ready checks after a configurable delay
@@ -143,7 +142,7 @@ Drag the button to move it along the minimap border.
 
 # Aklime Mod Tools
 
-Persönliches WoW Addon für Midnight (12.0.7).
+Persönliches WoW Addon für Worlf of Warcraft Forever.
 
 
 
@@ -213,7 +212,6 @@ Komfort-Features für den Spielalltag.
 - **Händlerfenster — 20 Gegenstände pro Seite**: Zeigt 20 statt 10 Gegenstände pro Händler-Seite
 
 **Gameplay**
-- **Mana Warnung (Work in Progress)**: Warnt die Gruppe über eine Chatnachricht wenn man wenig Mana besitzt
 - **HT-Anzeige**: Zeigt an wenn Heldentum / Trommeln aktiv ist
 - **Todessound**: Spielt einen Sound beim Tod des eigenen Charakters
 - **Lazy Ready Check**: Bestätigt Ready Checks automatisch nach einer einstellbaren Verzögerung
@@ -274,5 +272,3 @@ Per Drag lässt sich der Button am Minimap-Rand verschieben.
 | `/akm ignore` | Erweiterte Ignore-Liste öffnen / schließen |
 | `/akm played` | Gespielte Zeit aller Chars anzeigen |
 | `/rl` `/nl` | Interface neu laden |
-| `/akmana` | Mana-Warnung Status anzeigen |
-| `/akmana test` | Mana-Warnung Testnachricht senden |

@@ -37,7 +37,6 @@ Modules\QoL\AutoRepair.lua
 Modules\QoL\EasyDelete.lua
 Modules\QoL\BuyConfirm.lua
 Modules\QoL\ChatInteraction.lua
-Modules\QoL\ManaWarning.lua
 Modules\QoL\AutoSellJunk.lua
 Modules\QoL\LeaveServiceChannel.lua
 Modules\QoL\DrinkReminder.lua

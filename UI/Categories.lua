@@ -1614,12 +1614,6 @@ local function addQoLNodes(dp)
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_gameplay"], centered = true })
     end
 
-    local manaNode = addModule(dp, L["mod_mana_warning"],
-        function() return AklimeMod_ManaWarning.IsEnabled() end,
-        function(v) AklimeMod_ManaWarning.SetEnabled(v) end
-    )
-    addInfo(manaNode, L["info_mana_warning"])
-
     if AklimeMod_HeroismTracker then
         local htNode = addModule(dp, L["mod_heroism_tracker"],
             function() return AklimeMod_HeroismTracker:IsEnabled() end,
