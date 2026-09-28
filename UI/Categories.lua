@@ -536,15 +536,6 @@ local function addInterfaceNodes(dp)
         )
     end
 
-    local rareNode = addModule(dp, L["mod_rare_enemies"],
-        function() return AklimeModDB.rareFrame.enabled end,
-        function(v) AklimeModDB.rareFrame.enabled = v; AklimeMod_UpdateRareFrame() end
-    )
-    addToggle(rareNode, L["toggle_star_silver"],
-        function() return AklimeModDB.rareFrame.enabled end,
-        function(v) AklimeModDB.rareFrame.enabled = v; AklimeMod_UpdateRareFrame() end
-    )
-
     local dungeonEyeNode = addModule(dp, L["mod_dungeon_eye"],
         function() return AklimeMod_DungeonEye.IsEnabled() end,
         function(v) AklimeMod_DungeonEye.SetEnabled(v) end
@@ -786,16 +777,6 @@ local function BuildInterfaceContent(filter)
             end
         )
     end
-
-    -- Rare enemies
-    local rareNode = addModule(dp3, L["mod_rare_enemies"],
-        function() return AklimeModDB.rareFrame.enabled end,
-        function(v) AklimeModDB.rareFrame.enabled = v; AklimeMod_UpdateRareFrame() end
-    )
-    addToggle(rareNode, L["toggle_star_silver"],
-        function() return AklimeModDB.rareFrame.enabled end,
-        function(v) AklimeModDB.rareFrame.enabled = v; AklimeMod_UpdateRareFrame() end
-    )
 
     -- Dungeon Eye
     local dungeonEyeNode = addModule(dp3, L["mod_dungeon_eye"],

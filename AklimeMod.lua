@@ -225,7 +225,6 @@ SlashCmdList["AKLIMEMOD"] = function() AklimeMod_OpenSettings() end
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
-eventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:SetScript("OnEvent", function(_, event, arg1)
 
@@ -253,9 +252,6 @@ eventFrame:SetScript("OnEvent", function(_, event, arg1)
         if AklimeMod_PvPChatBlock then AklimeMod_PvPChatBlock.Init() end
         if AklimeMod_PvPNameplateColor then AklimeMod_PvPNameplateColor.Init() end
         AklimeMod_ShowNewsHint()
-
-    elseif event == "PLAYER_TARGET_CHANGED" then
-        AklimeMod_UpdateRareFrame()
 
     elseif event == "PLAYER_ENTERING_WORLD" then
         if AklimeModDB and AklimeModDB.eliteFrame and AklimeModDB.eliteFrame.enabled then

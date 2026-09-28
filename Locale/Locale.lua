@@ -51,7 +51,6 @@ L["sec_currencies"]  = "Currencies"
 
 -- Module names
 L["mod_elite_frame"]      = "Elite Frame"
-L["mod_rare_enemies"]     = "Rare Enemies"
 L["mod_dungeon_eye"]      = "Dungeon Eye"
 L["mod_raid_center"]      = "Raid Frame Centering"
 L["mod_hide_macro"]       = "Hide Macro Names"
@@ -128,7 +127,6 @@ L["elite_gold"]        = "Golden Dragon"
 L["elite_gold_wing"]   = "Golden Dragon with Wings"
 
 -- Toggle labels
-L["toggle_star_silver"]        = "Add Silver Dragon additionally to the Star"
 L["toggle_lock_minimap"]       = "Lock to Minimap Border"
 L["toggle_include_own"]        = "Include Own Aklime Mod Tools Button"
 L["toggle_mm_tracking"]        = "Tracking Icon"
@@ -441,7 +439,6 @@ if GetLocale() == "deDE" then
     L["sec_colorizer"]   = "Farbliche Anpassungen"
     L["sec_currencies"]  = "Währungen"
 
-    L["mod_rare_enemies"]     = "Seltene Gegner"
     L["mod_raid_center"]      = "Raid Frame Zentrierung"
     L["mod_hide_macro"]       = "Makro-Namen ausblenden"
     L["mod_dm_collapse"]      = "Schadensanzeige: nach unten klappen"
@@ -512,7 +509,6 @@ if GetLocale() == "deDE" then
     L["elite_gold"]        = "Goldener Drachen"
     L["elite_gold_wing"]   = "Goldener Drachen mit Flügeln"
 
-    L["toggle_star_silver"]        = "Silbernen Drachen zus\195\164tzlich zum Stern hinzuf\195\188gen"
     L["toggle_lock_minimap"]       = "An Minimap-Rand fixieren"
     L["toggle_include_own"]        = "Eigenen Aklime Mod Tools-Button einschließen"
     L["toggle_mm_tracking"]        = "Verfolgungssymbol"

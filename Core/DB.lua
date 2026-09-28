@@ -20,9 +20,6 @@ function AklimeMod_InitDB()
     db.eliteFrame = db.eliteFrame or {}
     def(db.eliteFrame, "enabled", false)
 
-    db.rareFrame = db.rareFrame or {}
-    def(db.rareFrame, "enabled", false)
-
     db.raidFrameCenter = db.raidFrameCenter or {}
     def(db.raidFrameCenter, "enabled", false)
     def(db.raidFrameCenter, "offsetX",  0)

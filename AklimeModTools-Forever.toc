@@ -16,7 +16,6 @@ Core\DB.lua
 Core\DataCollector.lua
 
 Modules\Interface\EliteFrame.lua
-Modules\Interface\RareFrame.lua
 Modules\Interface\RaidFrameCenter.lua
 Modules\Interface\DungeonEye.lua
 Modules\Interface\HideMacroNames.lua
