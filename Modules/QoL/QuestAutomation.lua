@@ -234,7 +234,7 @@ local function HookMenus()
         if not qid then return end
         root:CreateDivider()
         root:CreateButton("Wowhead-URL kopieren", function()
-            ShowCopyDialog(("https://www.wowhead.com/quest=%d"):format(qid))
+            ShowCopyDialog(("https://www.wowhead.com/forever/quest=%d"):format(qid))
         end)
     end
 
