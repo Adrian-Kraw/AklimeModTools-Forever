@@ -50,7 +50,6 @@ Modules\QoL\ChatIcons.lua
 Modules\QoL\ChatFade.lua
 Modules\QoL\FriendsListDecor.lua
 Modules\QoL\ChatFontSize.lua
-Modules\QoL\HeroismTracker.lua
 Modules\QoL\DeathSound.lua
 Modules\QoL\BlockRequests.lua
 Modules\QoL\ReadyCheck.lua

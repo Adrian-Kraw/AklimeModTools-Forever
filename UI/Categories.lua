@@ -1614,32 +1614,6 @@ local function addQoLNodes(dp)
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_gameplay"], centered = true })
     end
 
-    if AklimeMod_HeroismTracker then
-        local htNode = addModule(dp, L["mod_heroism_tracker"],
-            function() return AklimeMod_HeroismTracker:IsEnabled() end,
-            function(v) AklimeMod_HeroismTracker:SetEnabled(v) end
-        )
-        addToggle(htNode, L["toggle_lock_position"],
-            function() return AklimeMod_HeroismTracker:IsLocked() end,
-            function(v) AklimeMod_HeroismTracker:SetLocked(v) end
-        )
-        addSlider(htNode, L["slider_font_size"], 0, 100, 1,
-            function() return AklimeMod_HeroismTracker:GetFontSizeSlider() end,
-            function(v) AklimeMod_HeroismTracker:SetFontSizeSlider(v) end,
-            function(v) return v == 0 and L["fmt_default"] or tostring(v) end
-        )
-        addAction(htNode, L["action_preview"], function()
-            if AklimeMod_HeroismTracker.previewing then
-                AklimeMod_HeroismTracker.previewing = false
-                AklimeMod_HeroismTracker:HidePreview()
-            else
-                AklimeMod_HeroismTracker.previewing = true
-                AklimeMod_HeroismTracker:ShowPreview()
-            end
-        end)
-        addInfo(htNode, L["info_heroism_tracker"])
-    end
-
     if AklimeMod_DeathSound then
         local deathNode = addModule(dp, L["mod_death_sound"],
             function() return AklimeMod_DeathSound:IsEnabled() end,

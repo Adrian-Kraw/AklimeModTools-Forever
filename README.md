@@ -73,7 +73,6 @@ Convenience features for everyday gameplay.
 - **Vendor Window — 20 Items per Page**: Shows 20 instead of 10 items per vendor page
 
 **Gameplay**
-- **Heroism Tracker**: Shows when Heroism / Drums is active
 - **Death Sound**: Plays a sound when your character dies
 - **Lazy Ready Check**: Automatically confirms ready checks after a configurable delay
 - **Skip Cutscene**: Automatically skips in-game cutscenes and cinematics
@@ -212,7 +211,6 @@ Komfort-Features für den Spielalltag.
 - **Händlerfenster — 20 Gegenstände pro Seite**: Zeigt 20 statt 10 Gegenstände pro Händler-Seite
 
 **Gameplay**
-- **HT-Anzeige**: Zeigt an wenn Heldentum / Trommeln aktiv ist
 - **Todessound**: Spielt einen Sound beim Tod des eigenen Charakters
 - **Lazy Ready Check**: Bestätigt Ready Checks automatisch nach einer einstellbaren Verzögerung
 - **Cutscene überspringen**: Überspringt Ingame-Cutscenes und Cinematics automatisch
