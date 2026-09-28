@@ -248,7 +248,6 @@ eventFrame:SetScript("OnEvent", function(_, event, arg1)
 
     elseif event == "PLAYER_LOGIN" then
         -- SavedVariables are guaranteed to be loaded now
-        if AklimeMod_PreyPercent then AklimeMod_PreyPercent.Init() end
         if AklimeMod_PvPChatBlock then AklimeMod_PvPChatBlock.Init() end
         if AklimeMod_PvPNameplateColor then AklimeMod_PvPNameplateColor.Init() end
         AklimeMod_ShowNewsHint()

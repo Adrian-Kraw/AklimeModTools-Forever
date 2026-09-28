@@ -64,11 +64,6 @@ function AklimeMod_InitDB()
     db.clock24h = db.clock24h or {}
     def(db.clock24h, "enabled", false)
 
-    db.preyPercent = db.preyPercent or {}
-    def(db.preyPercent, "enabled", false)
-    def(db.preyPercent, "x", 0)
-    def(db.preyPercent, "y", 120)
-
     db.savedInstances = db.savedInstances or {}
     db.savedInstances.chars      = db.savedInstances.chars      or {}
     db.savedInstances.raids      = db.savedInstances.raids      or {}

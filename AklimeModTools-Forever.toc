@@ -43,7 +43,6 @@ Modules\QoL\LeaveServiceChannel.lua
 Modules\QoL\DrinkReminder.lua
 Modules\QoL\Clock24h.lua
 Modules\QoL\MapCoords.lua
-Modules\QoL\PreyPercent.lua
 Modules\QoL\Merchant.lua
 Modules\QoL\QuestTracker.lua
 Modules\QoL\QuestAutomation.lua

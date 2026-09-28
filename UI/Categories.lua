@@ -1532,14 +1532,6 @@ local function addQoLNodes(dp)
     )
     addInfo(sellJunkNode, L["info_auto_sell"])
 
-    local preyPctNode = addModule(dp, L["mod_prey_percent"],
-        function() return AklimeMod_PreyPercent and AklimeMod_PreyPercent.IsEnabled() end,
-        function(v)
-            if AklimeMod_PreyPercent then AklimeMod_PreyPercent.SetEnabled(v) end
-        end
-    )
-    addInfo(preyPctNode, L["info_prey_percent"])
-
     local clock24hNode = addModule(dp, L["mod_clock24h"],
         function() return AklimeMod_Clock24h.IsEnabled() end,
         function(v) AklimeMod_Clock24h.SetEnabled(v) end
