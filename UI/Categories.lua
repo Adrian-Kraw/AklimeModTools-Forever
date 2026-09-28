@@ -639,22 +639,19 @@ local function addInterfaceNodes(dp)
     end
     do
         local fade = AklimeModDB.interfaceFade
-        for i = 1, 3 do
+        for i = 1, 2 do
             local k = "mode" .. i
             local setEnabled
             if i == 1 then
                 setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled(v) end end
             elseif i == 2 then
                 setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled2(v) end end
-            elseif i == 3 then
-                setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled3(v) end end
             else
                 setEnabled = function(v) fade[k].enabled = v end
             end
             local modeName
             if i == 1 then modeName = L["mod_hud_chill"]
             elseif i == 2 then modeName = L["mod_hud_openworld"]
-            elseif i == 3 then modeName = L["mod_hud_housing"]
             else modeName = "Mode " .. i
             end
             local modeNode = addModule(dp, modeName,
@@ -667,11 +664,10 @@ local function addInterfaceNodes(dp)
                     fade[k].alpha = v
                     if i == 1 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha() end
                     if i == 2 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha2() end
-                    if i == 3 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha3() end
                 end,
                 function(v) return v .. "%" end
             )
-            if i == 1 or i == 2 or i == 3 then
+            if i == 1 or i == 2 then
                 addSlider(modeNode, L["slider_move_delay"], 0, 10, 1,
                     function() return fade[k].moveDelay end,
                     function(v) fade[k].moveDelay = v end,
@@ -951,22 +947,19 @@ local function BuildInterfaceContent(filter)
     dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_hud_fading"], centered = true })
     do
         local fade = AklimeModDB.interfaceFade
-        for i = 1, 3 do
+        for i = 1, 2 do
             local k = "mode" .. i
             local setEnabled
             if i == 1 then
                 setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled(v) end end
             elseif i == 2 then
                 setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled2(v) end end
-            elseif i == 3 then
-                setEnabled = function(v) if AklimeMod_HUDFader then AklimeMod_HUDFader:SetEnabled3(v) end end
             else
                 setEnabled = function(v) fade[k].enabled = v end
             end
             local modeName
             if i == 1 then modeName = L["mod_hud_chill"]
             elseif i == 2 then modeName = L["mod_hud_openworld"]
-            elseif i == 3 then modeName = L["mod_hud_housing"]
             else modeName = "Mode " .. i
             end
             local modeNode = addModule(dp3, modeName,
@@ -979,11 +972,10 @@ local function BuildInterfaceContent(filter)
                     fade[k].alpha = v
                     if i == 1 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha() end
                     if i == 2 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha2() end
-                    if i == 3 and AklimeMod_HUDFader then AklimeMod_HUDFader:ApplyAlpha3() end
                 end,
                 function(v) return v .. "%" end
             )
-            if i == 1 or i == 2 or i == 3 then
+            if i == 1 or i == 2 then
                 addSlider(modeNode, L["slider_move_delay"], 0, 10, 1,
                     function() return fade[k].moveDelay end,
                     function(v) fade[k].moveDelay = v end,

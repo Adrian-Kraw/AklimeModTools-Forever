@@ -126,30 +126,12 @@ end
 local minimapIdleActive  = false
 local hookedOverlays     = {}
 local currentHidden      = {}
-local minimapShowHooked  = false  -- One-time: hooksecurefunc on Minimap.Show in housing
 
 local function HideMinimapOverlays()
     if minimapIdleActive then return end  -- already hidden, no second wipe
     minimapIdleActive = true
     wipe(currentHidden)
     if not MinimapCluster then return end
-    local inInst, instType = IsInInstance()
-    local inHousing = inInst and (instType == "interior" or instType == "neighborhood")
-
-    if inHousing then
-        -- In housing the Minimap ignores the parent alpha of MinimapCluster.
-        -- Hide the Minimap directly so the arrow and all children disappear.
-        -- Do not touch MinimapCluster children (prevents a layout reflow).
-        if not Minimap then return end
-        if not minimapShowHooked then
-            minimapShowHooked = true
-            hooksecurefunc(Minimap, "Show", function(self)
-                if minimapIdleActive then self:Hide() end
-            end)
-        end
-        Minimap:Hide()
-        return
-    end
 
     for _, child in ipairs({ MinimapCluster:GetChildren() }) do
         local name = child:GetName()
@@ -172,10 +154,6 @@ end
 local function ShowMinimapOverlays()
     if not minimapIdleActive then return end  -- already visible
     minimapIdleActive = false
-    -- In housing the Minimap was hidden directly, show it again.
-    if Minimap and not Minimap:IsShown() then
-        Minimap:Show()
-    end
     for _, child in ipairs(currentHidden) do
         pcall(function() child:Show() end)
     end
@@ -455,14 +433,7 @@ local Mode2 = CreateMode("mode2", function()
     return not IsResting() and not IsInInstance()
 end)
 
--- Housing: instance type "neighborhood" is housing-exclusive.
--- Applies to Alliance and Horde, all languages, exterior and interior.
-local Mode3 = CreateMode("mode3", function()
-    local inInst, instType = IsInInstance()
-    return inInst and (instType == "neighborhood" or instType == "interior")
-end)
-
-local ALL_MODES = { Mode1, Mode2, Mode3 }
+local ALL_MODES = { Mode1, Mode2 }
 
 -- ============================================================
 -- Events
@@ -489,8 +460,7 @@ ef:SetScript("OnEvent", function(_, event)
 
     if event == "PLAYER_ENTERING_WORLD" then
         inCombat = false
-        -- Reset the minimap idle state before Show() is called.
-        -- Otherwise the hooksecurefunc hook would hide the Minimap again immediately.
+        -- Reset the minimap idle state, otherwise the OnShow hooks hide the overlays again
         ShowMinimapOverlays()
         if Minimap then Minimap:SetAlpha(1.0) end
         for _, m in ipairs(ALL_MODES) do m:OnEnteringWorld() end
@@ -559,9 +529,5 @@ function M:ApplyAlpha()   Mode1:ApplyAlpha() end
 function M:IsEnabled2()   return Mode2:IsEnabled() end
 function M:SetEnabled2(v) Mode2:SetEnabled(v) end
 function M:ApplyAlpha2()  Mode2:ApplyAlpha() end
-
-function M:IsEnabled3()   return Mode3:IsEnabled() end
-function M:SetEnabled3(v) Mode3:SetEnabled(v) end
-function M:ApplyAlpha3()  Mode3:ApplyAlpha() end
 
 function M:Refresh()      ApplyUnified() end

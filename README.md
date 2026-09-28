@@ -37,7 +37,6 @@ Visual adjustments to the game client.
 **Interface Fading**
 - **Chill Mode in Resting Areas**: Automatically fades HUD elements in resting areas
 - **Open World**: Automatically fades HUD elements in the open world
-- **Housing**: Automatically fades HUD elements in housing areas
 
 ---
 
@@ -182,7 +181,6 @@ Visuelle Anpassungen am Spielclient.
 **Interface Ausblendung**
 - **Chillmodus in Ruhezonen**: Blendet HUD-Elemente in Ruhezonen automatisch aus
 - **Offene Welt**: Blendet HUD-Elemente in der offenen Welt automatisch aus
-- **Housing**: Blendet HUD-Elemente in Housing-Bereichen automatisch aus
 
 ---
 
