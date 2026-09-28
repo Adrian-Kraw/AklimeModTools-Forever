@@ -1654,14 +1654,6 @@ local function addQoLNodes(dp)
         addInfo(deathNode, L["info_death_sound"])
     end
 
-    if AklimeMod_TalentReminder then
-        local talentNode = addModule(dp, L["mod_talent_reminder"],
-            function() return AklimeMod_TalentReminder:IsEnabled() end,
-            function(v) AklimeMod_TalentReminder:SetEnabled(v) end
-        )
-        addInfo(talentNode, L["info_talent_reminder"])
-    end
-
     -- ============================================================
     -- Quest
     -- ============================================================

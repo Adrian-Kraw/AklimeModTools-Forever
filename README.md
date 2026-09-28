@@ -76,7 +76,6 @@ Convenience features for everyday gameplay.
 - **Mana Warning (Work in Progress)**: Warns the group with a chat message when being low mana
 - **Heroism Tracker**: Shows when Heroism / Drums is active
 - **Death Sound**: Plays a sound when your character dies
-- **Talent Reminder**: Notification when entering a dungeon without selected talents
 - **Lazy Ready Check**: Automatically confirms ready checks after a configurable delay
 - **Skip Cutscene**: Automatically skips in-game cutscenes and cinematics
 
@@ -217,7 +216,6 @@ Komfort-Features für den Spielalltag.
 - **Mana Warnung (Work in Progress)**: Warnt die Gruppe über eine Chatnachricht wenn man wenig Mana besitzt
 - **HT-Anzeige**: Zeigt an wenn Heldentum / Trommeln aktiv ist
 - **Todessound**: Spielt einen Sound beim Tod des eigenen Charakters
-- **Talent-Erinnerung**: Hinweis wenn man einen Dungeon ohne gewählte Talente betritt
 - **Lazy Ready Check**: Bestätigt Ready Checks automatisch nach einer einstellbaren Verzögerung
 - **Cutscene überspringen**: Überspringt Ingame-Cutscenes und Cinematics automatisch
 

@@ -183,9 +183,6 @@ function AklimeMod_InitDB()
     db.deathSound = db.deathSound or {}
     def(db.deathSound, "enabled", false)
 
-    db.talentReminder = db.talentReminder or {}
-    def(db.talentReminder, "enabled", false)
-
     db.summons = db.summons or {}
     def(db.summons, "enabled", false)
     def(db.summons, "delay",   0)   -- 0 = accept right away
