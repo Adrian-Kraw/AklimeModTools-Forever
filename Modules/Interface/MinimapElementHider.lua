@@ -77,6 +77,8 @@ local ELEMENTS = {
     },
     zoneInfo = {
         "MinimapZoneTextButton", "MinimapZoneText",
+        -- Bar behind the zone text, stays visible otherwise
+        "MinimapCluster.BorderTop",
     },
     clock = {
         "TimeManagerClockButton",
