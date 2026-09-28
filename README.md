@@ -64,7 +64,6 @@ Convenience features for everyday gameplay.
 - **Auto Accept Refund Confirmation**: Confirms the dialog when selling a refundable item back to a vendor
 - **Auto Accept Non-Refundable Warning**: Confirms the warning that an item can no longer be refunded when equipping, socketing or mailing it. Off by default, because that warning is the last chance to stop
 - **Auto Sell Junk**: Automatically sells grey items when opening a vendor
-- **24-Hour Clock**: Switches the in-game clock to 24-hour format
 - **Map Coordinates**: Shows your own coordinates on the world map
 - **Hide Learn/Unlearn Messages**: Hides system messages when learning abilities
 - **Hide Micro Menu Notifications**: Hides the blue notification badges on the micro menu buttons and the unspent talent points alert
@@ -206,7 +205,6 @@ Komfort-Features für den Spielalltag.
 - **Rückerstattung automatisch annehmen**: Bestätigt den Dialog beim Rückverkauf eines umtauschbaren Items an einen Händler
 - **Warnung zum Verfall der Rückerstattung annehmen**: Bestätigt die Warnung, dass ein Gegenstand nicht mehr zurückerstattet werden kann, beim Anlegen, Sockeln und Verschicken per Post. Standardmäßig aus, denn diese Warnung ist die letzte Möglichkeit abzubrechen
 - **Graue Items automatisch verkaufen**: Verkauft graue Items automatisch beim Öffnen eines Händlers
-- **24-Stunden-Uhr**: Stellt die Ingame-Uhr auf 24-Stunden-Format um
 - **Karten-Koordinaten**: Zeigt die eigenen Koordinaten auf der Weltkarte an
 - **Lernen-/Vergessen-Meldungen ausblenden**: Blendet Systemmeldungen beim Lernen von Fähigkeiten aus
 - **Micro-Menü-Benachrichtigungen ausblenden**: Blendet die blauen Hinweis-Symbole an den Micro-Menü-Schaltflächen und den Hinweis auf nicht verteilte Talentpunkte aus

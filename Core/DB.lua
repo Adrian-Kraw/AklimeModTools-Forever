@@ -61,9 +61,6 @@ function AklimeMod_InitDB()
     def(db.drinkReminder, "intervalMinutes",   60)
     def(db.drinkReminder, "disableInInstance", true)
 
-    db.clock24h = db.clock24h or {}
-    def(db.clock24h, "enabled", false)
-
     db.savedInstances = db.savedInstances or {}
     db.savedInstances.chars      = db.savedInstances.chars      or {}
     db.savedInstances.raids      = db.savedInstances.raids      or {}

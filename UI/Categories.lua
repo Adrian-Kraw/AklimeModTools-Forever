@@ -1532,12 +1532,6 @@ local function addQoLNodes(dp)
     )
     addInfo(sellJunkNode, L["info_auto_sell"])
 
-    local clock24hNode = addModule(dp, L["mod_clock24h"],
-        function() return AklimeMod_Clock24h.IsEnabled() end,
-        function(v) AklimeMod_Clock24h.SetEnabled(v) end
-    )
-    addInfo(clock24hNode, L["info_clock24h"])
-
     local mapCoordsNode = addModule(dp, L["mod_map_coords"],
         function() return AklimeMod_MapCoords.IsEnabled() end,
         function(v) AklimeMod_MapCoords.SetEnabled(v) end
