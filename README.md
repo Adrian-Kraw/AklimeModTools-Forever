@@ -3,7 +3,7 @@
 # Aklime Mod Tools
 :gb: [English](#english) · :de: [Deutsch](#deutsch)
 
-Personal WoW addon for Midnight (12.0.7).
+Personal WoW addon for World of Warcraft Forever.
 
 
 
