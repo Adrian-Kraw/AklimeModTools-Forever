@@ -281,58 +281,6 @@ local function CollectInstances(db, toonKey)
 end
 
 -- ============================================================
--- Weekly Vault (Great Vault)
--- The numeric values of Enum.WeeklyRewardChestThresholdType change between
--- patches, so the categories are read from the enum by name.
--- ============================================================
-local function GetVaultTypes()
-    local threshold = Enum and Enum.WeeklyRewardChestThresholdType
-    if not threshold then return nil end
-
-    local types = {}
-    if threshold.Raid then
-        types[#types+1] = { key = "raid", typeID = threshold.Raid }
-    end
-    -- "Activities" is the current name of the former "MythicPlus" category
-    local dungeonID = threshold.Activities or threshold.MythicPlus
-    if dungeonID then
-        types[#types+1] = { key = "dungeon", typeID = dungeonID }
-    end
-    if threshold.World then
-        types[#types+1] = { key = "world", typeID = threshold.World }
-    end
-
-    return types
-end
-
-local function CollectWeeklyVault(toon)
-    if not C_WeeklyRewards then return end
-    local vaultTypes = GetVaultTypes()
-    if not vaultTypes then return end
-
-    toon.weeklyVault = toon.weeklyVault or {}
-    local vault = toon.weeklyVault
-
-    for _, vt in ipairs(vaultTypes) do
-        local ok, activities = pcall(C_WeeklyRewards.GetActivities, vt.typeID)
-        if ok and activities then
-            local slots = 0
-            for _, act in ipairs(activities) do
-                if act.progress and act.threshold and act.progress >= act.threshold then
-                    slots = slots + 1
-                end
-            end
-            vault[vt.key] = slots
-        else
-            vault[vt.key] = vault[vt.key] or 0
-        end
-    end
-
-    local ok2, hasRewards = pcall(C_WeeklyRewards.HasAvailableRewards)
-    vault.hasRewards = ok2 and hasRewards == true or false
-end
-
--- ============================================================
 -- Main collection function (call on login)
 -- ============================================================
 local function CollectToonData()
@@ -378,9 +326,6 @@ local function CollectToonData()
 
     -- Collect currencies
     CollectCurrencies(t)
-
-    -- Collect weekly vault
-    CollectWeeklyVault(t)
 
     -- Collect instances
     CollectInstances(db, toonKey)
@@ -565,7 +510,6 @@ eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 eventFrame:RegisterEvent("PLAYER_MONEY")
 eventFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
-eventFrame:RegisterEvent("WEEKLY_REWARDS_UPDATE")
 eventFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 -- Transfer events: pcall in case an event is missing in this client version
 pcall(eventFrame.RegisterEvent, eventFrame, "CURRENCY_TRANSFER_LOG_UPDATE")
@@ -612,19 +556,6 @@ eventFrame:SetScript("OnEvent", function(self, event)
             CollectInstances(db, toonKey)
         end
         CleanExpiredInstances()
-
-    elseif event == "WEEKLY_REWARDS_UPDATE" then
-        C_Timer.After(0.3, function()
-            local db = GetTrackerDB()
-            if not db then return end
-            local toonKey = GetToonKey()
-            if toonKey and db.Toons[toonKey] then
-                CollectWeeklyVault(db.Toons[toonKey])
-                if AklimeModCTFrame and AklimeModCTFrame:IsShown() then
-                    AklimeMod_CT_Refresh()
-                end
-            end
-        end)
 
     elseif event == "CURRENCY_DISPLAY_UPDATE" then
         -- Own character: keep the balance current (looting, spending, transfer)

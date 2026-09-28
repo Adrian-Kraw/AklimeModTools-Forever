@@ -1467,20 +1467,6 @@ local function addQoLNodes(dp)
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_general"], centered = true })
     end
 
-    local vaultNode = addModule(dp, L["mod_weekly_vault"],
-        function() return true end,
-        function(v) end
-    )
-    addInfo(vaultNode, L["info_weekly_vault"])
-    addAction(vaultNode, L["action_open_vault"], function()
-        C_AddOns.LoadAddOn("Blizzard_WeeklyRewards")
-        if WeeklyRewardsFrame:IsShown() then
-            WeeklyRewardsFrame:Hide()
-        else
-            WeeklyRewardsFrame:Show()
-        end
-    end)
-
     if AklimeMod_ReadyCheck then
         local rcNode = addModule(dp, L["mod_ready_check"],
             function() return AklimeMod_ReadyCheck.IsEnabled() end,

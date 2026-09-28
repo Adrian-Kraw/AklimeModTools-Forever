@@ -43,7 +43,7 @@ local function UpdateMinimapPos()
 end
 
 -- Spread table defined once, used by both call sites
-local SPREADS   = { -37, -22, -7, 7, 22, 39 }
+local SPREADS   = { -30, -15, 0, 15, 30 }
 local OUTER_R   = 135
 
 local function ApplyMenuPositions(angle)
@@ -98,19 +98,6 @@ local MENU_ITEMS = {
                 print("|cFFFFD100Aklime Mod Tools:|r |cFF00FF00" .. (L["menu_pvp_chathide_on"]  or "Hide Chat Only activated")   .. "|r")
             else
                 print("|cFFFFD100Aklime Mod Tools:|r |cFFFF4444" .. (L["menu_pvp_chathide_off"] or "Hide Chat Only deactivated") .. "|r")
-            end
-        end,
-    },
-    {   -- top-center: Vault
-        icon    = "Interface\\Icons\\inv_cape_special_treasure_c_01",
-        tooltip = L["menu_vault"] or "Weekly Vault",
-        onClick = function()
-            C_AddOns.LoadAddOn("Blizzard_WeeklyRewards")
-            if WeeklyRewardsFrame:IsShown() then WeeklyRewardsFrame:Hide()
-            else WeeklyRewardsFrame:Show() end
-            -- ESC should close the window
-            if not tContains(UISpecialFrames, "WeeklyRewardsFrame") then
-                tinsert(UISpecialFrames, "WeeklyRewardsFrame")
             end
         end,
     },

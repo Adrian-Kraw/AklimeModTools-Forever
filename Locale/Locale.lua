@@ -33,7 +33,6 @@ L["menu_pvp_block_left"]   = "Left-click: Disable Chat in PvP"
 L["menu_pvp_block_right"]  = "Right-click: Hide Chat Only"
 L["menu_pvp_chathide_on"]  = "Hide Chat Only activated"
 L["menu_pvp_chathide_off"] = "Hide Chat Only deactivated"
-L["menu_vault"]      = "Weekly Vault"
 L["menu_todo"]       = "ToDo List"
 L["menu_char_tracker"] = "Character Tracker"
 L["menu_played_time"]  = "Played Time"
@@ -89,7 +88,6 @@ L["mod_auto_summon"]      = "Auto Accept Summons"
 L["mod_friends_decor"]    = "Improved Friends List"
 L["mod_chat_font_size"]   = "Set Chat Size for All Characters"
 L["info_chat_font_size"]  = "Sets the chosen chat font size once for each character, only if it has not been set for that character yet.\nPick a size below (same options as the game's own chat font size selection)."
-L["mod_weekly_vault"]     = "Weekly Vault"
 L["mod_ready_check"]      = "Auto Accept Ready Check"
 L["mod_skip_cinematic"]   = "Skip Cutscenes and Cinematics"
 L["mod_auto_repair"]      = "Auto Repair"
@@ -243,7 +241,6 @@ L["reload_label_rl"] = "Reload:"
 L["reload_label_nl"] = "Reload:"
 
 -- Action labels
-L["action_open_vault"]        = "Open Vault"
 L["action_preview"]           = "Preview on/off"
 L["action_test_now"]          = "Test Now"
 L["action_clear_all_windows"] = "Clear All Windows"
@@ -318,13 +315,6 @@ L["ct_btn_select_all"]   = "Select all"
 L["ct_btn_deselect_all"] = "Deselect all"
 L["ct_btn_apply"]        = "Apply"
 
--- Vault / Great Vault
-L["vault_header"]   = "Great Vault"
-L["vault_raids"]    = "Raids"
-L["vault_dungeons"] = "Dungeons"
-L["vault_world"]    = "World Activities"
-L["vault_reward"]   = "Reward"
-L["vault_open"]     = "Open"
 
 -- Played Time window
 L["played_title"]        = "Played Time"
@@ -381,7 +371,6 @@ L["info_auto_invite"]      = "Automatically accepts group invites.\nNo filter ac
 L["info_auto_summon"]      = "Automatically accepts incoming summon requests.\nA message in chat shows who summoned and where.\n\nDelay: how long to wait before accepting.\nAt \"instant\" it is accepted right away, above that you can\nstill answer the dialog yourself during the wait."
 L["info_friends_decor"]    = "Colors friend names in class color.\nShows level, zone and status (AFK/DND/Offline).\nBNet friends: game icon and faction flag."
 L["friends_mobile"]        = "Mobile"
-L["info_weekly_vault"]     = "Opens the weekly vault.\nAlso accessible via the radial menu on the minimap icon."
 L["info_ready_check"]      = "Automatically accepts ready checks.\nThe countdown is visible on the Yes button."
 L["info_skip_cinematic"]   = "Automatically skips in-engine cutscenes and pre-rendered video sequences."
 L["skip_cinematic_done"]   = "A cutscene was skipped!"
@@ -439,7 +428,6 @@ if GetLocale() == "deDE" then
     L["menu_pvp_block_right"]  = "Rechtsklick: Nur Chatausblenden"
     L["menu_pvp_chathide_on"]  = "Nur Chatausblenden aktiviert"
     L["menu_pvp_chathide_off"] = "Nur Chatausblenden deaktiviert"
-    L["menu_vault"]     = "Wöchentliche Schatzkammer"
     L["menu_todo"]      = "ToDo-Liste"
     L["menu_char_tracker"] = "Charakter-Tracker"
     L["menu_played_time"]  = "Gespielte Zeit"
@@ -487,7 +475,6 @@ if GetLocale() == "deDE" then
     L["mod_friends_decor"]    = "Verbesserte Freundesliste"
     L["mod_chat_font_size"]   = "Chatgröße für alle Chars setzen"
     L["info_chat_font_size"]  = "Setzt die gewählte Chatgröße einmalig für jeden Charakter, aber nur falls für diesen Charakter noch keine gesetzt wurde.\nGröße unten auswählen (gleiche Auswahl wie im Chat-Menü des Spiels)."
-    L["mod_weekly_vault"]     = "Wöchentliche Schatzkammer"
     L["mod_ready_check"]      = "Bereitschaftsabfrage automatisch annehmen"
     L["mod_skip_cinematic"]   = "Cutscenes und Cinematics überspringen"
     L["mod_reload_ui"]        = "Interface Neuladen"
@@ -624,7 +611,6 @@ if GetLocale() == "deDE" then
 
     L["reload_label_nl"] = "Neuladen:"
 
-    L["action_open_vault"]        = "Schatzkammer öffnen"
     L["action_preview"]           = "Vorschau ein/aus"
     L["action_test_now"]          = "Jetzt testen"
     L["action_clear_all_windows"] = "Alle Fenster leeren"
@@ -690,7 +676,6 @@ if GetLocale() == "deDE" then
     L["info_auto_summon"]      = "Nimmt eingehende Beschwörungsanfragen automatisch an.\nEine Meldung im Chat zeigt wer beschworen hat und wohin.\n\nVerzögerung: wie lange vor dem Annehmen gewartet wird.\nBei \"sofort\" wird direkt angenommen, darüber kannst du\nwährend der Wartezeit noch selbst auf den Dialog reagieren."
     L["info_friends_decor"]    = "Färbt Freundesnamen in Klassenfarbe.\nZeigt Level, Zone und Status (AFK/DND/Offline).\nBNet-Freunde: Spiel-Icon und Fraktionsflagge."
     L["friends_mobile"]        = "Mobilgerät"
-    L["info_weekly_vault"]     = "Öffnet die wöchentliche Schatzkammer.\nAuch über das Radialmenü am Minimap-Icon erreichbar."
     L["info_ready_check"]      = "Nimmt Bereitschaftsabfragen automatisch an.\nDer Countdown ist am Ja-Button sichtbar."
     L["info_skip_cinematic"]   = "Überspringt automatisch In-Engine Cutscenes sowie vorgerenderte Videosequenzen."
     L["skip_cinematic_done"]   = "Es wurde eine Cutscene übersprungen!"
@@ -753,12 +738,6 @@ if GetLocale() == "deDE" then
     L["ct_btn_deselect_all"] = "Alle abwählen"
     L["ct_btn_apply"]        = "Übernehmen"
 
-    -- Vault / Great Vault
-    L["vault_header"]   = "Große Schatzkammer"
-    L["vault_raids"]    = "Schlachtzüge"
-    L["vault_world"]    = "Weltaktivitäten"
-    L["vault_reward"]   = "Belohnung"
-    L["vault_open"]     = "Offen"
 
     -- Played Time window
     L["played_title"]        = "Gespielte Zeit"

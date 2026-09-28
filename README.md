@@ -61,7 +61,6 @@ Convenience features for everyday gameplay.
 - **Enhanced Friends List**: Extended display with realm, level and class
 
 **General**
-- **Great Vault**: Opens the Blizzard vault window at the push of a button
 - **Auto Repair**: Automatically repairs equipment at vendors (guild bank or gold)
 - **Interface Reload**: `/rl` and `/nl` as shortcuts for ReloadUI
 - **Easy Confirm and Delete**: Skips text input when deleting and confirming items, unlearning professions and other confirmations
@@ -103,7 +102,7 @@ Convenience features for everyday gameplay.
 ### Collecting
 Character and progress overview across all your characters.
 
-- **Character Tracker**: Shows saved instances (raids), Great Vault, currencies and gold for all characters
+- **Character Tracker**: Shows saved instances (raids), currencies and gold for all characters
 - **Currencies**: Sorted by expansion with totals per currency across all characters, filter which currencies are shown
 
 ---
@@ -123,7 +122,6 @@ Shows the most important changes of the installed version as cards, marked as ne
 
 Clicking the Aklime Mod Tools button at the minimap opens a quick menu around it:
 - **Block PvP Chat**: Left-click disables the chat in PvP, right-click only hides the chat windows
-- **Weekly Vault**: Opens the Great Vault
 - **ToDo List**: A small note list. Enter adds an entry, a click marks it done
 - **Character Tracker**: Opens the overview of all characters
 - **Played Time**: Opens the played time of all characters
@@ -211,7 +209,6 @@ Komfort-Features für den Spielalltag.
 - **Verbesserte Freundesliste**: Erweiterte Darstellung mit Realm, Level und Klasse
 
 **Allgemein**
-- **Wöchentliche Schatzkammer**: Öffnet das Blizzard-Schatzkammer-Fenster per Knopfdruck
 - **Auto Repair**: Repariert Ausrüstung automatisch beim Händler (Gildenbank oder Gold)
 - **Interface Neuladen**: `/rl` und `/nl` als Kurzbefehl für ReloadUI
 - **Einfaches Bestätigen und Löschen**: Überspringt die Texteingabe beim Löschen und Bestätigen von Items, Verlernen von Berufen und weiteren Bestätigungen
@@ -253,7 +250,7 @@ Komfort-Features für den Spielalltag.
 ### Collecting
 Charakter- und Fortschrittsübersicht über alle eigenen Charaktere.
 
-- **Charakter-Tracker**: Zeigt gespeicherte Instanzen (Raids), Große Schatzkammer, Währungen und Gold für alle Charaktere
+- **Charakter-Tracker**: Zeigt gespeicherte Instanzen (Raids), Währungen und Gold für alle Charaktere
 - **Währungen**: Nach Erweiterung sortiert mit Gesamtsummen pro Währung über alle Charaktere, Filter welche Währungen angezeigt werden
 
 ---
@@ -273,7 +270,6 @@ Zeigt die wichtigsten Änderungen der installierten Version als Karten, markiert
 
 Ein Klick auf den Aklime Mod Tools Button an der Minimap öffnet ein Schnellmenü rundherum:
 - **PvP Chat blockieren**: Linksklick deaktiviert den Chat im PvP, Rechtsklick blendet nur die Chatfenster aus
-- **Wöchentliche Schatzkammer**: Öffnet die Große Schatzkammer
 - **ToDo-Liste**: Kleine Notizliste. Enter fügt einen Eintrag hinzu, ein Klick hakt ihn ab
 - **Charakter-Tracker**: Öffnet die Übersicht aller Charaktere
 - **Gespielte Zeit**: Öffnet die Spielzeit aller Charaktere
