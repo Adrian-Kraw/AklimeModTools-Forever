@@ -51,7 +51,6 @@ Convenience features for everyday gameplay.
 - **Extended Ignore List**: Blocks chat messages from ignored players beyond the Blizzard limit
 - **Leave Service Channel**: Automatically leaves service channels on login
 - **Block Duel Requests**: Automatically declines duel requests
-- **Block Pet Battle Duels**: Automatically declines pet battle requests
 - **Block Group Invites**: Declines all invites with exceptions for guild and friends
 - **Auto Accept Group Invites**: Automatically accepts invites from guild members and/or friends
 - **Auto Accept Summons**: Automatically accepts summon requests
@@ -195,7 +194,6 @@ Komfort-Features für den Spielalltag.
 - **Erweiterte Ignore-Liste**: Blockiert Chat-Nachrichten ignorierter Spieler über das Blizzard-Limit hinaus
 - **Dienste-Channel verlassen**: Verlässt Dienste-Channels automatisch beim Login
 - **Duellanfragen blockieren**: Lehnt Duellanfragen automatisch ab
-- **Haustierkampf-Duelle blockieren**: Lehnt Haustierkampf-Anfragen automatisch ab
 - **Gruppeneinladungen blockieren**: Lehnt alle Einladungen ab, mit Ausnahmen für Gilde und Freunde
 - **Gruppeneinladungen automatisch annehmen**: Nimmt Einladungen von Gildenmitgliedern und/oder Freunden automatisch an
 - **Beschwörungen automatisch annehmen**: Nimmt Beschwörungsanfragen automatisch an

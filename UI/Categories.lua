@@ -1329,12 +1329,6 @@ local function addQoLNodes(dp)
             function(v) AklimeMod_BlockRequests:SetBlockDuels(v) end
         )
         addInfo(blockDuelNode, L["info_block_duel"])
-
-        local blockPetNode = addModule(dp, L["mod_block_petbattle"],
-            function() return AklimeMod_BlockRequests:IsPetBattleBlocked() end,
-            function(v) AklimeMod_BlockRequests:SetBlockPetBattles(v) end
-        )
-        addInfo(blockPetNode, L["info_block_petbattle"])
     end
 
     if AklimeMod_GroupInvites then
