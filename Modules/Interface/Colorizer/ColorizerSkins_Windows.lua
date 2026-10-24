@@ -475,9 +475,10 @@ C:Register("winCollections", {
                 WardrobeCollectionFrame.SetsTransmogFrame,WardrobeCollectionFrame.SetsCollectionFrame.RightInset,
                 WardrobeCollectionFrame.SetsCollectionFrame.LeftInset,WarbandSceneJournal.IconsFrame,
             }) do SkinNS(f,ir,ig,ib,ia) end
-            T(WardrobeCollectionFrame.progressBar.border,ir,ig,ib,ia)
-            T(HeirloomsJournal.progressBar.border,ir,ig,ib,ia)
-            T(ToyBox.progressBar.border,ir,ig,ib,ia)
+            -- Forever has no progress bars on some tabs
+            for _,journal in pairs({WardrobeCollectionFrame,HeirloomsJournal,ToyBox}) do
+                T(journal.progressBar and journal.progressBar.border,ir,ig,ib,ia)
+            end
             T(MountJournalSummonRandomFavoriteButtonBorder,ir,ig,ib,ia)
             T(PetJournalSummonRandomFavoritePetButtonBorder,ir,ig,ib,ia)
             T(PetJournalHealPetButtonBorder,ir,ig,ib,ia)
