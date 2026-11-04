@@ -18,7 +18,7 @@ Core\DataCollector.lua
 Modules\Interface\EliteFrame.lua
 Modules\Interface\RaidFrameCenter.lua
 Modules\Interface\HideMacroNames.lua
-Modules\Interface\DamageMeterCollapseDown.lua
+Modules\Interface\DamagemeterCollapseDown.lua
 Modules\Interface\MinimapButtonCollector.lua
 Modules\Interface\MinimapElementHider.lua
 Modules\Interface\GearCheck.lua
