@@ -13,4 +13,4 @@ jobs:
       - uses: BigWigsMods/packager@v2
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          CF_PROJECT_ID: 1548949
+          CF_PROJECT_ID: 1782467
