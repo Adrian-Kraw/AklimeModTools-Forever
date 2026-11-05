@@ -92,7 +92,19 @@ local ELEMENTS = {
     addonCompartment = {
         "AddonCompartmentFrame", "AddonCompartmentFrameButton",
     },
+    zoneBar = {},
 }
+
+-- Textures that are hidden through their alpha. A texture must not be shown again with
+-- Show(), because some of them are normally hidden (hover and state overlays).
+local ALPHA_ELEMENTS = {
+    zoneBar = {
+        "MinimapCluster.ZoneTextButton.AddTexture",
+        "MinimapCluster.ZoneTextButton.StateTexture",
+    },
+}
+local HIDDEN_ALPHA = 0
+local originalAlpha = {}
 
 local function ResolveFrame(path)
     if not path or path == "" then return nil end
@@ -212,9 +224,25 @@ local function ApplyManagedFrames(key, hide)
     end
 end
 
+local function ApplyAlphaElement(key, hide)
+    for _, name in ipairs(ALPHA_ELEMENTS[key] or {}) do
+        local texture = ResolveFrame(name)
+        if texture then
+            if hide then
+                originalAlpha[texture] = originalAlpha[texture] or texture:GetAlpha()
+                texture:SetAlpha(HIDDEN_ALPHA)
+            elseif originalAlpha[texture] then
+                texture:SetAlpha(originalAlpha[texture])
+                originalAlpha[texture] = nil
+            end
+        end
+    end
+end
+
 local function ApplyElement(key)
     if IsHousing() then return end
     local hide = IsElementHidden(key)
+    ApplyAlphaElement(key, hide)
     for _, name in ipairs(ELEMENTS[key] or {}) do
         local frame = ResolveFrame(name)
         RememberFrame(key, frame)
@@ -239,6 +267,7 @@ function Hider.Apply()
                 ApplyFrame(ResolveFrame(name), false)
             end
             ApplyManagedFrames(key, false)
+            ApplyAlphaElement(key, false)
         end
         -- Restore minimap position on the next tick (after MinimapCluster layout).
         -- In edit mode, let Blizzard handle it.

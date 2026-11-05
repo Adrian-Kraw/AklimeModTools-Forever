@@ -88,6 +88,7 @@ function AklimeMod_InitDB()
     def(db.minimapHider, "calendar", false)
     def(db.minimapHider, "mail", false)
     def(db.minimapHider, "addonCompartment", false)
+    def(db.minimapHider, "zoneBar", false)
 
     db.mouseEffects = db.mouseEffects or {}
     def(db.mouseEffects, "enabled", false)

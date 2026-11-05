@@ -574,6 +574,7 @@ local function addInterfaceNodes(dp)
             { L["toggle_mm_tracking"], "tracking" }, { L["toggle_mm_zone"], "zoneInfo" },
             { L["toggle_mm_clock"], "clock" }, { L["toggle_mm_calendar"], "calendar" },
             { L["toggle_mm_mail"], "mail" }, { L["toggle_mm_compartment"], "addonCompartment" },
+            { L["toggle_mm_zone_bar"], "zoneBar" },
         }) do
             local lbl, key = kv[1], kv[2]
             addToggle(hideNode, lbl,
@@ -832,6 +833,10 @@ local function BuildInterfaceContent(filter)
         addToggle(hideNode, L["toggle_mm_compartment"],
             function() return AklimeMod_MinimapElementHider.Get("addonCompartment") end,
             function(v) AklimeMod_MinimapElementHider.Set("addonCompartment", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_zone_bar"],
+            function() return AklimeMod_MinimapElementHider.Get("zoneBar") end,
+            function(v) AklimeMod_MinimapElementHider.Set("zoneBar", v) end
         )
     end
 
