@@ -44,7 +44,7 @@ Visual adjustments to the game client.
 Convenience features for everyday gameplay.
 
 **Chat and Social**
-- **Chat Interaction**: C-button to copy chat history, clickable URLs, item level in chat links
+- **Copy Chat**: C-button to copy chat history, clickable URLs, item level in chat links
 - **Chat Fade**: Older chat messages are automatically faded out
 - **Save Chat History**: Saves chat history across sessions
 - **Set Chat Size for All Characters**: Applies your chosen chat font size (12 to 27 pt) once to every character that does not have one set yet
@@ -181,7 +181,7 @@ Visuelle Anpassungen am Spielclient.
 Komfort-Features für den Spielalltag.
 
 **Chat und Social**
-- **Chat Interaktion**: C-Button zum Kopieren des Chatverlaufs, klickbare URLs, Itemlevel in Chat-Links
+- **Chat kopieren**: C-Button zum Kopieren des Chatverlaufs, klickbare URLs, Itemlevel in Chat-Links
 - **Chat verblassen**: Ältere Chat-Nachrichten werden automatisch ausgeblendet
 - **Chatverlauf speichern**: Speichert den Chatverlauf sitzungsübergreifend
 - **Chatgröße für alle Chars setzen**: Setzt die gewählte Chat-Schriftgröße (12 bis 27 pt) einmalig bei jedem Charakter, der noch keine eigene hat
