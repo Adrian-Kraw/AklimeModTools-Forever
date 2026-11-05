@@ -1377,22 +1377,6 @@ local function addQoLNodes(dp)
         addInfo(summonsNode, L["info_auto_summon"])
     end
 
-    if AklimeMod_FriendsListDecor then
-        local friendsNode = addModule(dp, L["mod_friends_decor"],
-            function() return AklimeMod_FriendsListDecor:IsEnabled() end,
-            function(v) AklimeMod_FriendsListDecor:SetEnabled(v) end
-        )
-        addToggle(friendsNode, L["toggle_show_location"],
-            function() return AklimeMod_FriendsListDecor:Get("showLocation") end,
-            function(v) AklimeMod_FriendsListDecor:Set("showLocation", v) end
-        )
-        addToggle(friendsNode, L["toggle_hide_own_realm"],
-            function() return AklimeMod_FriendsListDecor:Get("hideOwnRealm") end,
-            function(v) AklimeMod_FriendsListDecor:Set("hideOwnRealm", v) end
-        )
-        addInfo(friendsNode, L["info_friends_decor"])
-    end
-
     if AklimeMod_ChatFontSize then
         local chatSizeNode = addModule(dp, L["mod_chat_font_size"],
             function() return AklimeMod_ChatFontSize.IsEnabled() end,

@@ -121,11 +121,6 @@ function AklimeMod_InitDB()
     def(db.chatFade, "timeVisible",  30)
     def(db.chatFade, "fadeDuration", 3)
 
-    db.friendsListDecor = db.friendsListDecor or {}
-    def(db.friendsListDecor, "enabled",      false)
-    def(db.friendsListDecor, "showLocation", true)
-    def(db.friendsListDecor, "hideOwnRealm", true)
-
     db.chatFontSize = db.chatFontSize or {}
     def(db.chatFontSize, "enabled", false)
     def(db.chatFontSize, "size", 16)

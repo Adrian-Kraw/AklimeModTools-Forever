@@ -54,7 +54,6 @@ Convenience features for everyday gameplay.
 - **Block Group Invites**: Declines all invites with exceptions for guild and friends
 - **Auto Accept Group Invites**: Automatically accepts invites from guild members and/or friends
 - **Auto Accept Summons**: Automatically accepts summon requests
-- **Enhanced Friends List**: Extended display with realm, level and class
 
 **General**
 - **Auto Repair**: Automatically repairs equipment at vendors (guild bank or gold)
@@ -192,7 +191,6 @@ Komfort-Features für den Spielalltag.
 - **Gruppeneinladungen blockieren**: Lehnt alle Einladungen ab, mit Ausnahmen für Gilde und Freunde
 - **Gruppeneinladungen automatisch annehmen**: Nimmt Einladungen von Gildenmitgliedern und/oder Freunden automatisch an
 - **Beschwörungen automatisch annehmen**: Nimmt Beschwörungsanfragen automatisch an
-- **Verbesserte Freundesliste**: Erweiterte Darstellung mit Realm, Level und Klasse
 
 **Allgemein**
 - **Auto Repair**: Repariert Ausrüstung automatisch beim Händler (Gildenbank oder Gold)
