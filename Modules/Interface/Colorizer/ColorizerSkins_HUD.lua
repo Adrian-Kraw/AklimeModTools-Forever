@@ -76,6 +76,28 @@ C:Register("minimap", {
 })
 
 -- ============================================================
+-- Minimap header (bar with the zone name above the minimap)
+-- ============================================================
+local function minimapHeaderTextures()
+    local button = MinimapCluster and MinimapCluster.ZoneTextButton
+    if not button then return {} end
+    return { button.AddTexture, button.StateTexture }
+end
+
+C:Register("minimapHeader", {
+    label  = "Minimap Header",
+    group  = "HUD",
+    colors = { main = { label="Main", r=D.main.r, g=D.main.g, b=D.main.b, a=1, order=1 } },
+    apply  = function(self)
+        local r,g,b,a = col("minimapHeader","main")
+        for _, tex in pairs(minimapHeaderTextures()) do T(tex, r,g,b,a) end
+    end,
+    remove = function(self)
+        for _, tex in pairs(minimapHeaderTextures()) do R(tex) end
+    end,
+})
+
+-- ============================================================
 -- Objective Tracker
 -- ============================================================
 local trackerFrames = {
@@ -475,7 +497,7 @@ C:Register("menuStyle", {
 -- ============================================================
 table.insert(AklimeMod_Colorizer.groupOrder, {
     label = "HUD",
-    keys  = { "buffFrame","cooldownViewer","minimap","objectiveTracker","tooltips","chatFrame",
+    keys  = { "buffFrame","cooldownViewer","minimap","minimapHeader","objectiveTracker","tooltips","chatFrame",
               "statusBar1","statusBar2","mirrorTimer","spellFlyout","popupDialogs",
               "compactRaidFrameManager","menuStyle" },
 })
