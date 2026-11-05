@@ -412,6 +412,14 @@ end
 -- ============================================================
 -- Dashboard
 -- ============================================================
+local CONTACT_ALLIANCE_NAME  = "Sattarnna Sternenfall"
+local CONTACT_HORDE_NAME     = "Tarrean Krazov"
+local CONTACT_ALLIANCE_COLOR = "|cFF4A9EFF"
+local CONTACT_HORDE_COLOR    = "|cFFE04040"
+local CONTACT_SECTION_GAP    = 30   -- "Ingame:" to the faction names
+local CONTACT_LINE_SPACING   = 5    -- faction line to name line
+local CONTACT_BLOCK_HEIGHT   = 52   -- space for the two lines plus the gap to the separator
+
 local function GetOrCreateDashboard(parent)
     if dashboardPanel then return dashboardPanel end
     dashboardPanel = CreateFrame("Frame", nil, parent)
@@ -442,7 +450,19 @@ local function GetOrCreateDashboard(parent)
     local y = -40
     Label("|cFFFFD100" .. L["dash_contact"] .. "|r", y, "GameFontNormalLarge"); y = y - 28
     Separator(y); y = y - 18
-    Label("|cFF00CCFFIngame:|r", y); y = y - 30
+    Label("|cFF00CCFFIngame:|r", y); y = y - CONTACT_SECTION_GAP
+    local allianceContact = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    allianceContact:SetPoint("TOPLEFT", content, "TOPLEFT", 20, y)
+    allianceContact:SetJustifyH("LEFT")
+    allianceContact:SetSpacing(CONTACT_LINE_SPACING)
+    allianceContact:SetText(CONTACT_ALLIANCE_COLOR .. L["dash_alliance"] .. "|r\n" .. CONTACT_ALLIANCE_NAME)
+    -- The horde column starts at the horizontal center of the panel
+    local hordeContact = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    hordeContact:SetPoint("TOPLEFT", content, "TOP", 0, y)
+    hordeContact:SetJustifyH("LEFT")
+    hordeContact:SetSpacing(CONTACT_LINE_SPACING)
+    hordeContact:SetText(CONTACT_HORDE_COLOR .. L["dash_horde"] .. "|r\n" .. CONTACT_HORDE_NAME)
+    y = y - CONTACT_BLOCK_HEIGHT
     Separator(y); y = y - 18
     Label("|cFFFFD100" .. L["dash_commands"] .. "|r", y, "GameFontNormalLarge"); y = y - 28
     Separator(y); y = y - 18

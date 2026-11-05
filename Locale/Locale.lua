@@ -14,6 +14,8 @@ L["search_header"]       = "Search: \"%s\""
 
 -- Dashboard
 L["dash_contact"]  = "Contact"
+L["dash_alliance"] = "Alliance"
+L["dash_horde"]    = "Horde"
 L["dash_commands"] = "Commands"
 L["dash_cmd_open"]   = "Open / close addon"
 L["dash_cmd_help"]   = "Show all commands in chat"
@@ -390,6 +392,8 @@ if GetLocale() == "deDE" then
     L["search_header"]       = "Suche: \"%s\""
 
     L["dash_contact"]  = "Kontakt"
+    L["dash_alliance"] = "Allianz"
+    L["dash_horde"]    = "Horde"
     L["dash_commands"] = "Befehle"
     L["dash_cmd_open"]  = "Addon öffnen / schließen"
     L["dash_cmd_help"]  = "Alle Befehle im Chat anzeigen"
