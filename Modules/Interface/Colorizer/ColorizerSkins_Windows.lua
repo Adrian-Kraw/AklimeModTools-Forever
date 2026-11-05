@@ -164,31 +164,6 @@ C:Register("winAddonList", {
 })
 
 -- ========================================================
--- Allied Races
--- ========================================================
-C:Register("winAlliedRaces", {
-    label="Allied Races", group="Windows",
-    colors={
-        main={label="Main",r=DM.r,g=DM.g,b=DM.b,a=1,order=1},
-        background={label="Background",r=DG.r,g=DG.g,b=DG.b,a=1,order=2},
-        controls={label="Controls",r=DC.r,g=DC.g,b=DC.b,a=1,order=3},
-    },
-    apply=function(self)
-        WL("Blizzard_AlliedRacesUI", function()
-            local mr,mg,mb,ma=col("winAlliedRaces","main")
-            local br,bg2,bb,ba=col("winAlliedRaces","background")
-            local cr,cg,cb,ca=col("winAlliedRaces","controls")
-            SkinNS(AlliedRacesFrame,mr,mg,mb,ma); T(AlliedRacesFrameBg,br,bg2,bb,ba)
-            SkinScrollBar(AlliedRacesFrame.RaceInfoFrame and AlliedRacesFrame.RaceInfoFrame.ScrollFrame,cr,cg,cb,ca)
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_AlliedRacesUI") then return end
-        RestoreNS(AlliedRacesFrame); R(AlliedRacesFrameBg)
-    end,
-})
-
--- ========================================================
 -- Auction House
 -- ========================================================
 C:Register("winAH", {
@@ -234,25 +209,6 @@ C:Register("winAH", {
     remove=function(self)
         if not C_AddOns.IsAddOnLoaded("Blizzard_AuctionHouseUI") then return end
         RestoreNS(AuctionHouseFrame); R(AuctionHouseFrameBg)
-    end,
-})
-
--- ========================================================
--- Azerite Respec
--- ========================================================
-C:Register("winAzeriteRespec", {
-    label="Azerite Reforging", group="Windows",
-    colors={main={label="Main",r=DM.r,g=DM.g,b=DM.b,a=1,order=1}},
-    apply=function(self)
-        WL("Blizzard_AzeriteRespecUI", function()
-            local mr,mg,mb,ma=col("winAzeriteRespec","main")
-            SkinNS(AzeriteRespecFrame,mr,mg,mb,ma)
-            T(AzeriteRespecFrame.ButtonFrame and AzeriteRespecFrame.ButtonFrame.ButtonBorder,mr,mg,mb,ma)
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_AzeriteRespecUI") then return end
-        RestoreNS(AzeriteRespecFrame)
     end,
 })
 
@@ -586,25 +542,6 @@ C:Register("winDelves", {
 })
 
 -- ========================================================
--- Delves Difficulty Picker
--- ========================================================
-C:Register("winDelvesDiff", {
-    label="Delve Difficulty", group="Windows",
-    colors={main={label="Main",r=DM.r,g=DM.g,b=DM.b,a=1,order=1},controls={label="Controls",r=DC.r,g=DC.g,b=DC.b,a=1,order=2}},
-    apply=function(self)
-        WL("Blizzard_DelvesDifficultyPicker", function()
-            local mr,mg,mb,ma=col("winDelvesDiff","main"); local cr,cg,cb,ca=col("winDelvesDiff","controls")
-            SkinSB(DelvesDifficultyPickerFrame,mr,mg,mb,ma)
-            T(DelvesDifficultyPickerFrame.Dropdown and DelvesDifficultyPickerFrame.Dropdown.Background,cr,cg,cb,ca)
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_DelvesDifficultyPicker") then return end
-        RB(DelvesDifficultyPickerFrame)
-    end,
-})
-
--- ========================================================
 -- Dressing Room
 -- ========================================================
 C:Register("winDressup", {
@@ -914,44 +851,6 @@ C:Register("winGuildBank", {
 })
 
 -- ========================================================
--- Housing Dashboard
--- ========================================================
-C:Register("winHousing", {
-    label="Housing Dashboard", group="Windows", colors=wc(),
-    apply=function(self)
-        WL("Blizzard_HousingDashboard", function()
-            local mr,mg,mb,ma=col("winHousing","main"); local br,bg2,bb,ba=col("winHousing","background")
-            local cr,cg,cb,ca=col("winHousing","controls")
-            SkinNS(HousingDashboardFrame,mr,mg,mb,ma); T(HousingDashboardFrameBg,br,bg2,bb,ba)
-            SkinBox(HousingDashboardFrame.CatalogContent and HousingDashboardFrame.CatalogContent.SearchBox,cr,cg,cb,ca)
-            SkinScrollBar(HousingDashboardFrame.CatalogContent and HousingDashboardFrame.CatalogContent.OptionsContainer,cr,cg,cb,ca)
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_HousingDashboard") then return end
-        RestoreNS(HousingDashboardFrame); R(HousingDashboardFrameBg)
-    end,
-})
-
--- ========================================================
--- Housing Model Preview
--- ========================================================
-C:Register("winHousingPreview", {
-    label="Housing Preview", group="Windows",
-    colors={main={label="Main",r=DM.r,g=DM.g,b=DM.b,a=1,order=1}},
-    apply=function(self)
-        WL("Blizzard_HousingModelPreview", function()
-            local mr,mg,mb,ma=col("winHousingPreview","main")
-            SkinNS(HousingModelPreviewFrame,mr,mg,mb,ma)
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_HousingModelPreview") then return end
-        RestoreNS(HousingModelPreviewFrame)
-    end,
-})
-
--- ========================================================
 -- Inspect Frame
 -- ========================================================
 C:Register("winInspect", {
@@ -1201,27 +1100,6 @@ C:Register("winMerchant", {
 })
 
 -- ========================================================
--- Order Hall Mission
--- ========================================================
-C:Register("winOrderHall", {
-    label="Order Hall Missions", group="Windows",
-    colors={main={label="Main",r=DM.r,g=DM.g,b=DM.b,a=1,order=1},borders={label="Borders",r=DR.r,g=DR.g,b=DR.b,a=1,order=2},controls={label="Controls",r=DC.r,g=DC.g,b=DC.b,a=1,order=3},corner_textures={label="Corner Textures",r=0.8,g=0.8,b=0.8,a=1,order=4}},
-    apply=function(self)
-        WL("Blizzard_GarrisonUI", function()
-            local mr,mg,mb,ma=col("winOrderHall","main"); local ir,ig,ib,ia=col("winOrderHall","borders")
-            local cr,cg,cb,ca=col("winOrderHall","controls"); local er,eg,eb,ea=col("winOrderHall","corner_textures")
-            for _,tex in pairs({OrderHallMissionFrame.Top,OrderHallMissionFrame.Right,OrderHallMissionFrame.Bottom,OrderHallMissionFrame.Left}) do T(tex,mr,mg,mb,ma) end
-            for _,tex in pairs({OrderHallMissionFrame.TopBorder,OrderHallMissionFrame.TopRightCorner,OrderHallMissionFrame.RightBorder,OrderHallMissionFrame.BotRightCorner,OrderHallMissionFrame.BottomBorder,OrderHallMissionFrame.BotLeftCorner,OrderHallMissionFrame.LeftBorder}) do T(tex,ir,ig,ib,ia) end
-            SkinScrollBar(AdventureMapQuestChoiceDialog and AdventureMapQuestChoiceDialog.Details,cr,cg,cb,ca)
-            for _,tex in pairs({OrderHallMissionFrame.GarrCorners.TopRightGarrCorner,OrderHallMissionFrame.GarrCorners.BottomRightGarrCorner,OrderHallMissionFrame.GarrCorners.BottomLeftGarrCorner}) do T(tex,er,eg,eb,ea) end
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") then return end
-    end,
-})
-
--- ========================================================
 -- PVE Frame
 -- ========================================================
 C:Register("winPVE", {
@@ -1310,29 +1188,6 @@ C:Register("winProfessionsBook", {
     remove=function(self)
         if not C_AddOns.IsAddOnLoaded("Blizzard_ProfessionsBook") then return end
         RestoreNS(ProfessionsBookFrame); R(ProfessionsBookFrameBg); RestoreNS(ProfessionsBookFrameInset)
-    end,
-})
-
--- ========================================================
--- Professions Customer Orders
--- ========================================================
-C:Register("winCraftingOrders", {
-    label="Crafting Orders", group="Windows",
-    colors=wc({gold_border={label="Gold Border",r=1.0,g=0.843,b=0.0,a=1,order=6},silver_border={label="Silver Border",r=0.753,g=0.753,b=0.753,a=1,order=7}}),
-    apply=function(self)
-        WL("Blizzard_ProfessionsCustomerOrders", function()
-            local mr,mg,mb,ma=col("winCraftingOrders","main"); local br,bg2,bb,ba=col("winCraftingOrders","background")
-            local ir,ig,ib,ia=col("winCraftingOrders","borders"); local cr,cg,cb,ca=col("winCraftingOrders","controls")
-            local tr,tg,tb,ta=col("winCraftingOrders","tabs")
-            for _,f in pairs({ProfessionsCustomerOrdersFrame,ProfessionsCustomerOrdersFrame.MoneyFrameInset}) do SkinNS(f,mr,mg,mb,ma) end
-            T(ProfessionsCustomerOrdersFrameBg,br,bg2,bb,ba)
-            for _,f in pairs({ProfessionsCustomerOrdersFrame.BrowseOrders and ProfessionsCustomerOrdersFrame.BrowseOrders.CategoryList,ProfessionsCustomerOrdersFrame.BrowseOrders and ProfessionsCustomerOrdersFrame.BrowseOrders.RecipeList,ProfessionsCustomerOrdersFrame.Form and ProfessionsCustomerOrdersFrame.Form.CurrentListings and ProfessionsCustomerOrdersFrame.Form.CurrentListings.OrderList,ProfessionsCustomerOrdersFrame.MyOrdersPage and ProfessionsCustomerOrdersFrame.MyOrdersPage.OrderList}) do SkinNS(f,ir,ig,ib,ia) end
-            for _,tab in pairs({ProfessionsCustomerOrdersFrameBrowseTab,ProfessionsCustomerOrdersFrameOrdersTab}) do SkinTabs(tab,tr,tg,tb,ta) end
-        end)
-    end,
-    remove=function(self)
-        if not C_AddOns.IsAddOnLoaded("Blizzard_ProfessionsCustomerOrders") then return end
-        RestoreNS(ProfessionsCustomerOrdersFrame); R(ProfessionsCustomerOrdersFrameBg)
     end,
 })
 
@@ -1744,27 +1599,47 @@ C:Register("eliteFrame", {
 })
 
 -- ========================================================
+-- Chat copy button (the "C" button of the chat interaction module)
+-- ========================================================
+local function refreshChatCopyBtn()
+    if AklimeMod_ChatInteraction then AklimeMod_ChatInteraction.RefreshBtnColors() end
+end
+
+C:Register("chatCopyBtn", {
+    label  = "Chat Copy Button",
+    group  = "Addons",
+    colors = {
+        border    = { label="Border",    r=DM.r, g=DM.g, b=DM.b, a=1, order=1 },
+        highlight = { label="Highlight", r=DG.r, g=DG.g, b=DG.b, a=1, order=2 },
+        text      = { label="Text",      r=DC.r, g=DC.g, b=DC.b, a=1, order=3 },
+    },
+    -- The button reads the colors itself, because it is created after the Colorizer starts.
+    apply  = refreshChatCopyBtn,
+    remove = refreshChatCopyBtn,
+})
+
+-- ========================================================
 -- Group order
 -- ========================================================
 -- At position 1: Addons appear directly below "Enable all / Disable all"
 table.insert(AklimeMod_Colorizer.groupOrder, 1, {
     label = "Addons",
-    keys  = { "winAklimeMod", "eliteFrame" },
+    keys  = { "winAklimeMod", "eliteFrame", "chatCopyBtn" },
 })
 
 table.insert(AklimeMod_Colorizer.groupOrder, {
     label = "Windows",
     keys  = {
-        "winAchieve","winAddonList","winAlliedRaces","winAH","winAzeriteRespec",
+        "winAchieve","winAddonList","winAH",
         "winBank","winCalendar","winChannel","winCharacter","winTrainer",
         "winClickBind","winCollections","winColorPicker","winCommunities",
-        "winBags","winCooldownSettings","winDamageMeter","winDelves","winDelvesDiff",
+        "winBags","winCooldownSettings","winDamageMeter","winDelves",
         "winDressup","winEJ","winEventLog","winFlightMap","winFriends",
-        "winGameMenu","winGossip","winGuildBank","winHousing","winHousingPreview",
+        "winGameMenu","winGossip","winGuildBank",
         "winInspect","winIslandsQueue","winItemInteraction","winItemSocket",
         "winBook","winItemUpgrade","winLoot","winMacro","winMail","winMerchant",
-        "winOrderHall","winPVE","winSpellbook","winProfessionsBook",
-        "winCraftingOrders","winProfessions","winQuest","winReadyCheck",
+        "winPVE","winSpellbook","winProfessionsBook",
+        "winProfessions","winQuest","winReadyCheck",
         "winScrap","winSettings","winStable","winStopwatch","winTrade",
         "winTransmog","winMap",
     },

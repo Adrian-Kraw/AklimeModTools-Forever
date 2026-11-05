@@ -74,19 +74,21 @@ local microButtons = {
     { key="microLegacy",     label="Classic",                 btn="LegacyMicroButton"        },
     { key="microAchieve",    label="Achievements",            btn="AchievementMicroButton"   },
     { key="microQuest",      label="Quest Log",               btn="QuestLogMicroButton"      },
-    { key="microHousing",    label="Housing Dashboard",       btn="HousingMicroButton"       },
     { key="microGuild",      label="Guild & Communities",     btn="GuildMicroButton",  emblem=true },
     { key="microLFD",        label="Group Finder",            btn="LFDMicroButton"           },
     { key="microCollect",    label="Warband Collections",     btn="CollectionsMicroButton"   },
     { key="microEJ",         label="Adventure Guide",         btn="EJMicroButton"            },
     { key="microStore",      label="Shop",                    btn="StoreMicroButton"         },
     { key="microMenu",       label="Game Menu",               btn="MainMenuMicroButton"      },
+    { key="microBackpack",   label="Backpack",                btn="MainMenuBarBackpackButton" },
+    { key="microBagSlots",   label="Bag Slots",               btns={ "CharacterBag0Slot", "CharacterBag1Slot",
+        "CharacterBag2Slot", "CharacterBag3Slot", "CharacterReagentBag0Slot", "KeyRingButton" } },
 }
 
 local microKeys = { "microChar" }
 for _, def in ipairs(microButtons) do
     local key   = def.key
-    local bname = def.btn
+    local bnames = def.btns or { def.btn }
     local hasEmblem = def.emblem
     table.insert(microKeys, key)
     C:Register(key, {
@@ -94,26 +96,107 @@ for _, def in ipairs(microButtons) do
         group  = "Micro Menu",
         colors = microColors(),
         apply = function(self)
-            local btn = _G[bname]
-            if not btn then return end
             local nr,ng,nb,na = col(key,"btn_normal_color")
             local hr,hg,hb,ha = col(key,"btn_highlight_color")
             local pr,pg,pb,pa = col(key,"btn_pushed_color")
-            local nt,ht,pt = btn:GetNormalTexture(), btn:GetHighlightTexture(), btn:GetPushedTexture()
-            for _,tex in pairs({ nt,ht,pt }) do if tex then tex:SetDesaturation(1) end end
-            T(nt, nr,ng,nb,na); T(ht, hr,hg,hb,ha); T(pt, pr,pg,pb,pa)
-            if hasEmblem and btn.Emblem then T(btn.Emblem, nr,ng,nb,na) end
+            for _, bname in ipairs(bnames) do
+                local btn = _G[bname]
+                if btn then
+                    local nt,ht,pt = btn:GetNormalTexture(), btn:GetHighlightTexture(), btn:GetPushedTexture()
+                    for _,tex in pairs({ nt,ht,pt }) do if tex then tex:SetDesaturation(1) end end
+                    T(nt, nr,ng,nb,na); T(ht, hr,hg,hb,ha); T(pt, pr,pg,pb,pa)
+                    if hasEmblem and btn.Emblem then T(btn.Emblem, nr,ng,nb,na) end
+                end
+            end
         end,
         remove = function(self)
-            local btn = _G[bname]
-            if not btn then return end
-            for _,tex in pairs({ btn:GetNormalTexture(), btn:GetHighlightTexture(), btn:GetPushedTexture() }) do
-                if tex then tex:SetDesaturation(0); tex:SetVertexColor(1,1,1,1) end
+            for _, bname in ipairs(bnames) do
+                local btn = _G[bname]
+                if btn then
+                    for _,tex in pairs({ btn:GetNormalTexture(), btn:GetHighlightTexture(), btn:GetPushedTexture() }) do
+                        if tex then tex:SetDesaturation(0); tex:SetVertexColor(1,1,1,1) end
+                    end
+                    if hasEmblem and btn.Emblem then R(btn.Emblem) end
+                end
             end
-            if hasEmblem and btn.Emblem then R(btn.Emblem) end
         end,
     })
 end
+
+-- ============================================================
+-- Bar borders (micro menu and bag bar)
+-- ============================================================
+-- The bars set their art after login, so the tint is applied a second time later.
+local BORDER_REAPPLY_DELAY = 1
+
+local function bagBarArtTextures()
+    local textures = {}
+    if not BagsBar then return textures end
+    if BagsBar.BorderArt then table.insert(textures, BagsBar.BorderArt) end
+    for _, child in ipairs({ BagsBar:GetChildren() }) do
+        if child.TopEdge then table.insert(textures, child.TopEdge) end
+        if child.BottomEdge then table.insert(textures, child.BottomEdge) end
+    end
+    return textures
+end
+
+local MICRO_MENU_BORDER_ATLAS = "UI-HUD-ActionBar-Frame"
+
+local function microMenuArtTextures()
+    local textures = {}
+    if not MicroMenu then return textures end
+    for _, region in ipairs({ MicroMenu:GetRegions() }) do
+        if region.GetAtlas and region:GetAtlas() == MICRO_MENU_BORDER_ATLAS then
+            table.insert(textures, region)
+        end
+    end
+    return textures
+end
+
+local MICRO_BUTTON_BORDER_ATLAS_PREFIX = "UI-HUD-MicroMenu-ButtonBG"
+
+local function microButtonBorderTextures()
+    local textures = {}
+    if not MicroMenu then return textures end
+    for _, button in ipairs({ MicroMenu:GetChildren() }) do
+        for _, region in ipairs({ button:GetRegions() }) do
+            local atlas = region.GetAtlas and region:GetAtlas()
+            if atlas and atlas:find(MICRO_BUTTON_BORDER_ATLAS_PREFIX, 1, true) == 1 then
+                table.insert(textures, region)
+            end
+        end
+    end
+    return textures
+end
+
+local function registerBorderSkin(key, label, getTextures)
+    local function tint()
+        local r,g,b,a = col(key,"main")
+        for _, tex in ipairs(getTextures()) do T(tex, r,g,b,a) end
+    end
+
+    table.insert(microKeys, key)
+    C:Register(key, {
+        label  = label,
+        group  = "Micro Menu",
+        colors = {
+            main = { label="Border", r=D.main.r, g=D.main.g, b=D.main.b, a=1, order=1 },
+        },
+        apply = function(self)
+            tint()
+            C_Timer.After(BORDER_REAPPLY_DELAY, function()
+                if C:IsEnabled(key) then tint() end
+            end)
+        end,
+        remove = function(self)
+            for _, tex in ipairs(getTextures()) do R(tex) end
+        end,
+    })
+end
+
+registerBorderSkin("microBagBar", "Bag Bar Border", bagBarArtTextures)
+registerBorderSkin("microBar", "Micro Menu Border", microMenuArtTextures)
+registerBorderSkin("microButtonBorders", "Micro Button Borders", microButtonBorderTextures)
 
 table.insert(AklimeMod_Colorizer.groupOrder, {
     label = "Micro Menu",
