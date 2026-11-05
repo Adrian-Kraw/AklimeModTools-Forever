@@ -198,6 +198,11 @@ function AklimeMod_InitDB()
     def(db.mailbox, "lastSent",               "")
     db.mailbox.contacts = db.mailbox.contacts or {}
 
+    db.afkTimer = db.afkTimer or {}
+    def(db.afkTimer, "enabled",  false)
+    def(db.afkTimer, "locked",   true)
+    def(db.afkTimer, "fontSizeSlider", 50)
+
     db.todoList = db.todoList or {}
     db.todoList.items = db.todoList.items or {}
 

@@ -749,6 +749,8 @@ local function BuildInterfaceContent(filter)
 
     local dp3 = CreateTreeDataProvider()
 
+    dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_char_portrait"], centered = true })
+
     -- Elite Frame
     local eliteNode3 = addModule(dp3, L["mod_elite_frame"],
         function() return AklimeModDB.eliteFrame.enabled end,
@@ -782,83 +784,15 @@ local function BuildInterfaceContent(filter)
         )
     end
 
-    -- Raid frame centering
-    local raidCenterNode = addModule(dp3, L["mod_raid_center"],
-        function() return AklimeMod_RaidFrameCenter.IsEnabled() end,
-        function(v) AklimeMod_RaidFrameCenter.SetEnabled(v) end
-    )
-    addInfo(raidCenterNode, L["info_raid_center"])
-
-    local hideMacroNode = addModule(dp3, L["mod_hide_macro"],
-        function() return AklimeMod_HideMacroNames.IsEnabled() end,
-        function(v) AklimeMod_HideMacroNames.SetEnabled(v) end
-    )
-    addInfo(hideMacroNode, L["info_hide_macro"])
-
-    local dmCollapseNode = addModule(dp3, L["mod_dm_collapse"],
-        function() return AklimeMod_DamageMeterCollapseDown.IsEnabled() end,
-        function(v) AklimeMod_DamageMeterCollapseDown.SetEnabled(v) end
-    )
-    addInfo(dmCollapseNode, L["info_dm_collapse"])
-
-    if AklimeMod_MinimapCollector then
-        local mmCollectorNode = addModule(dp3, L["mod_mm_collector"],
-            function()
-                if not AklimeMod_MinimapCollector then return false end
-                return AklimeMod_MinimapCollector.IsEnabled()
-            end,
-            function(v)
-                if not AklimeMod_MinimapCollector then return end
-                AklimeMod_MinimapCollector.SetEnabled(v)
-            end
+    if AklimeMod_GearCheck then
+        local gcNode = addModule(dp3, L["mod_gear_check"],
+            function() return AklimeMod_GearCheck.IsEnabled() end,
+            function(v) AklimeMod_GearCheck.SetEnabled(v) end
         )
-        addInfo(mmCollectorNode, L["info_mm_collector"])
-        addToggle(mmCollectorNode, L["toggle_include_own"],
-            function()
-                if not AklimeMod_MinimapCollector then return false end
-                return AklimeMod_MinimapCollector.IncludeOwn()
-            end,
-            function(v)
-                if not AklimeMod_MinimapCollector then return end
-                AklimeMod_MinimapCollector.SetIncludeOwn(v)
-            end
-        )
+        addInfo(gcNode, L["info_gear_check"])
     end
 
-    if AklimeMod_MinimapElementHider then
-        local hideNode = addModule(dp3, L["mod_mm_hider"],
-            function() return AklimeMod_MinimapElementHider.IsEnabled() end,
-            function(v) AklimeMod_MinimapElementHider.SetEnabled(v) end
-        )
-        addToggle(hideNode, L["toggle_mm_tracking"],
-            function() return AklimeMod_MinimapElementHider.Get("tracking") end,
-            function(v) AklimeMod_MinimapElementHider.Set("tracking", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_zone"],
-            function() return AklimeMod_MinimapElementHider.Get("zoneInfo") end,
-            function(v) AklimeMod_MinimapElementHider.Set("zoneInfo", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_clock"],
-            function() return AklimeMod_MinimapElementHider.Get("clock") end,
-            function(v) AklimeMod_MinimapElementHider.Set("clock", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_calendar"],
-            function() return AklimeMod_MinimapElementHider.Get("calendar") end,
-            function(v) AklimeMod_MinimapElementHider.Set("calendar", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_mail"],
-            function() return AklimeMod_MinimapElementHider.Get("mail") end,
-            function(v) AklimeMod_MinimapElementHider.Set("mail", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_compartment"],
-            function() return AklimeMod_MinimapElementHider.Get("addonCompartment") end,
-            function(v) AklimeMod_MinimapElementHider.Set("addonCompartment", v) end
-        )
-        addToggle(hideNode, L["toggle_mm_zone_bar"],
-            function() return AklimeMod_MinimapElementHider.Get("zoneBar") end,
-            function(v) AklimeMod_MinimapElementHider.Set("zoneBar", v) end
-        )
-    end
+    dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_combat"], centered = true })
 
     if AklimeMod_MouseEffects then
         local mouseNode = addModule(dp3, L["mod_mouse_effects"],
@@ -920,14 +854,6 @@ local function BuildInterfaceContent(filter)
         )
     end
 
-    if AklimeMod_GearCheck then
-        local gcNode = addModule(dp3, L["mod_gear_check"],
-            function() return AklimeMod_GearCheck.IsEnabled() end,
-            function(v) AklimeMod_GearCheck.SetEnabled(v) end
-        )
-        addInfo(gcNode, L["info_gear_check"])
-    end
-
     if AklimeMod_CombatTooltip then
         local ttNode = addModule(dp3, L["mod_combat_tooltip"],
             function() return AklimeMod_CombatTooltip:IsEnabled() end,
@@ -937,6 +863,80 @@ local function BuildInterfaceContent(filter)
         addToggle(ttNode, L["tog_ct_allow_auras"],
             function() return AklimeMod_CombatTooltip:AllowsAuras() end,
             function(v) AklimeMod_CombatTooltip:SetAllowAuras(v) end
+        )
+    end
+
+    -- Raid frame centering
+    local raidCenterNode = addModule(dp3, L["mod_raid_center"],
+        function() return AklimeMod_RaidFrameCenter.IsEnabled() end,
+        function(v) AklimeMod_RaidFrameCenter.SetEnabled(v) end
+    )
+    addInfo(raidCenterNode, L["info_raid_center"])
+
+    local dmCollapseNode = addModule(dp3, L["mod_dm_collapse"],
+        function() return AklimeMod_DamageMeterCollapseDown.IsEnabled() end,
+        function(v) AklimeMod_DamageMeterCollapseDown.SetEnabled(v) end
+    )
+    addInfo(dmCollapseNode, L["info_dm_collapse"])
+
+    dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_minimap"], centered = true })
+
+    if AklimeMod_MinimapCollector then
+        local mmCollectorNode = addModule(dp3, L["mod_mm_collector"],
+            function()
+                if not AklimeMod_MinimapCollector then return false end
+                return AklimeMod_MinimapCollector.IsEnabled()
+            end,
+            function(v)
+                if not AklimeMod_MinimapCollector then return end
+                AklimeMod_MinimapCollector.SetEnabled(v)
+            end
+        )
+        addInfo(mmCollectorNode, L["info_mm_collector"])
+        addToggle(mmCollectorNode, L["toggle_include_own"],
+            function()
+                if not AklimeMod_MinimapCollector then return false end
+                return AklimeMod_MinimapCollector.IncludeOwn()
+            end,
+            function(v)
+                if not AklimeMod_MinimapCollector then return end
+                AklimeMod_MinimapCollector.SetIncludeOwn(v)
+            end
+        )
+    end
+
+    if AklimeMod_MinimapElementHider then
+        local hideNode = addModule(dp3, L["mod_mm_hider"],
+            function() return AklimeMod_MinimapElementHider.IsEnabled() end,
+            function(v) AklimeMod_MinimapElementHider.SetEnabled(v) end
+        )
+        addToggle(hideNode, L["toggle_mm_tracking"],
+            function() return AklimeMod_MinimapElementHider.Get("tracking") end,
+            function(v) AklimeMod_MinimapElementHider.Set("tracking", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_zone"],
+            function() return AklimeMod_MinimapElementHider.Get("zoneInfo") end,
+            function(v) AklimeMod_MinimapElementHider.Set("zoneInfo", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_clock"],
+            function() return AklimeMod_MinimapElementHider.Get("clock") end,
+            function(v) AklimeMod_MinimapElementHider.Set("clock", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_calendar"],
+            function() return AklimeMod_MinimapElementHider.Get("calendar") end,
+            function(v) AklimeMod_MinimapElementHider.Set("calendar", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_mail"],
+            function() return AklimeMod_MinimapElementHider.Get("mail") end,
+            function(v) AklimeMod_MinimapElementHider.Set("mail", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_compartment"],
+            function() return AklimeMod_MinimapElementHider.Get("addonCompartment") end,
+            function(v) AklimeMod_MinimapElementHider.Set("addonCompartment", v) end
+        )
+        addToggle(hideNode, L["toggle_mm_zone_bar"],
+            function() return AklimeMod_MinimapElementHider.Get("zoneBar") end,
+            function(v) AklimeMod_MinimapElementHider.Set("zoneBar", v) end
         )
     end
 
@@ -964,6 +964,12 @@ local function BuildInterfaceContent(filter)
     end
 
     addActionBarCompactNode(dp3)
+
+    local hideMacroNode = addModule(dp3, L["mod_hide_macro"],
+        function() return AklimeMod_HideMacroNames.IsEnabled() end,
+        function(v) AklimeMod_HideMacroNames.SetEnabled(v) end
+    )
+    addInfo(hideMacroNode, L["info_hide_macro"])
 
     dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_hud_fading"], centered = true })
     do
@@ -1089,11 +1095,11 @@ local function insertColorizerNodes(targetDP, searchFilter)
         local groupHasMatch = true
         if searchFilter and searchFilter ~= "" then
             groupHasMatch = false
-            if group.label:lower():find(searchFilter, 1, true) then groupHasMatch = true end
+            if AklimeMod_ColorizerText(group.label):lower():find(searchFilter, 1, true) then groupHasMatch = true end
             if not groupHasMatch then
                 for _, key in ipairs(group.keys) do
                     local skin = C.skins[key]
-                    if skin and skin.label:lower():find(searchFilter, 1, true) then
+                    if skin and AklimeMod_ColorizerText(skin.label):lower():find(searchFilter, 1, true) then
                         groupHasMatch = true; break
                     end
                 end
@@ -1103,7 +1109,7 @@ local function insertColorizerNodes(targetDP, searchFilter)
         if groupHasMatch then
             targetDP:Insert({
                 Template = "AklimeMod_SeparatorTemplate",
-                label    = group.label,
+                label    = AklimeMod_ColorizerText(group.label),
                 sublabel = true,
             })
 
@@ -1129,7 +1135,7 @@ local function insertColorizerNodes(targetDP, searchFilter)
             end
             targetDP:Insert({
                 Template   = "AklimeMod_ModuleHeaderTemplate",
-                name       = string.format(L["colorizer_group_toggle"], group.label),
+                name       = string.format(L["colorizer_group_toggle"], AklimeMod_ColorizerText(group.label)),
                 getEnabled = GroupAllEnabled,
                 setEnabled = SetGroup,
             })
@@ -1139,14 +1145,14 @@ local function insertColorizerNodes(targetDP, searchFilter)
                 if skin then
                     local skinMatches = true
                     if searchFilter and searchFilter ~= "" then
-                        skinMatches = skin.label:lower():find(searchFilter, 1, true)
-                            or group.label:lower():find(searchFilter, 1, true)
+                        skinMatches = AklimeMod_ColorizerText(skin.label):lower():find(searchFilter, 1, true)
+                            or AklimeMod_ColorizerText(group.label):lower():find(searchFilter, 1, true)
                     end
                     if skinMatches then
                         local headerNode = targetDP:Insert({
                             Template = "AklimeMod_SkinHeaderTemplate",
                             skinKey  = key,
-                            name     = skin.label,
+                            name     = AklimeMod_ColorizerText(skin.label),
                         })
                         headerNode:SetCollapsed(true)
 
@@ -1157,7 +1163,7 @@ local function insertColorizerNodes(targetDP, searchFilter)
                                     Template    = "AklimeMod_ToggleTemplate",
                                     skinKey     = key,
                                     toggleKey   = tk,
-                                    toggleLabel = td.label or tk,
+                                    toggleLabel = AklimeMod_ColorizerText(td.label or tk),
                                 })
                             end
                         end
@@ -1174,7 +1180,7 @@ local function insertColorizerNodes(targetDP, searchFilter)
                                     Template   = "AklimeMod_SubColorTemplate",
                                     skinKey    = key,
                                     colorKey   = entry.key,
-                                    colorLabel = entry.def.label or entry.key,
+                                    colorLabel = AklimeMod_ColorizerText(entry.def.label or entry.key),
                                 })
                             end
                         end
@@ -1234,11 +1240,8 @@ AklimeMod_BuildColorizerContent = BuildColorizerContent
 -- ============================================================
 local function addQoLNodes(dp)
 
-    -- ============================================================
-    -- Chat and Social
-    -- ============================================================
     if currentSearchFilter == "" then
-        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_chat_social"], centered = true })
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_chat"], centered = true })
     end
 
     local chatNode = addModule(dp, L["mod_chat_interaction"],
@@ -1327,6 +1330,50 @@ local function addQoLNodes(dp)
         end, nil, true)
     end
 
+    local leaveServiceNode = addModule(dp, L["mod_leave_channel"],
+        function() return AklimeMod_LeaveServiceChannel.IsEnabled() end,
+        function(v) AklimeMod_LeaveServiceChannel.SetEnabled(v) end
+    )
+    addInfo(leaveServiceNode, L["info_leave_channel"])
+
+    if AklimeMod_ChatFontSize then
+        local chatSizeNode = addModule(dp, L["mod_chat_font_size"],
+            function() return AklimeMod_ChatFontSize.IsEnabled() end,
+            function(v) AklimeMod_ChatFontSize.SetEnabled(v) end
+        )
+        for _, size in ipairs(AklimeMod_ChatFontSize.GetSizes()) do
+            addToggle(chatSizeNode, size .. "pt",
+                function() return AklimeMod_ChatFontSize.GetSize() == size end,
+                function(on) if on then AklimeMod_ChatFontSize.SetSize(size); AklimeMod_RefreshRightToggles() end end
+            )
+        end
+        addInfo(chatSizeNode, L["info_chat_font_size"])
+    end
+
+    if AklimeMod_ChatIcons then
+        local chatIconsNode = addModule(dp, L["mod_chat_icons"],
+            function() return AklimeMod_ChatIcons:IsEnabled() end,
+            function(v) AklimeMod_ChatIcons:SetEnabled(v) end
+        )
+        addInfo(chatIconsNode, L["info_chat_icons"])
+    end
+
+    if AklimeMod_ChatIcons then
+        local itemLevelNode = addModule(dp, L["mod_item_level"],
+            function() return AklimeMod_ChatIcons:IsItemLevelEnabled() end,
+            function(v) AklimeMod_ChatIcons:SetItemLevelEnabled(v) end
+        )
+        addToggle(itemLevelNode, L["toggle_show_slot"],
+            function() return AklimeMod_ChatIcons:IsShowSlotEnabled() end,
+            function(v) AklimeMod_ChatIcons:SetShowSlotEnabled(v) end
+        )
+        addInfo(itemLevelNode, L["info_item_level"])
+    end
+
+    if currentSearchFilter == "" then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_social"], centered = true })
+    end
+
     if AklimeMod_ExtendedIgnore then
         local ignoreNode = addModule(dp, L["mod_ext_ignore"],
             function() return AklimeMod_ExtendedIgnore:IsEnabled() end,
@@ -1341,12 +1388,6 @@ local function addQoLNodes(dp)
             print("|cFFFFD100Aklime Mod Tools:|r " .. L["msg_ignore_cleared"])
         end, nil, true)
     end
-
-    local leaveServiceNode = addModule(dp, L["mod_leave_channel"],
-        function() return AklimeMod_LeaveServiceChannel.IsEnabled() end,
-        function(v) AklimeMod_LeaveServiceChannel.SetEnabled(v) end
-    )
-    addInfo(leaveServiceNode, L["info_leave_channel"])
 
     if AklimeMod_BlockRequests then
         local blockDuelNode = addModule(dp, L["mod_block_duel"],
@@ -1386,6 +1427,10 @@ local function addQoLNodes(dp)
         addInfo(autoAcceptNode, L["info_auto_invite"])
     end
 
+    if currentSearchFilter == "" then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_group"], centered = true })
+    end
+
     if AklimeMod_Summons then
         local summonsNode = addModule(dp, L["mod_auto_summon"],
             function() return AklimeMod_Summons:IsEnabled() end,
@@ -1402,27 +1447,6 @@ local function addQoLNodes(dp)
         addInfo(summonsNode, L["info_auto_summon"])
     end
 
-    if AklimeMod_ChatFontSize then
-        local chatSizeNode = addModule(dp, L["mod_chat_font_size"],
-            function() return AklimeMod_ChatFontSize.IsEnabled() end,
-            function(v) AklimeMod_ChatFontSize.SetEnabled(v) end
-        )
-        for _, size in ipairs(AklimeMod_ChatFontSize.GetSizes()) do
-            addToggle(chatSizeNode, size .. "pt",
-                function() return AklimeMod_ChatFontSize.GetSize() == size end,
-                function(on) if on then AklimeMod_ChatFontSize.SetSize(size); AklimeMod_RefreshRightToggles() end end
-            )
-        end
-        addInfo(chatSizeNode, L["info_chat_font_size"])
-    end
-
-    -- ============================================================
-    -- General
-    -- ============================================================
-    if currentSearchFilter == "" then
-        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_general"], centered = true })
-    end
-
     if AklimeMod_ReadyCheck then
         local rcNode = addModule(dp, L["mod_ready_check"],
             function() return AklimeMod_ReadyCheck.IsEnabled() end,
@@ -1436,84 +1460,9 @@ local function addQoLNodes(dp)
         addInfo(rcNode, L["info_ready_check"])
     end
 
-    if AklimeMod_SkipCinematic then
-        local scNode = addModule(dp, L["mod_skip_cinematic"],
-            function() return AklimeMod_SkipCinematic.IsEnabled() end,
-            function(v) AklimeMod_SkipCinematic.SetEnabled(v) end
-        )
-        addInfo(scNode, L["info_skip_cinematic"])
+    if currentSearchFilter == "" then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_merchant"], centered = true })
     end
-
-    local repairNode = addModule(dp, L["mod_auto_repair"],
-        function() return AklimeModDB.autoRepair.enabled end,
-        function(v) AklimeModDB.autoRepair.enabled = v end
-    )
-    addToggle(repairNode, L["toggle_guild_repair"],
-        function() return AklimeModDB.autoRepair.useGuild end,
-        function(v) AklimeModDB.autoRepair.useGuild = v end
-    )
-    addToggle(repairNode, L["toggle_gold_repair"],
-        function() return AklimeModDB.autoRepair.useGold end,
-        function(v) AklimeModDB.autoRepair.useGold = v end
-    )
-
-    local reloadNode = addModule(dp, L["mod_reload_ui"],
-        function() return AklimeModDB.reloadUI.enabled end,
-        function(v)
-            AklimeModDB.reloadUI.enabled = v
-        end
-    )
-    addInfo(reloadNode, L["info_reload_ui"])
-    -- Special row needs space for two command buttons stacked vertically
-    addAction(reloadNode, "RELOAD_BUTTONS", nil, 70)
-
-    local deleteNode
-    local function easyDeleteMainEnabled()
-        local db = AklimeModDB.easyDelete
-        return db.skipDelete == true or db.skipConfirm == true
-            or db.skipUnlearn == true or db.skipUnderstood == true
-    end
-    local function refreshDeleteNode()
-        deleteNode:SetCollapsed(true); deleteNode:SetCollapsed(false)
-    end
-    deleteNode = addModule(dp, L["mod_easy_delete"],
-        easyDeleteMainEnabled,
-        function(v)
-            AklimeModDB.easyDelete.skipDelete     = v
-            AklimeModDB.easyDelete.skipConfirm    = v
-            AklimeModDB.easyDelete.skipUnlearn    = v
-            AklimeModDB.easyDelete.skipUnderstood = v
-            refreshDeleteNode()
-        end
-    )
-    addToggle(deleteNode, L["toggle_no_delete"],
-        function() return AklimeModDB.easyDelete.skipDelete == true end,
-        function(v)
-            AklimeModDB.easyDelete.skipDelete = v
-            refreshDeleteNode()
-        end
-    )
-    addToggle(deleteNode, L["toggle_no_confirm"],
-        function() return AklimeModDB.easyDelete.skipConfirm == true end,
-        function(v)
-            AklimeModDB.easyDelete.skipConfirm = v
-            refreshDeleteNode()
-        end
-    )
-    addToggle(deleteNode, L["toggle_no_unlearn"],
-        function() return AklimeModDB.easyDelete.skipUnlearn == true end,
-        function(v)
-            AklimeModDB.easyDelete.skipUnlearn = v
-            refreshDeleteNode()
-        end
-    )
-    addToggle(deleteNode, L["toggle_no_understood"],
-        function() return AklimeModDB.easyDelete.skipUnderstood == true end,
-        function(v)
-            AklimeModDB.easyDelete.skipUnderstood = v
-            refreshDeleteNode()
-        end
-    )
 
     if AklimeMod_BuyConfirm then
         local buyNode = addModule(dp, L["mod_buy_confirm"],
@@ -1541,65 +1490,6 @@ local function addQoLNodes(dp)
     )
     addInfo(sellJunkNode, L["info_auto_sell"])
 
-    local mapCoordsNode = addModule(dp, L["mod_map_coords"],
-        function() return AklimeMod_MapCoords.IsEnabled() end,
-        function(v) AklimeMod_MapCoords.SetEnabled(v) end
-    )
-    addInfo(mapCoordsNode, L["info_map_coords"])
-
-    local microNotifNode = addModule(dp, L["mod_hide_micro_notify"],
-        function() return AklimeMod_HideMicroNotifications.IsEnabled() end,
-        function(v) AklimeMod_HideMicroNotifications.SetEnabled(v) end
-    )
-    addInfo(microNotifNode, L["info_hide_micro_notify"])
-
-    if AklimeMod_ChatLearnFilter then
-        local learnNode = addModule(dp, L["mod_learn_filter"],
-            function() return AklimeMod_ChatLearnFilter:IsEnabled() end,
-            function(v) AklimeMod_ChatLearnFilter:SetEnabled(v) end
-        )
-        addToggle(learnNode, L["toggle_hide_talent_bubble"],
-            function() return AklimeMod_ChatLearnFilter:IsBubbleEnabled() end,
-            function(v) AklimeMod_ChatLearnFilter:SetBubbleEnabled(v) end
-        )
-        addInfo(learnNode, L["info_learn_filter"])
-    end
-
-    if AklimeMod_ChatIcons then
-        local chatIconsNode = addModule(dp, L["mod_chat_icons"],
-            function() return AklimeMod_ChatIcons:IsEnabled() end,
-            function(v) AklimeMod_ChatIcons:SetEnabled(v) end
-        )
-        addInfo(chatIconsNode, L["info_chat_icons"])
-    end
-
-    if AklimeMod_ChatIcons then
-        local itemLevelNode = addModule(dp, L["mod_item_level"],
-            function() return AklimeMod_ChatIcons:IsItemLevelEnabled() end,
-            function(v) AklimeMod_ChatIcons:SetItemLevelEnabled(v) end
-        )
-        addToggle(itemLevelNode, L["toggle_show_slot"],
-            function() return AklimeMod_ChatIcons:IsShowSlotEnabled() end,
-            function(v) AklimeMod_ChatIcons:SetShowSlotEnabled(v) end
-        )
-        addInfo(itemLevelNode, L["info_item_level"])
-    end
-
-    if AklimeMod_Mailbox then
-        local mailboxNode = addModule(dp, L["mod_mailbox"],
-            function() return AklimeMod_Mailbox:IsEnabled() end,
-            function(v) AklimeMod_Mailbox:SetEnabled(v) end
-        )
-        addToggle(mailboxNode, L["toggle_remember_recipient"],
-            function() return AklimeMod_Mailbox:IsRememberLastRecipient() end,
-            function(v) AklimeMod_Mailbox:SetRememberLastRecipient(v) end
-        )
-        addInfo(mailboxNode, L["info_mailbox"])
-        addAction(mailboxNode, L["action_clear_contacts"], function()
-            AklimeMod_Mailbox:ClearContacts()
-        end, nil, true)
-    end
-
     if AklimeMod_Merchant then
         local merchantNode = addModule(dp, L["mod_merchant"],
             function() return AklimeMod_Merchant:IsEnabled() end,
@@ -1616,11 +1506,8 @@ local function addQoLNodes(dp)
         addInfo(merchantNode, L["info_merchant"])
     end
 
-    -- ============================================================
-    -- Gameplay
-    -- ============================================================
     if currentSearchFilter == "" then
-        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_gameplay"], centered = true })
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_combat"], centered = true })
     end
 
     if AklimeMod_DeathSound then
@@ -1631,9 +1518,6 @@ local function addQoLNodes(dp)
         addInfo(deathNode, L["info_death_sound"])
     end
 
-    -- ============================================================
-    -- Quest
-    -- ============================================================
     if currentSearchFilter == "" then
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_quest"], centered = true })
     end
@@ -1726,9 +1610,28 @@ local function addQoLNodes(dp)
         addInfo(trackerNode, L["info_quest_tracker"])
     end
 
-    -- ============================================================
-    -- Health
-    -- ============================================================
+    if currentSearchFilter == "" then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_micromenu"], centered = true })
+    end
+
+    local microNotifNode = addModule(dp, L["mod_hide_micro_notify"],
+        function() return AklimeMod_HideMicroNotifications.IsEnabled() end,
+        function(v) AklimeMod_HideMicroNotifications.SetEnabled(v) end
+    )
+    addInfo(microNotifNode, L["info_hide_micro_notify"])
+
+    if AklimeMod_ChatLearnFilter then
+        local learnNode = addModule(dp, L["mod_learn_filter"],
+            function() return AklimeMod_ChatLearnFilter:IsEnabled() end,
+            function(v) AklimeMod_ChatLearnFilter:SetEnabled(v) end
+        )
+        addToggle(learnNode, L["toggle_hide_talent_bubble"],
+            function() return AklimeMod_ChatLearnFilter:IsBubbleEnabled() end,
+            function(v) AklimeMod_ChatLearnFilter:SetBubbleEnabled(v) end
+        )
+        addInfo(learnNode, L["info_learn_filter"])
+    end
+
     if currentSearchFilter == "" then
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_health"], centered = true })
     end
@@ -1758,9 +1661,6 @@ local function addQoLNodes(dp)
         AklimeMod_DrinkReminder.ShowNow()
     end)
 
-    -- ============================================================
-    -- Playtime
-    -- ============================================================
     if currentSearchFilter == "" then
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_playtime"], centered = true })
     end
@@ -1814,13 +1714,143 @@ local function addQoLNodes(dp)
         end, nil, true)
     end
 
+    if currentSearchFilter == "" then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_misc"], centered = true })
+    end
+
+    if AklimeMod_SkipCinematic then
+        local scNode = addModule(dp, L["mod_skip_cinematic"],
+            function() return AklimeMod_SkipCinematic.IsEnabled() end,
+            function(v) AklimeMod_SkipCinematic.SetEnabled(v) end
+        )
+        addInfo(scNode, L["info_skip_cinematic"])
+    end
+
+    local repairNode = addModule(dp, L["mod_auto_repair"],
+        function() return AklimeModDB.autoRepair.enabled end,
+        function(v) AklimeModDB.autoRepair.enabled = v end
+    )
+    addToggle(repairNode, L["toggle_guild_repair"],
+        function() return AklimeModDB.autoRepair.useGuild end,
+        function(v) AklimeModDB.autoRepair.useGuild = v end
+    )
+    addToggle(repairNode, L["toggle_gold_repair"],
+        function() return AklimeModDB.autoRepair.useGold end,
+        function(v) AklimeModDB.autoRepair.useGold = v end
+    )
+
+    local reloadNode = addModule(dp, L["mod_reload_ui"],
+        function() return AklimeModDB.reloadUI.enabled end,
+        function(v)
+            AklimeModDB.reloadUI.enabled = v
+        end
+    )
+    addInfo(reloadNode, L["info_reload_ui"])
+    -- Special row needs space for two command buttons stacked vertically
+    addAction(reloadNode, "RELOAD_BUTTONS", nil, 70)
+
+    local deleteNode
+    local function easyDeleteMainEnabled()
+        local db = AklimeModDB.easyDelete
+        return db.skipDelete == true or db.skipConfirm == true
+            or db.skipUnlearn == true or db.skipUnderstood == true
+    end
+    local function refreshDeleteNode()
+        deleteNode:SetCollapsed(true); deleteNode:SetCollapsed(false)
+    end
+    deleteNode = addModule(dp, L["mod_easy_delete"],
+        easyDeleteMainEnabled,
+        function(v)
+            AklimeModDB.easyDelete.skipDelete     = v
+            AklimeModDB.easyDelete.skipConfirm    = v
+            AklimeModDB.easyDelete.skipUnlearn    = v
+            AklimeModDB.easyDelete.skipUnderstood = v
+            refreshDeleteNode()
+        end
+    )
+    addToggle(deleteNode, L["toggle_no_delete"],
+        function() return AklimeModDB.easyDelete.skipDelete == true end,
+        function(v)
+            AklimeModDB.easyDelete.skipDelete = v
+            refreshDeleteNode()
+        end
+    )
+    addToggle(deleteNode, L["toggle_no_confirm"],
+        function() return AklimeModDB.easyDelete.skipConfirm == true end,
+        function(v)
+            AklimeModDB.easyDelete.skipConfirm = v
+            refreshDeleteNode()
+        end
+    )
+    addToggle(deleteNode, L["toggle_no_unlearn"],
+        function() return AklimeModDB.easyDelete.skipUnlearn == true end,
+        function(v)
+            AklimeModDB.easyDelete.skipUnlearn = v
+            refreshDeleteNode()
+        end
+    )
+    addToggle(deleteNode, L["toggle_no_understood"],
+        function() return AklimeModDB.easyDelete.skipUnderstood == true end,
+        function(v)
+            AklimeModDB.easyDelete.skipUnderstood = v
+            refreshDeleteNode()
+        end
+    )
+
+    local mapCoordsNode = addModule(dp, L["mod_map_coords"],
+        function() return AklimeMod_MapCoords.IsEnabled() end,
+        function(v) AklimeMod_MapCoords.SetEnabled(v) end
+    )
+    addInfo(mapCoordsNode, L["info_map_coords"])
+
+    if AklimeMod_Mailbox then
+        local mailboxNode = addModule(dp, L["mod_mailbox"],
+            function() return AklimeMod_Mailbox:IsEnabled() end,
+            function(v) AklimeMod_Mailbox:SetEnabled(v) end
+        )
+        addToggle(mailboxNode, L["toggle_remember_recipient"],
+            function() return AklimeMod_Mailbox:IsRememberLastRecipient() end,
+            function(v) AklimeMod_Mailbox:SetRememberLastRecipient(v) end
+        )
+        addInfo(mailboxNode, L["info_mailbox"])
+        addAction(mailboxNode, L["action_clear_contacts"], function()
+            AklimeMod_Mailbox:ClearContacts()
+        end, nil, true)
+    end
+
+    if AklimeMod_AfkTimer then
+        local afkNode = addModule(dp, L["mod_afk_timer"],
+            function() return AklimeMod_AfkTimer:IsEnabled() end,
+            function(v) AklimeMod_AfkTimer:SetEnabled(v) end
+        )
+        addToggle(afkNode, L["toggle_lock_position"],
+            function() return AklimeMod_AfkTimer:IsLocked() end,
+            function(v) AklimeMod_AfkTimer:SetLocked(v) end
+        )
+        addSlider(afkNode, L["slider_font_size"], 0, 100, 1,
+            function() return AklimeMod_AfkTimer:GetFontSizeSlider() end,
+            function(v) AklimeMod_AfkTimer:SetFontSizeSlider(v) end,
+            function(v) return tostring(v) end
+        )
+        addAction(afkNode, L["action_preview"], function()
+            if AklimeMod_AfkTimer.previewing then
+                AklimeMod_AfkTimer.previewing = false
+                AklimeMod_AfkTimer:HidePreview()
+            else
+                AklimeMod_AfkTimer.previewing = true
+                AklimeMod_AfkTimer:ShowPreview()
+            end
+        end)
+        addInfo(afkNode, L["info_afk_timer"])
+    end
+
 end  -- addQoLNodes
 
 local function BuildQoLContent()
     lastCategoryFn = BuildQoLContent
     currentBuildFn = nil
     if _G["AklimeModSearchBox"] then _G["AklimeModSearchBox"]:SetText("") end
-    AklimeMod_SetRightHeader("Quality of Life")
+    AklimeMod_SetRightHeader(L["cat_qol"])
     ShowScrollView()
     RSV():SetElementFactory(AklimeMod_RightFactory, function() end)
     local dp = newDP()
@@ -2057,7 +2087,7 @@ local categories = {
     { order=1, name="Dashboard",       callback=BuildDashboardContent                        },
     { order=2, name="Interface",       callback=BuildInterfaceContent                        },
     { order=3, name=L["cat_colorizer"], callback=BuildColorizerContent                       },
-    { order=4, name="Quality of Life", callback=BuildQoLContent                              },
+    { order=4, name=L["cat_qol"], callback=BuildQoLContent                              },
     { order=5, name=L["cat_collecting"], callback=BuildCollectingContent                      },
     { order=6, name="PvP",             callback=function() AklimeMod_BuildPvPContent() end   },
     { order=7, name=L["cat_news"],     callback=BuildNewsContent                             },

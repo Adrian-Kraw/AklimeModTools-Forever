@@ -4,6 +4,8 @@
 -- Wowhead URL button in the quest right-click menu.
 -- NPC ignore list via right-click on the target.
 
+local L = AklimeModL or {}
+
 local function GetDB()
     if AklimeModDB and AklimeModDB.questAutomation then return AklimeModDB.questAutomation end
     return { enabled = false }
@@ -255,11 +257,11 @@ local function HookMenus()
         root:CreateDivider()
         root:CreateTitle("Aklime Mod Tools")
         if db.ignoredNPCs[npcID] then
-            root:CreateButton("NPC aus Ignoreliste entfernen", function()
+            root:CreateButton(L["quest_npc_unignore"], function()
                 db.ignoredNPCs[npcID] = nil
             end)
         else
-            root:CreateButton("NPC zu Ignoreliste hinzufügen", function()
+            root:CreateButton(L["quest_npc_ignore"], function()
                 db.ignoredNPCs[npcID] = name
             end)
         end

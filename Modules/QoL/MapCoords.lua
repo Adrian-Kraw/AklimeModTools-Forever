@@ -2,6 +2,8 @@
 -- Shows mouse and player coordinates at the bottom center of the world map.
 -- Format: "Mouse: X / Y - Player: X / Y"
 
+local L = AklimeModL or {}
+
 local function GetDB()
     return AklimeModDB and AklimeModDB.mapCoords
 end
@@ -67,7 +69,7 @@ local function UpdateCoords()
     end
 
     coordFrame.text:SetText(string.format(
-        "|cFFFFFFFFMaus:|r %s  |cFFFFFFFF-  Spieler:|r %s",
+        L["mapcoords_format"],
         fmt(cursorX, cursorY),
         fmt(playerX, playerY)
     ))

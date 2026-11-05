@@ -838,7 +838,7 @@ local function MkCharHeader(parent, y, colX, sel, trackerDB)
                 GameTooltip:AddLine(class, 0.8, 0.8, 0.8)
             end
             if t.Level then
-                GameTooltip:AddDoubleLine("Level", tostring(t.Level), 0.8,0.8,0.8, 1,0.82,0)
+                GameTooltip:AddDoubleLine(LEVEL, tostring(t.Level), 0.8,0.8,0.8, 1,0.82,0)
             end
             if t.IL then
                 GameTooltip:AddDoubleLine(L["ct_item_level"] or "Item Level", string.format("%.1f", t.IL), 0.8,0.8,0.8, 1,0.82,0)
@@ -929,7 +929,7 @@ function AklimeMod_CT_Refresh()
             local expHdr = MkHdr(contentFrame, y)
             local expFs  = expHdr:CreateFontString(nil, "OVERLAY", "GameFontNormal")
             expFs:SetPoint("LEFT", expHdr, "LEFT", 8, 0)
-            expFs:SetText(NORMAL_FONT_COLOR_CODE .. (EXP_NAMES[exp] or ("Expansion "..exp)) .. FONT_COLOR_CODE_CLOSE)
+            expFs:SetText(NORMAL_FONT_COLOR_CODE .. (EXP_NAMES[exp] or string.format(L["ct_expansion_n"], exp)) .. FONT_COLOR_CODE_CLOSE)
             y = y + ROW_H + 2
 
             for ri, raid in ipairs(raidsByExp[exp]) do
@@ -1075,7 +1075,7 @@ function AklimeMod_CT_Refresh()
                 local eHdr = MkHdr(contentFrame, y)
                 local eFs  = eHdr:CreateFontString(nil, "OVERLAY", "GameFontNormal")
                 eFs:SetPoint("LEFT", eHdr, "LEFT", 8, 0)
-                eFs:SetText(NORMAL_FONT_COLOR_CODE .. (EXP_NAMES[ce.exp] or ("Expansion "..ce.exp)) .. FONT_COLOR_CODE_CLOSE)
+                eFs:SetText(NORMAL_FONT_COLOR_CODE .. (EXP_NAMES[ce.exp] or string.format(L["ct_expansion_n"], ce.exp)) .. FONT_COLOR_CODE_CLOSE)
                 y = y + ROW_H + 2
             end
 

@@ -9,6 +9,7 @@
 ## IconTexture: Interface\AddOns\AklimeModTools-Forever\Assets\icon
 
 Locale\Locale.lua
+Locale\ColorizerLabels.lua
 
 Templates\AklimeMod_Templates.xml
 
@@ -57,6 +58,7 @@ Modules\QoL\ChatHistory.lua
 Modules\QoL\Summons.lua
 Modules\QoL\GroupInvites.lua
 Modules\QoL\Mailbox.lua
+Modules\QoL\AfkTimer.lua
 Modules\QoL\TodoList.lua
 Modules\QoL\PlayedTime.lua
 Modules\QoL\ExtendedIgnore.lua

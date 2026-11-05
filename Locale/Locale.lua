@@ -41,9 +41,15 @@ L["menu_played_time"]  = "Played Time"
 L["menu_settings"]   = "Aklime Mod Tools Settings"
 
 -- Section headers
-L["sec_chat_social"] = "Chat and Social"
-L["sec_general"]     = "General"
-L["sec_gameplay"]    = "Gameplay"
+L["sec_chat"]          = "Chat"
+L["sec_social"]        = "Social"
+L["sec_group"]         = "Group Activities"
+L["sec_merchant"]      = "Merchant"
+L["sec_micromenu"]     = "Micro Menu"
+L["sec_misc"]          = "Miscellaneous"
+L["sec_char_portrait"] = "Character and Portrait"
+L["sec_combat"]        = "Combat"
+L["sec_minimap"]       = "Minimap"
 L["sec_quest"]       = "Quest"
 L["sec_health"]      = "Health"
 L["sec_playtime"]    = "Played Time"
@@ -103,6 +109,7 @@ L["mod_learn_filter"]     = "Hide Learn/Forget Messages"
 L["mod_chat_icons"]       = "Item and Currency Icons in Chat"
 L["mod_item_level"]       = "Item Level in Chat Links"
 L["mod_mailbox"]          = "Address Book for Mail"
+L["mod_afk_timer"]        = "AFK Timer"
 L["mod_merchant"]         = "Merchant Window - 20 Items per Page"
 L["mod_death_sound"]      = "Death Sound"
 L["mod_auto_quest"]       = "Auto Accept / Turn In Quests"
@@ -230,6 +237,7 @@ L["reload_label_nl"] = "Reload:"
 
 -- Action labels
 L["action_preview"]           = "Preview on/off"
+L["slider_font_size"]         = "Font Size"
 L["action_test_now"]          = "Test Now"
 L["action_clear_all_windows"] = "Clear All Windows"
 L["action_clear_active"]      = "Clear Active Window"
@@ -372,6 +380,8 @@ L["info_hide_micro_notify"] = "Hides the blue notification badge on Micro Menu b
 L["info_learn_filter"]     = "Hides system messages like:\n\"You have learned spell X.\"\n\"You have forgotten X.\""
 L["info_chat_icons"]       = "Shows the item icon before every item link.\nFor loot and currency messages also the currency icon."
 L["info_item_level"]       = "Appends the item level to every equippable link in chat.\nExample: [Hero's Sword (680)] or [Hero's Sword (One-Hand 680)]."
+L["afk_drag"]              = "Drag to move"
+L["info_afk_timer"]        = "Shows a clock in the middle of the screen while you are AFK.\nIt counts up how long you have been away.\nUnlock the position to move it, the size is adjustable."
 L["info_mailbox"]          = "Shows an address book next to the compose window.\nClick an entry to set the recipient.\nRight-click an entry: Remove.\n\nContains your own characters,\neach one is added on its next login.\nThe character you sent mail to last\nis pinned to the top.\n\nLast recipient: automatically filled in\nwhen you next open the mailbox."
 L["info_merchant"]         = "Shows 20 instead of 10 items per vendor page.\nThe vendor frame is widened to two columns.\nCan be disabled at any time without restart."
 L["info_death_sound"]      = "Plays a sound when the character dies.\nPlayed only once per death."
@@ -382,6 +392,47 @@ L["info_drink_reminder"]   = "Reminds you regularly to drink and stretch.\nAppea
 L["info_played_time"]      = "Records played time of all chars on login automatically.\nOpen: /akm played"
 L["info_nameplate_color"]  = "Colors nameplates in PvP instances (Arena & Battleground):\n|cFF00FF00Green|r  = own group / team\n|cFFFF3333Red|r   = enemy"
 L["info_pvp_chat"]         = "Prevents opening the chat input (Enter) in arenas and battlegrounds."
+
+-- Categories (left menu)
+L["cat_qol"] = "Quality of Life"
+
+-- Extended ignore list
+L["ignore_menu_remove"]  = "Remove from Extended Ignore"
+L["ignore_menu_add"]     = "Add to Extended Ignore"
+L["ignore_msg_removed"]  = "%s removed from the extended ignore list."
+L["ignore_msg_added"]    = "%s added to the extended ignore list."
+L["ignore_window_title"] = "Extended Ignore List"
+L["ignore_empty"]        = "No players ignored"
+L["ignore_hint"]         = "Enter = Add    |    x = Remove"
+
+-- Mailbox address book
+L["mailbox_title"]  = "Address Book"
+L["mailbox_search"] = "Search:"
+L["mailbox_remove"] = "Remove"
+
+-- Map coordinates
+L["mapcoords_format"] = "|cFFFFFFFFMouse:|r %s  |cFFFFFFFF-  Player:|r %s"
+
+-- Played time tooltip
+L["played_char_one"]  = "%d character"
+L["played_char_many"] = "%d characters"
+
+-- Quest automation context menu
+L["quest_npc_ignore"]   = "Add NPC to ignore list"
+L["quest_npc_unignore"] = "Remove NPC from ignore list"
+
+-- Summons
+L["summon_accepted"] = "Summon from %s to %s accepted automatically."
+
+-- Chat copy button tooltip
+L["chat_copy_tip_click"] = "Click: Open Chat History"
+L["chat_copy_tip_drag"]  = "Drag: Move Button"
+
+-- Character tracker
+L["ct_expansion_n"] = "Expansion %s"
+
+-- Colorizer
+L["color_apply_global"] = "Apply global color to all"
 
 -- ============================================================
 -- German overrides (deDE)
@@ -418,8 +469,15 @@ if GetLocale() == "deDE" then
     L["menu_played_time"]  = "Gespielte Zeit"
     L["menu_settings"]  = "Aklime Mod Tools Einstellungen"
 
-    L["sec_chat_social"] = "Chat und Social"
-    L["sec_general"]     = "Allgemein"
+    L["sec_chat"]          = "Chat"
+    L["sec_social"]        = "Social"
+    L["sec_group"]         = "Gruppenaktivitäten"
+    L["sec_merchant"]      = "Händler"
+    L["sec_micromenu"]     = "Micromenüleiste"
+    L["sec_misc"]          = "Sonstiges"
+    L["sec_char_portrait"] = "Charakter und Portrait"
+    L["sec_combat"]        = "Kampf"
+    L["sec_minimap"]       = "Minimap"
     L["sec_health"]      = "Gesundheit"
     L["sec_playtime"]    = "Spielzeit"
     L["sec_hud_fading"]  = "Interface Ausblendung"
@@ -474,6 +532,7 @@ if GetLocale() == "deDE" then
     L["mod_chat_icons"]       = "Item- und Währungssymbole im Chat"
     L["mod_item_level"]       = "Itemlevel in Chat-Links"
     L["mod_mailbox"]          = "Adressbuch für Post"
+    L["mod_afk_timer"]        = "AFK-Timer"
     L["mod_merchant"]         = "Händlerfenster - 20 Gegenstände pro Seite"
     L["mod_death_sound"]      = "Todessound"
     L["mod_auto_quest"]       = "Quest automatisch annehmen / abgeben"
@@ -585,6 +644,7 @@ if GetLocale() == "deDE" then
     L["reload_label_nl"] = "Neuladen:"
 
     L["action_preview"]           = "Vorschau ein/aus"
+    L["slider_font_size"]         = "Schriftgröße"
     L["action_test_now"]          = "Jetzt testen"
     L["action_clear_all_windows"] = "Alle Fenster leeren"
     L["action_clear_active"]      = "Aktives Fenster leeren"
@@ -660,6 +720,8 @@ if GetLocale() == "deDE" then
     L["info_learn_filter"]     = "Versteckt Systemmeldungen wie:\n\"Du hast den Zauber X gelernt.\"\n\"Du hast X verlernt.\""
     L["info_chat_icons"]       = "Zeigt vor jedem Item-Link das Item-Icon.\nBei Beute- und Währungsnachrichten auch das Währungs-Icon."
     L["info_item_level"]       = "Hängt das Itemlevel an jeden ausrüstbaren Link im Chat an.\nBeispiel: [Schwert des Helden (680)] oder [Schwert des Helden (Einhand 680)]."
+    L["afk_drag"]              = "Drag zum Verschieben"
+    L["info_afk_timer"]        = "Zeigt eine Uhr in der Bildschirmmitte, solange du AFK bist.\nSie zählt hoch, wie lange du schon weg bist.\nPosition entsperren zum Verschieben, die Größe ist einstellbar."
     L["info_mailbox"]          = "Zeigt ein Adressbuch neben dem Schreibfenster.\nKlick auf einen Eintrag setzt den Empfänger.\nRechtsklick auf einen Eintrag: Entfernen.\n\nEnthält deine eigenen Charaktere,\njeder kommt beim nächsten Login dazu.\nDer zuletzt beschickte Charakter\nsteht ganz oben.\n\nLetzter Empfänger: wird beim nächsten Öffnen\ndes Postfachs automatisch eingetragen."
     L["info_merchant"]         = "Zeigt 20 statt 10 Gegenstände pro Händler-Seite.\nDer Händler-Rahmen wird auf zwei Spalten verbreitert.\nKann jederzeit ohne Neustart deaktiviert werden."
     L["info_death_sound"]      = "Spielt einen Sound ab wenn der Charakter stirbt.\nWird pro Tod nur einmal abgespielt."
@@ -730,5 +792,51 @@ if GetLocale() == "deDE" then
     -- Todo list
     L["todo_empty"] = "Keine Einträge"
     L["todo_hint"]  = "Enter = Hinzufügen    |    Klick = Erledigt"
+
+    -- Extended ignore list
+    L["ignore_menu_remove"]  = "Aus erw. Ignore entfernen"
+    L["ignore_menu_add"]     = "Zu erw. Ignore hinzufügen"
+    L["ignore_msg_removed"]  = "%s aus erweiterter Ignore-Liste entfernt."
+    L["ignore_msg_added"]    = "%s zur erweiterten Ignore-Liste hinzugefügt."
+    L["ignore_window_title"] = "Erweiterte Ignore-Liste"
+    L["ignore_empty"]        = "Keine Spieler ignoriert"
+    L["ignore_hint"]         = "Enter = Hinzufügen    |    x = Entfernen"
+
+    -- Mailbox address book
+    L["mailbox_title"]  = "Adressbuch"
+    L["mailbox_search"] = "Suche:"
+    L["mailbox_remove"] = "Entfernen"
+
+    -- Map coordinates
+    L["mapcoords_format"] = "|cFFFFFFFFMaus:|r %s  |cFFFFFFFF-  Spieler:|r %s"
+
+    -- Played time tooltip
+    L["played_char_one"]  = "%d Char"
+    L["played_char_many"] = "%d Chars"
+
+    -- Quest automation context menu
+    L["quest_npc_ignore"]   = "NPC zu Ignoreliste hinzufügen"
+    L["quest_npc_unignore"] = "NPC aus Ignoreliste entfernen"
+
+    -- Summons
+    L["summon_accepted"] = "Beschwörung von %s nach %s automatisch angenommen."
+
+    -- Chat copy button tooltip
+    L["chat_copy_tip_click"] = "Klick: Chatverlauf öffnen"
+    L["chat_copy_tip_drag"]  = "Ziehen: Button verschieben"
+
+    -- Character tracker
+    L["ct_expansion_n"] = "Erweiterung %s"
+
+    -- Colorizer
+    L["color_apply_global"] = "Globalfarbe auf alle anwenden"
+
+    -- Names that were only available in English
+    L["mod_auto_repair"]   = "Automatisch reparieren"
+    L["mod_elite_frame"]   = "Elite-Rahmen"
+    L["mod_hud_openworld"] = "Offene Welt"
+    L["modifier_shift"]    = "Umschalt"
+    L["reload_label_rl"]   = "Neu laden:"
+    L["toggle_buffs"]      = "Stärkungs- / Schwächungszauber"
 
 end
