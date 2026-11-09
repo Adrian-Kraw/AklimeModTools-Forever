@@ -341,9 +341,16 @@ end
 -- Layout constants
 -- ============================================================
 local ROW_H = 16
-local LAB_W = 260   -- Enough room for raid names
-local COL_W = 68
+local LAB_W = 200   -- Enough room for raid names
+local COL_W = 84
 local PAD   = 6
+
+local FACTION_ICON_SIZE = 12
+local FACTION_ICON_GAP  = 2   -- space between the name and the faction icon
+local FACTION_ICONS = {
+    Horde    = "Interface\\FriendsFrame\\PlusManz-Horde",
+    Alliance = "Interface\\FriendsFrame\\PlusManz-Alliance",
+}
 
 -- ============================================================
 -- Gold overview panel
@@ -364,6 +371,14 @@ local GOLD_COL_GAP = 18
 local GOLD_PAD     = 14
 local GOLD_HEAD_H  = 58
 local GOLD_HEAD_H_BANK = 74   -- header grows by the warband bank line
+
+-- Faction blocks in the gold panel, Alliance first
+local FACTION_ORDER = { "Alliance", "Horde" }
+local FACTION_COLORS = { Alliance = "4A8CFF", Horde = "E04040" }
+local FACTION_NAMES = {
+    Alliance = FACTION_ALLIANCE or "Alliance",
+    Horde    = FACTION_HORDE or "Horde",
+}
 
 local goldPanel = nil
 local goldRows  = {}
@@ -403,6 +418,10 @@ local function CollectGold()
 
     local byRealm, order = {}, {}
     local total, charCount = 0, 0
+    local factions = {}
+    for _, factionKey in ipairs(FACTION_ORDER) do
+        factions[factionKey] = { key = factionKey, total = 0, chars = {} }
+    end
 
     for fullName, toon in pairs(trackerDB.Toons) do
         local realmName = fullName:match("%-(.+)$") or "?"
@@ -414,7 +433,13 @@ local function CollectGold()
         end
         local money = toon.Money or 0
         realm.total = realm.total + money
-        realm.chars[#realm.chars + 1] = { name = ShortName(fullName), money = money, toon = toon }
+        local char = { name = ShortName(fullName), money = money, toon = toon }
+        realm.chars[#realm.chars + 1] = char
+        local faction = factions[toon.Faction]
+        if faction then
+            faction.total = faction.total + money
+            faction.chars[#faction.chars + 1] = char
+        end
         total = total + money
         charCount = charCount + 1
     end
@@ -423,31 +448,60 @@ local function CollectGold()
         if a.total ~= b.total then return a.total > b.total end
         return SortKey(a.name) < SortKey(b.name)
     end)
+    local function SortRichestFirst(a, b)
+        if a.money ~= b.money then return a.money > b.money end
+        return SortKey(a.name) < SortKey(b.name)
+    end
     for _, realm in ipairs(order) do
-        table.sort(realm.chars, function(a, b)
-            if a.money ~= b.money then return a.money > b.money end
-            return SortKey(a.name) < SortKey(b.name)
-        end)
+        table.sort(realm.chars, SortRichestFirst)
+    end
+    local factionList = {}
+    for _, factionKey in ipairs(FACTION_ORDER) do
+        local faction = factions[factionKey]
+        table.sort(faction.chars, SortRichestFirst)
+        factionList[#factionList + 1] = faction
     end
 
-    return order, total, charCount
+    return order, total, charCount, factionList
 end
 
--- One block per realm, kept together in a column: header, characters, spacer
-local function BuildGoldBlocks(order)
+local function BuildCharLine(char)
+    local r, g, b = ToonClassCol(char.toon)
+    return {
+        left  = string.format("|cFF%02x%02x%02x%s|r", r * 255, g * 255, b * 255, char.name),
+        money = char.money,
+    }
+end
+
+-- One block per realm, kept together in a column: header, characters, spacer.
+-- The faction blocks follow in their own column on the right.
+local function BuildGoldBlocks(order, factionList)
     local blocks, lineCount = {}, 0
     for _, realm in ipairs(order) do
         local block = { { header = true, left = realm.name, money = realm.total } }
         for _, char in ipairs(realm.chars) do
-            local r, g, b = ToonClassCol(char.toon)
-            block[#block + 1] = {
-                left  = string.format("|cFF%02x%02x%02x%s|r", r * 255, g * 255, b * 255, char.name),
-                money = char.money,
-            }
+            block[#block + 1] = BuildCharLine(char)
         end
         block[#block + 1] = { spacer = true }
         blocks[#blocks + 1] = block
         lineCount = lineCount + #block
+    end
+
+    local firstFaction = true
+    for _, faction in ipairs(factionList) do
+        if #faction.chars > 0 then
+            local color = FACTION_COLORS[faction.key]
+            local block = { { header = true, left = FACTION_NAMES[faction.key],
+                              headerColor = color, money = faction.total } }
+            for _, char in ipairs(faction.chars) do
+                block[#block + 1] = BuildCharLine(char)
+            end
+            block[#block + 1] = { spacer = true }
+            block.newColumn = firstFaction
+            firstFaction = false
+            blocks[#blocks + 1] = block
+            lineCount = lineCount + #block
+        end
     end
     return blocks, lineCount
 end
@@ -468,18 +522,18 @@ local function GetWarbandGold()
 end
 
 local function UpdateGoldPanel()
-    local order, total, charCount = CollectGold()
+    local order, total, charCount, factionList = CollectGold()
     if not order or #order == 0 then return false end
 
     local warband = GetWarbandGold()
     local headH   = warband > 0 and GOLD_HEAD_H_BANK or GOLD_HEAD_H
 
-    local blocks, lineCount = BuildGoldBlocks(order)
+    local blocks, lineCount = BuildGoldBlocks(order, factionList)
     local rowsPerCol = GoldRowsPerColumn(lineCount, headH)
 
     local columns, current = {}, {}
     for _, block in ipairs(blocks) do
-        if #current > 0 and #current + #block > rowsPerCol then
+        if #current > 0 and (block.newColumn or #current + #block > rowsPerCol) then
             columns[#columns + 1] = current
             current = {}
         end
@@ -512,7 +566,7 @@ local function UpdateGoldPanel()
                 row.line:Hide()
             else
                 if line.header then
-                    row.left:SetText("|cFFFFFFFF" .. line.left .. "|r")
+                    row.left:SetText("|cFF" .. (line.headerColor or "FFFFFF") .. line.left .. "|r")
                     row.line:ClearAllPoints()
                     row.line:SetPoint("TOPLEFT",  goldPanel, "TOPLEFT", x, y - GOLD_ROW_H + 2)
                     row.line:SetPoint("TOPRIGHT", goldPanel, "TOPLEFT", x + GOLD_COL_W, y - GOLD_ROW_H + 2)
@@ -819,9 +873,21 @@ local function MkCharHeader(parent, y, colX, sel, trackerDB)
         btn:SetPoint("LEFT", hRow, "LEFT", colX + (i-1)*COL_W, 0)
 
         local fs = btn:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-        fs:SetAllPoints(btn)
-        fs:SetJustifyH("CENTER")
         fs:SetText(string.format("|cFF%02x%02x%02x%s|r", r*255, g*255, b*255, label))
+
+        -- Name and faction icon are centered together as one group,
+        -- so the icon never moves into the neighbouring column
+        local factionIcon = toon and FACTION_ICONS[toon.Faction]
+        if factionIcon then
+            local icon = btn:CreateTexture(nil, "ARTWORK")
+            icon:SetTexture(factionIcon)
+            icon:SetSize(FACTION_ICON_SIZE, FACTION_ICON_SIZE)
+            local groupW = fs:GetStringWidth() + FACTION_ICON_GAP + FACTION_ICON_SIZE
+            fs:SetPoint("LEFT", btn, "CENTER", -groupW / 2, 0)
+            icon:SetPoint("LEFT", fs, "RIGHT", FACTION_ICON_GAP, 0)
+        else
+            fs:SetPoint("CENTER", btn, "CENTER", 0, 0)
+        end
 
         -- Tooltip with character info.
         local n = name
@@ -831,14 +897,18 @@ local function MkCharHeader(parent, y, colX, sel, trackerDB)
             GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
             GameTooltip:ClearLines()
             local tr, tg, tb = ToonClassCol(t)
-            GameTooltip:AddLine(string.format("|cFF%02x%02x%02x%s|r", tr*255, tg*255, tb*255, n))
+            local fullName = ShortName(n)
+            if t.LastName and t.LastName ~= "" then
+                fullName = fullName .. " " .. t.LastName
+            end
+            GameTooltip:AddLine(string.format("|cFF%02x%02x%02x%s|r", tr*255, tg*255, tb*255, fullName))
             if t.Class then
                 -- First letter uppercase, rest lowercase
                 local class = t.Class:sub(1,1):upper() .. t.Class:sub(2):lower()
                 GameTooltip:AddLine(class, 0.8, 0.8, 0.8)
             end
             if t.Level then
-                GameTooltip:AddDoubleLine(LEVEL, tostring(t.Level), 0.8,0.8,0.8, 1,0.82,0)
+                GameTooltip:AddDoubleLine(L["ct_level"] or "Level", tostring(t.Level), 0.8,0.8,0.8, 1,0.82,0)
             end
             if t.IL then
                 GameTooltip:AddDoubleLine(L["ct_item_level"] or "Item Level", string.format("%.1f", t.IL), 0.8,0.8,0.8, 1,0.82,0)

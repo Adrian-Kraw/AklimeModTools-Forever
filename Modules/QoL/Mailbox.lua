@@ -13,6 +13,18 @@ local ROW_AREA_TOP = -78   -- pixel offset (negative) from the frame top to the 
 local ROW_AREA_BOT = 8     -- offset from the frame bottom to the last row
 local MAX_ROWS     = 25    -- upper limit, actual count is computed from the height
 
+-- Column layout inside a row (offsets from the row's left edge)
+local COL_FIRST_W   = 88
+local COL_LAST_X    = 94
+local COL_LAST_W    = 84
+local COL_FACTION_X = 184
+local FACTION_ICON_SIZE = 16
+
+local FACTION_ICONS = {
+    Horde    = "Interface\\FriendsFrame\\PlusManz-Horde",
+    Alliance = "Interface\\FriendsFrame\\PlusManz-Alliance",
+}
+
 -- ============================================================
 -- DB access
 -- ============================================================
@@ -31,29 +43,29 @@ local function GetClassColor(class)
     return 1, 1, 1
 end
 
-local function NormalizeRealm(realm)
-    if type(realm) ~= "string" then return "" end
-    return realm:gsub("[%s%-']", ""):lower()
+-- There is only one realm. The server returns the last name where the realm
+-- normally is, so UnitName gives the first name and the last name.
+local function GetOwnName()
+    local first, last = UnitName("player")
+    return first or "", last or ""
 end
 
-local function BuildRecipient(name, realm)
-    if not name or name == "" then return "" end
-    local myRealm = select(2, UnitFullName("player")) or GetRealmName() or ""
-    if realm == "" or NormalizeRealm(realm) == NormalizeRealm(myRealm) then
-        return name
-    end
-    return name .. "-" .. realm
+local function BuildKey(first, last)
+    if last == "" then return first end
+    return first .. "-" .. last
 end
 
--- Recipient of the last sent mail, split into name and normalized realm
+-- Name as the player writes it in the mail recipient field
+local function BuildFullName(first, last)
+    if last == "" then return first end
+    return first .. " " .. last
+end
+
+-- Recipient of the last sent mail, lowercase
 local function GetLastSent()
     local text = GetDB().lastSent
-    if type(text) ~= "string" or text == "" then return nil, nil end
-    local name, realm = text:match("^([^%-]+)%-(.+)$")
-    if not name then
-        name, realm = text, GetRealmName() or ""
-    end
-    return name:lower(), NormalizeRealm(realm)
+    if type(text) ~= "string" or text == "" then return nil end
+    return text:lower()
 end
 
 -- ============================================================
@@ -78,30 +90,30 @@ local function BuildFiltered()
     local contacts = GetDB().contacts or {}
     local needle   = M.searchText:lower()
 
-    local myName, myRealm = UnitFullName("player")
-    myRealm = NormalizeRealm(myRealm or GetRealmName() or "")
+    local myFirst, myLast = GetOwnName()
+    local myFullName = BuildFullName(myFirst, myLast)
 
-    local lastName, lastRealm = GetLastSent()
+    local lastSent = GetLastSent()
 
     wipe(M.filtered)
     for key, rec in pairs(contacts) do
-        local name  = rec.name  or key
-        local realm = rec.realm or ""
+        local first = rec.name or key
+        local last  = rec.last or ""
+        local recipient = BuildFullName(first, last)
         -- Do not show your own character
-        if not (name:lower() == (myName or ""):lower() and NormalizeRealm(realm) == myRealm) then
-            local match = needle == ""
-                or name:lower():find(needle, 1, true)
-                or (realm ~= "" and realm:lower():find(needle, 1, true))
+        if recipient:lower() ~= myFullName:lower() then
+            local match = needle == "" or recipient:lower():find(needle, 1, true)
             if match then
                 local r, g, b = GetClassColor(rec.class)
                 table.insert(M.filtered, {
                     key         = key,
-                    name        = name,
-                    realm       = realm,
-                    nameColored = ("|cff%02x%02x%02x%s|r"):format(r*255, g*255, b*255, name),
-                    isLast      = lastName ~= nil
-                                  and name:lower() == lastName
-                                  and NormalizeRealm(realm) == lastRealm,
+                    name        = recipient,
+                    first       = first,
+                    last        = last,
+                    faction     = rec.faction,
+                    nameColored = ("|cff%02x%02x%02x%s|r"):format(r*255, g*255, b*255, first),
+                    lastColored = ("|cff%02x%02x%02x%s|r"):format(r*255, g*255, b*255, last),
+                    isLast      = lastSent ~= nil and recipient:lower() == lastSent,
                 })
             end
         end
@@ -112,12 +124,12 @@ local function BuildFiltered()
         if a.isLast ~= b.isLast then return a.isLast end
 
         local av, bv
-        if M.sortKey == "realm" then
-            av, bv = a.realm:lower(), b.realm:lower()
-            if av == bv then av, bv = a.name:lower(), b.name:lower() end
+        if M.sortKey == "last" then
+            av, bv = a.last:lower(), b.last:lower()
+            if av == bv then av, bv = a.first:lower(), b.first:lower() end
         else
-            av, bv = a.name:lower(), b.name:lower()
-            if av == bv then av, bv = a.realm:lower(), b.realm:lower() end
+            av, bv = a.first:lower(), b.first:lower()
+            if av == bv then av, bv = a.last:lower(), b.last:lower() end
         end
         if M.sortAsc then return av < bv else return av > bv end
     end)
@@ -143,10 +155,16 @@ local function UpdateRows()
             if M.filtered[idx] then
                 local rec = M.filtered[idx]
                 row.nameText:SetText(rec.nameColored)
-                row.realmText:SetText(rec.realm)
+                row.realmText:SetText(rec.lastColored)
+                local factionIcon = FACTION_ICONS[rec.faction]
+                if factionIcon then
+                    row.factionTex:SetTexture(factionIcon)
+                    row.factionTex:Show()
+                else
+                    row.factionTex:Hide()
+                end
                 row.key    = rec.key
                 row.rname  = rec.name
-                row.rrealm = rec.realm
                 row:Show()
             else
                 row:Hide()
@@ -260,8 +278,8 @@ local function EnsureFrame()
         btn:SetHighlightTexture("Interface/QuestFrame/UI-QuestTitleHighlight", "ADD")
         return btn
     end
-    M.nameHeader  = MakeHeader("Name",  "name",  6,   140)
-    M.realmHeader = MakeHeader("Realm", "realm", 148, 80)
+    M.nameHeader  = MakeHeader(L["mailbox_first_name"], "first", 6,   COL_FIRST_W)
+    M.realmHeader = MakeHeader(L["mailbox_last_name"],  "last",  6 + COL_LAST_X, COL_LAST_W)
 
     -- Separator line
     local line = f:CreateTexture(nil, "ARTWORK")
@@ -379,16 +397,19 @@ local function EnsureFrame()
 
         row.nameText = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         row.nameText:SetPoint("LEFT", 0, 0)
-        row.nameText:SetWidth(130)
+        row.nameText:SetWidth(COL_FIRST_W)
         row.nameText:SetJustifyH("LEFT")
         row.nameText:SetWordWrap(false)
 
         row.realmText = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        row.realmText:SetPoint("LEFT", 134, 0)
-        row.realmText:SetWidth(78)
+        row.realmText:SetPoint("LEFT", COL_LAST_X, 0)
+        row.realmText:SetWidth(COL_LAST_W)
         row.realmText:SetJustifyH("LEFT")
         row.realmText:SetWordWrap(false)
-        row.realmText:SetTextColor(0.65, 0.65, 0.65, 1)
+
+        row.factionTex = row:CreateTexture(nil, "ARTWORK")
+        row.factionTex:SetSize(FACTION_ICON_SIZE, FACTION_ICON_SIZE)
+        row.factionTex:SetPoint("LEFT", COL_FACTION_X, 0)
 
         row:SetScript("OnClick", function(self, mouseButton)
             if mouseButton == "RightButton" then
@@ -409,7 +430,7 @@ local function EnsureFrame()
                 return
             end
             if SendMailNameEditBox and self.key then
-                SendMailNameEditBox:SetText(BuildRecipient(self.rname, self.rrealm))
+                SendMailNameEditBox:SetText(self.rname)
                 SendMailNameEditBox:HighlightText(0, 0)
                 SendMailNameEditBox:ClearFocus()
             end
@@ -450,28 +471,30 @@ end
 -- Add own character to contacts
 -- ============================================================
 -- Only AddSelf writes a class, so entries without one are former mail
--- recipients from earlier versions and get dropped
+-- recipients from earlier versions and get dropped.
+-- Entries without a last name field are the old format and get dropped as well,
+-- they are added again on the next login of that character.
 local function PruneForeignContacts()
     local db = GetDB()
     if not db.contacts then return end
     for key, rec in pairs(db.contacts) do
-        if not rec.class then db.contacts[key] = nil end
+        if not rec.class or rec.last == nil then db.contacts[key] = nil end
     end
 end
 
 local function AddSelf()
     local db = GetDB()
     db.contacts = db.contacts or {}
-    local name  = UnitName("player")
-    local realm = GetRealmName() or ""
-    if not name or name == "" then return end
+    local name, last = GetOwnName()
+    if name == "" then return end
     local class = select(2, UnitClass("player")) or "PRIEST"
     local r, g, b = GetClassColor(class)
-    local key = name .. "-" .. realm
+    local key = BuildKey(name, last)
     db.contacts[key] = db.contacts[key] or {}
     db.contacts[key].name  = name
-    db.contacts[key].realm = realm
+    db.contacts[key].last  = last
     db.contacts[key].class = class
+    db.contacts[key].faction = UnitFactionGroup("player")
     db.contacts[key].color = { r = r, g = g, b = b }
 end
 

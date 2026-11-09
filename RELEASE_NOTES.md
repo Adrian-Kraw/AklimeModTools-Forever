@@ -1,25 +1,29 @@
-## 1.0.1
+## 1.0.2
 
 **EN**
 
-Adopted from Retail
+Address Book
 
-* New: The addon was brought in line with the Retail version. The pages Interface and Quality of Life are now sorted into the same sections.
-* New: AFK Timer. A clock in the middle of the screen counts up how long you have been AFK. You find it under Quality of Life, Miscellaneous.
+* Changed: The Address Book now uses first name and last name instead of name and realm, because Forever has only one realm. Both are shown in their own columns, each in the class color.
+* Changed: A click on a contact writes the full name with a space into the recipient field.
+* New: A third column shows the faction logo (Horde or Alliance).
+* Changed: Old contacts are removed once. Every character is added again on its next login.
 
-Bug fixes
+Character Tracker
 
-* Fixed: Some texts were shown in the wrong language. German texts appeared in an English client and English texts in a German client.
-* Fixed: The names in the Colorizer are now shown in German in a German client.
+* New: The tooltip of a character shows the last name too.
+* Fixed: The tooltip showed "St." for the level. It is now written out as "Level".
 
 **DE**
 
-Aus Retail übernommen
+Adressbuch
 
-* Neu: Das Addon wurde an die Retail-Version angeglichen. Die Seiten Interface und Quality of Life sind jetzt in dieselben Abschnitte sortiert.
-* Neu: AFK-Timer. Eine Uhr in der Bildschirmmitte zählt hoch, wie lange du AFK bist. Du findest ihn unter Quality of Life, Sonstiges.
+* Geändert: Das Adressbuch nutzt jetzt Vorname und Nachname statt Name und Realm, weil es in Forever nur einen Realm gibt. Beide stehen in eigenen Spalten, jeweils in Klassenfarbe.
+* Geändert: Ein Klick auf einen Kontakt schreibt den vollen Namen mit Leerzeichen ins Empfängerfeld.
+* Neu: Eine dritte Spalte zeigt das Fraktionslogo (Horde oder Allianz).
+* Geändert: Alte Kontakte werden einmalig entfernt. Jeder Charakter wird bei seinem nächsten Login neu hinzugefügt.
 
-Fehlerbehebungen
+Charakter-Tracker
 
-* Behoben: Einige Texte wurden in der falschen Sprache angezeigt. Deutsche Texte erschienen in einem englischen Client und englische Texte in einem deutschen Client.
-* Behoben: Die Namen im Colorizer werden in einem deutschen Client jetzt auf Deutsch angezeigt.
+* Neu: Der Tooltip eines Charakters zeigt jetzt auch den Nachnamen.
+* Behoben: Der Tooltip zeigte "St." für die Stufe. Sie wird jetzt ausgeschrieben als "Stufe".

@@ -10,6 +10,8 @@ local SECONDS_PER_HOUR   = 3600
 local UPDATE_INTERVAL    = 0.25
 local DEFAULT_SLIDER     = 50
 local PREVIEW_SECONDS    = 754   -- 12:34, only shown while positioning
+local TEXT_PADDING       = 8     -- room around the text so the outline is not cut off
+local POLL_INTERVAL      = 0.5   -- the AFK flag is also checked by polling, see Events
 
 -- ============================================================
 -- DB
@@ -79,12 +81,19 @@ local function ApplyPosition()
     end
 end
 
+-- The frame only covers the text, so it never blocks clicks next to it
+local function FitFrameToText()
+    local width  = frame.text:GetStringWidth()
+    local height = frame.text:GetStringHeight()
+    if width <= 0 or height <= 0 then return end
+    frame:SetSize(width + TEXT_PADDING, height + TEXT_PADDING)
+end
+
 local function ApplyFontSize()
     if not frame then return end
     local px = SliderToPx(GetDB().fontSizeSlider or DEFAULT_SLIDER)
     frame.text:SetFont("Fonts\\FRIZQT__.TTF", px, "OUTLINE")
-    -- Generous size so the outline is not cut off
-    frame:SetSize(px * 8, px * 2)
+    FitFrameToText()
 end
 
 local function UpdateText()
@@ -94,6 +103,7 @@ local function UpdateText()
     elseif afkSince then
         frame.text:SetText(FormatElapsed(GetTime() - afkSince))
     end
+    FitFrameToText()
 end
 
 local function RefreshVisibility()
@@ -110,6 +120,37 @@ local function RefreshVisibility()
     end
 end
 
+-- Locked: no mouse and no mouse scripts at all, because some clients enable
+-- the mouse again as soon as such a script is set. Clicks go through the timer.
+-- Unlocked: the timer can be dragged.
+local function ApplyMouseState()
+    if not frame then return end
+    if GetDB().locked ~= false then
+        frame:EnableMouse(false)
+        frame:SetScript("OnMouseDown", nil)
+        frame:SetScript("OnMouseUp", nil)
+        frame:SetScript("OnEnter", nil)
+        frame:SetScript("OnLeave", nil)
+        return
+    end
+
+    frame:EnableMouse(true)
+    frame:SetScript("OnMouseDown", function(self, button)
+        if button == "LeftButton" then self:StartMoving() end
+    end)
+    frame:SetScript("OnMouseUp", function(self)
+        self:StopMovingOrSizing()
+        SavePosition()
+    end)
+    frame:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+        GameTooltip:AddLine(L["mod_afk_timer"], 1, 0.82, 0)
+        GameTooltip:AddLine(L["afk_drag"], 0.7, 0.7, 0.7)
+        GameTooltip:Show()
+    end)
+    frame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+end
+
 local function BuildFrame()
     if frame then return end
 
@@ -120,7 +161,7 @@ local function BuildFrame()
 
     local text = frame:CreateFontString(nil, "OVERLAY")
     text:SetFont("Fonts\\FRIZQT__.TTF", SliderToPx(GetDB().fontSizeSlider or DEFAULT_SLIDER), "OUTLINE")
-    text:SetAllPoints(frame)
+    text:SetPoint("CENTER", frame, "CENTER", 0, 0)
     text:SetTextColor(1, 1, 1, 1)
     text:SetJustifyH("CENTER")
     text:SetJustifyV("MIDDLE")
@@ -128,26 +169,7 @@ local function BuildFrame()
     frame.text = text
 
     frame:SetMovable(true)
-    frame:EnableMouse(GetDB().locked == false)
-    frame:SetScript("OnMouseDown", function(self, button)
-        if button == "LeftButton" and not M:IsLocked() then
-            self:StartMoving()
-        end
-    end)
-    frame:SetScript("OnMouseUp", function(self)
-        self:StopMovingOrSizing()
-        SavePosition()
-    end)
-
-    frame:SetScript("OnEnter", function(self)
-        if not M:IsLocked() then
-            GameTooltip:SetOwner(self, "ANCHOR_TOP")
-            GameTooltip:AddLine(L["mod_afk_timer"], 1, 0.82, 0)
-            GameTooltip:AddLine(L["afk_drag"], 0.7, 0.7, 0.7)
-            GameTooltip:Show()
-        end
-    end)
-    frame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    ApplyMouseState()
 
     local sinceUpdate = 0
     frame:SetScript("OnUpdate", function(_, elapsed)
@@ -181,7 +203,7 @@ end
 
 function M:SetLocked(v)
     GetDB().locked = v ~= false
-    if frame then frame:EnableMouse(GetDB().locked == false) end
+    ApplyMouseState()
 end
 
 function M:GetFontSizeSlider() return GetDB().fontSizeSlider or DEFAULT_SLIDER end
@@ -224,4 +246,13 @@ eventFrame:SetScript("OnEvent", function(_, event)
         if GetDB().enabled then BuildFrame() end
     end
     SyncAfkState()
+end)
+
+-- PLAYER_FLAGS_CHANGED does not reliably fire when AFK ends, so the flag is polled too
+local pollSince = 0
+eventFrame:SetScript("OnUpdate", function(_, elapsed)
+    pollSince = pollSince + elapsed
+    if pollSince < POLL_INTERVAL then return end
+    pollSince = 0
+    if GetDB().enabled then SyncAfkState() end
 end)

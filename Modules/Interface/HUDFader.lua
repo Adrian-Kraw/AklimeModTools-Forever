@@ -380,13 +380,21 @@ local function CreateMode(dbKey, zoneCheck)
 
     function mode:OnZoneChanged()
         if not isEnabled() then return end
-        moveTimer = CancelTimer(moveTimer)
-        idleTimer = CancelTimer(idleTimer)
-        chatTimer = CancelTimer(chatTimer)
         if not zoneCheck() then
+            moveTimer = CancelTimer(moveTimer)
+            idleTimer = CancelTimer(idleTimer)
+            chatTimer = CancelTimer(chatTimer)
             state = "idle"
             clearAlpha()
-        elseif state == "idle" and not inCombat then
+            return
+        end
+        -- Still in a zone of this mode. While the interface is shown, the running idle
+        -- timer must stay, otherwise frequent zone events would cancel it and the
+        -- interface would never fade after the set time.
+        if state == "idle" and not inCombat then
+            moveTimer = CancelTimer(moveTimer)
+            idleTimer = CancelTimer(idleTimer)
+            chatTimer = CancelTimer(chatTimer)
             goIdle()
             startIdleCountdown()
         end
@@ -447,7 +455,8 @@ ef:RegisterEvent("PLAYER_STARTED_MOVING")
 ef:RegisterEvent("PLAYER_STOPPED_MOVING")
 ef:RegisterEvent("PLAYER_REGEN_DISABLED")
 ef:RegisterEvent("PLAYER_REGEN_ENABLED")
-ef:RegisterEvent("PLAYER_FLAGS_CHANGED")
+-- Only for the own character, otherwise AFK changes of other players cancel the timers
+ef:RegisterUnitEvent("PLAYER_FLAGS_CHANGED", "player")
 ef:RegisterEvent("ZONE_CHANGED_INDOORS")
 ef:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 for _, ev in ipairs(CHAT_EVENTS) do ef:RegisterEvent(ev) end

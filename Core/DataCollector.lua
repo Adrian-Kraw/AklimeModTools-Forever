@@ -285,6 +285,8 @@ local function CollectToonData()
     local lclass, class = UnitClass("player")
     t.LClass = lclass
     t.Class  = class
+    -- The server returns the last name where the realm normally is
+    t.LastName = select(2, UnitName("player"))
     t.Level  = UnitLevel("player")
 
     local IL, ILe = GetAverageItemLevel()

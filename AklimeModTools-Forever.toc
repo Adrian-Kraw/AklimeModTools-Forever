@@ -3,7 +3,7 @@
 ## X-Curse-Project-ID: 1782467
 ## Notes: /akm — Aklime Mod Tools
 ## Author: Aklime
-## Version: 1.0.1
+## Version: 1.0.2
 ## SavedVariables: AklimeModDB
 ## AddonCompartmentFunc: AklimeMod_OpenSettings
 ## IconTexture: Interface\AddOns\AklimeModTools-Forever\Assets\icon
