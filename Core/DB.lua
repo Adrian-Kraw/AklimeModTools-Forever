@@ -249,6 +249,9 @@ function AklimeMod_InitDB()
         def(ex, "damageMeter", false)
     end
 
+    db.hideNamesWithUI = db.hideNamesWithUI or {}
+    def(db.hideNamesWithUI, "enabled", false)
+
     db.playedTime = db.playedTime or {}
     db.playedTime.chars = db.playedTime.chars or {}
     def(db.playedTime, "enabled", false)

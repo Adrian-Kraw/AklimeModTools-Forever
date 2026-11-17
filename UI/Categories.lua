@@ -720,6 +720,14 @@ local function addInterfaceNodes(dp)
             end
         end
     end
+
+    if AklimeMod_HideNamesWithUI then
+        local namesNode = addModule(dp, L["mod_hide_names_ui"],
+            function() return AklimeMod_HideNamesWithUI.IsEnabled() end,
+            function(v) AklimeMod_HideNamesWithUI.SetEnabled(v) end
+        )
+        addInfo(namesNode, L["info_hide_names_ui"])
+    end
 end
 
 -- Extended factory (Elite support), shared by the Interface and the coloring page
@@ -1033,6 +1041,14 @@ local function BuildInterfaceContent(filter)
                 addToggle(modeNode, L["toggle_damage_meter"], function() return ex.damageMeter end, function(v) ex.damageMeter = v; refresh() end)
             end
         end
+    end
+
+    if AklimeMod_HideNamesWithUI then
+        local namesNode3 = addModule(dp3, L["mod_hide_names_ui"],
+            function() return AklimeMod_HideNamesWithUI.IsEnabled() end,
+            function(v) AklimeMod_HideNamesWithUI.SetEnabled(v) end
+        )
+        addInfo(namesNode3, L["info_hide_names_ui"])
     end
 
     RSV():SetDataProvider(dp3)

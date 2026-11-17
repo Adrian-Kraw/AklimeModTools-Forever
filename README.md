@@ -37,6 +37,7 @@ Visual adjustments to the game client.
 **Interface Fading**
 - **Chill Mode in Resting Areas**: Automatically fades HUD elements in resting areas
 - **Open World**: Automatically fades HUD elements in the open world
+- **Hide Names with Interface**: Hides the names of all players and NPCs while the interface is hidden with Alt+Z and shows them again afterwards
 
 ---
 
@@ -175,6 +176,7 @@ Visuelle Anpassungen am Spielclient.
 **Interface Ausblendung**
 - **Chillmodus in Ruhezonen**: Blendet HUD-Elemente in Ruhezonen automatisch aus
 - **Offene Welt**: Blendet HUD-Elemente in der offenen Welt automatisch aus
+- **Namen mit Interface ausblenden**: Blendet die Namen aller Spieler und NPCs aus, solange das Interface mit Alt+Z ausgeblendet ist, und zeigt sie danach wieder an
 
 ---
 
