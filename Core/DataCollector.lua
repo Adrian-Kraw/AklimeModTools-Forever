@@ -192,6 +192,80 @@ local function CollectCurrencies(toon)
 end
 
 -- ============================================================
+-- Collect the player's profession skills.
+-- Stored as toon.professions = { primary = {...}, secondary = {...} }, every
+-- entry has name, icon, rank and maxRank.
+-- Fishing, Cooking and First Aid count as secondary, the rest as primary.
+-- Skill line IDs are used because names are localized.
+-- ============================================================
+local SECONDARY_SKILL_LINES = {
+    [129] = true,  -- First Aid
+    [185] = true,  -- Cooking
+    [356] = true,  -- Fishing
+}
+-- The Classic skill list has no IDs, so its section headers decide instead
+local PRIMARY_HEADERS = {
+    ["professions"] = true, ["berufe"] = true,
+}
+local SECONDARY_HEADERS = {
+    ["secondary skills"] = true, ["nebenberufe"] = true, ["sekundäre fertigkeiten"] = true,
+}
+
+local function AddProfession(list, name, icon, rank, maxRank)
+    if not name or not rank or not maxRank or maxRank <= 0 then return end
+    list[#list + 1] = { name = name, icon = icon, rank = rank, maxRank = maxRank }
+end
+
+-- Retail style API, returns the skill line ID per profession
+local function CollectProfessionsFromProfessionApi(primary, secondary)
+    local slots = { GetProfessions() }
+    for i = 1, 6 do
+        local index = slots[i]
+        if index then
+            local name, icon, rank, maxRank, _, _, skillLine = GetProfessionInfo(index)
+            if skillLine and skillLine ~= 794 then  -- 794 is Archaeology
+                local target = SECONDARY_SKILL_LINES[skillLine] and secondary or primary
+                AddProfession(target, name, icon, rank, maxRank)
+            end
+        end
+    end
+end
+
+-- Classic style skill list, sorted into groups by its section headers
+local function CollectProfessionsFromSkillList(primary, secondary)
+    local target = nil
+    for i = 1, GetNumSkillLines() do
+        local name, isHeader, _, rank, _, _, maxRank = GetSkillLineInfo(i)
+        if name then
+            if isHeader and isHeader ~= 0 then
+                local key = name:lower()
+                if PRIMARY_HEADERS[key] then
+                    target = primary
+                elseif SECONDARY_HEADERS[key] then
+                    target = secondary
+                else
+                    target = nil
+                end
+            elseif target then
+                AddProfession(target, name, nil, rank, maxRank)
+            end
+        end
+    end
+end
+
+local function CollectProfessions(toon)
+    local primary, secondary = {}, {}
+    if GetProfessions and GetProfessionInfo then
+        CollectProfessionsFromProfessionApi(primary, secondary)
+    elseif GetNumSkillLines and GetSkillLineInfo then
+        CollectProfessionsFromSkillList(primary, secondary)
+    else
+        return
+    end
+    toon.professions = { primary = primary, secondary = secondary }
+end
+
+-- ============================================================
 -- Collect saved instance lockouts from the Blizzard API.
 -- ============================================================
 local function CollectInstances(db, toonKey)
@@ -315,6 +389,8 @@ local function CollectToonData()
 
     -- Collect currencies
     CollectCurrencies(t)
+
+    CollectProfessions(t)
 
     -- Collect instances
     CollectInstances(db, toonKey)
@@ -490,6 +566,21 @@ local function CollectOwnCurrenciesSoon()
     end)
 end
 
+-- Skill ups fire often, so the profession data is collected once per burst
+local professionsDirty = false
+local function CollectProfessionsSoon()
+    if professionsDirty then return end
+    professionsDirty = true
+    C_Timer.After(2, function()
+        professionsDirty = false
+        local db = GetTrackerDB()
+        local toonKey = GetToonKey()
+        if db and toonKey and db.Toons[toonKey] then
+            CollectProfessions(db.Toons[toonKey])
+        end
+    end)
+end
+
 -- ============================================================
 -- Event-Frame
 -- ============================================================
@@ -506,6 +597,9 @@ pcall(eventFrame.RegisterEvent, eventFrame, "ACCOUNT_CHARACTER_CURRENCY_DATA_REC
 -- Warband bank: only readable while the bank is open
 pcall(eventFrame.RegisterEvent, eventFrame, "BANKFRAME_OPENED")
 pcall(eventFrame.RegisterEvent, eventFrame, "BANK_TABS_CHANGED")
+-- Profession skill changes: pcall in case an event is missing in this client version
+pcall(eventFrame.RegisterEvent, eventFrame, "SKILL_LINES_CHANGED")
+pcall(eventFrame.RegisterEvent, eventFrame, "TRADE_SKILL_LIST_UPDATE")
 
 eventFrame:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED_NEW_AREA" then
@@ -545,6 +639,9 @@ eventFrame:SetScript("OnEvent", function(self, event)
             CollectInstances(db, toonKey)
         end
         CleanExpiredInstances()
+
+    elseif event == "SKILL_LINES_CHANGED" or event == "TRADE_SKILL_LIST_UPDATE" then
+        CollectProfessionsSoon()
 
     elseif event == "CURRENCY_DISPLAY_UPDATE" then
         -- Own character: keep the balance current (looting, spending, transfer)

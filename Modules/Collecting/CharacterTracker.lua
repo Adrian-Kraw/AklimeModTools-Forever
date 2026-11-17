@@ -337,6 +337,35 @@ local function BuildCurrencies(sel)
     return result
 end
 
+-- Professions of the selected characters, one row per profession name.
+-- group is "primary" or "secondary", as stored by the DataCollector.
+local function BuildProfessions(sel, group)
+    local trackerDB = GetDataDB()
+    if not trackerDB then return {} end
+
+    local byName = {}
+    for _, ch in ipairs(sel) do
+        local toon = trackerDB.Toons[ch]
+        local list = toon and toon.professions and toon.professions[group]
+        if list then
+            for _, prof in ipairs(list) do
+                local entry = byName[prof.name]
+                if not entry then
+                    entry = { name = prof.name, icon = prof.icon, perChar = {} }
+                    byName[prof.name] = entry
+                end
+                entry.icon = entry.icon or prof.icon
+                entry.perChar[ch] = prof
+            end
+        end
+    end
+
+    local result = {}
+    for _, entry in pairs(byName) do result[#result + 1] = entry end
+    table.sort(result, function(a, b) return SortKey(a.name) < SortKey(b.name) end)
+    return result
+end
+
 -- ============================================================
 -- Layout constants
 -- ============================================================
@@ -657,22 +686,210 @@ end
 -- ============================================================
 local mainFrame    = nil
 local contentFrame = nil
+local scrollFrame  = nil
+local filler       = nil
+local fillerStripes = {}
+local grip         = nil
+local sizeUnlocked = false
 local view         = "main"
 
 local FRAME_WIDTH  = 960
-local FRAME_HEIGHT = 320  -- Forever has only a few currencies, so half the Retail height
+local FRAME_HEIGHT = 320  -- Default height, changed with the lock and the grip
+
+-- Scroll area inside the window. The bottom margin leaves room for the grip.
+local SCROLL_TOP    = 34
+local SCROLL_BOTTOM = 20
+
+-- A lock next to the Characters button releases a grip in the bottom right corner
+local MIN_HEIGHT    = 200
+local SCREEN_MARGIN = 80   -- Space kept free at the screen edge
+local GRIP_SIZE     = 16
+local GRIP_INSET    = 2
+local LOCK_SIZE     = 16
+local LOCK_GAP      = 8
+
+-- The padlock is drawn from plain blocks, so no texture file has to exist in
+-- the client. Positions are pixels from the bottom left corner of the button.
+local LOCK_BODY      = { x = 2, y = 1, w = 12, h = 8 }
+local LOCK_KEYHOLE   = { x = 7, y = 3, w = 2,  h = 4 }
+local LOCK_BAR       = 2    -- Thickness of the shackle
+local LOCK_SHACKLE_H = 5
+local LOCK_SHACKLE_L = 4    -- x of the left bar
+local LOCK_SHACKLE_R = 10   -- x of the right bar
+local LOCK_COLOR_CLOSED = { 1, 0.82, 0 }
+local LOCK_COLOR_OPEN   = { 0.35, 0.9, 0.35 }
+local LOCK_COLOR_HOLE   = { 0.08, 0.08, 0.08 }
+local LOCK_HIGHLIGHT    = 0.15
+
+-- Stripes under the table, same shades as the table rows
+local STRIPE_SHADE_EVEN = 0.09
+local STRIPE_SHADE_ODD  = 0.06
+local STRIPE_ALPHA      = 0.7
 
 local function ClearContent()
     if not contentFrame then return end
     for _, c in ipairs({contentFrame:GetChildren()}) do c:SetParent(nil); c:Hide() end
     for _, r in ipairs({contentFrame:GetRegions()})  do r:Hide() end
+    -- Views without a table keep it hidden, the others show it again at the end
+    filler:Hide()
+end
+
+-- Continues the striped rows below the table, so a tall window does not end
+-- in an empty black area. Only shown while the content is shorter than the window.
+local function UpdateFiller()
+    if not filler then return end
+
+    local viewHeight    = mainFrame:GetHeight() - SCROLL_TOP - SCROLL_BOTTOM
+    local contentHeight = contentFrame:GetHeight()
+    local gap = viewHeight - contentHeight
+    if gap < 1 then filler:Hide(); return end
+
+    filler:ClearAllPoints()
+    filler:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT", 0, -contentHeight)
+    filler:SetSize(contentFrame:GetWidth(), gap)
+
+    local count = math.ceil(gap / ROW_H)
+    for i = 1, count do
+        local stripe = fillerStripes[i]
+        if not stripe then
+            stripe = filler:CreateTexture(nil, "BACKGROUND")
+            fillerStripes[i] = stripe
+        end
+        local shade = (i % 2 == 0) and STRIPE_SHADE_EVEN or STRIPE_SHADE_ODD
+        stripe:SetColorTexture(shade, shade, shade, STRIPE_ALPHA)
+        stripe:ClearAllPoints()
+        stripe:SetPoint("TOPLEFT",  filler, "TOPLEFT",  0, -(i - 1) * ROW_H)
+        stripe:SetPoint("TOPRIGHT", filler, "TOPRIGHT", 0, -(i - 1) * ROW_H)
+        stripe:SetHeight(math.min(ROW_H, gap - (i - 1) * ROW_H))
+        stripe:Show()
+    end
+    for i = count + 1, #fillerStripes do fillerStripes[i]:Hide() end
+    filler:Show()
+end
+
+local function GetMaxHeight()
+    return math.max(MIN_HEIGHT, math.floor(UIParent:GetHeight() - SCREEN_MARGIN))
+end
+
+local function ClampHeight(height)
+    return math.max(MIN_HEIGHT, math.min(GetMaxHeight(), math.floor(height + 0.5)))
+end
+
+local function GetSavedHeight()
+    local db = GetDB()
+    return ClampHeight(db and db.height or FRAME_HEIGHT)
+end
+
+-- The top edge stays where it is, so the window only grows downwards.
+local function ApplyHeight(height)
+    local left, top = mainFrame:GetLeft(), mainFrame:GetTop()
+    mainFrame:SetHeight(height)
+    if left and top then
+        mainFrame:ClearAllPoints()
+        mainFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
+    end
+    UpdateFiller()
+end
+
+-- ── Grip in the bottom right corner ──────────────────────────
+-- Only the height is dragged. The width follows the selected characters.
+local function StopGripDrag(self)
+    self:SetScript("OnUpdate", nil)
+    local db = GetDB()
+    if db then db.height = math.floor(mainFrame:GetHeight() + 0.5) end
+end
+
+local function StartGripDrag(self)
+    local scale = UIParent:GetEffectiveScale()
+    local _, cursorY = GetCursorPosition()
+    -- Keeps the grab point, so the edge does not jump to the cursor
+    local grab = mainFrame:GetBottom() - cursorY / scale
+    self:SetScript("OnUpdate", function()
+        local _, y = GetCursorPosition()
+        ApplyHeight(ClampHeight(mainFrame:GetTop() - (y / scale + grab)))
+    end)
+end
+
+local function CreateGrip()
+    grip = CreateFrame("Button", nil, mainFrame)
+    grip:SetSize(GRIP_SIZE, GRIP_SIZE)
+    grip:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMRIGHT", -GRIP_INSET, GRIP_INSET)
+    grip:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+    grip:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+    grip:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+    grip:SetScript("OnMouseDown", StartGripDrag)
+    grip:SetScript("OnMouseUp", StopGripDrag)
+    grip:SetScript("OnHide", StopGripDrag)
+    grip:Hide()
+end
+
+-- ── Lock left of the Characters button ───────────────────────
+local function CreateBlock(parent, layer, x, y, w, h)
+    local block = parent:CreateTexture(nil, layer)
+    block:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", x, y)
+    block:SetSize(w, h)
+    return block
+end
+
+local function ShowLockTooltip(lock)
+    GameTooltip:SetOwner(lock, "ANCHOR_BOTTOM")
+    GameTooltip:ClearLines()
+    GameTooltip:AddLine(L["ct_height"] or "Window Height", 1, 0.82, 0)
+    local hint = sizeUnlocked
+        and (L["ct_size_open"]   or "Unlocked. Drag the corner at the bottom right. Click to lock.")
+        or  (L["ct_size_locked"] or "Locked. Click to unlock.")
+    GameTooltip:AddLine(hint, 1, 1, 1, true)
+    GameTooltip:Show()
+end
+
+local function CreateLockButton(anchor)
+    local lock = CreateFrame("Button", nil, mainFrame)
+    lock:SetSize(LOCK_SIZE, LOCK_SIZE)
+    lock:SetPoint("RIGHT", anchor, "LEFT", -LOCK_GAP, 0)
+
+    local bodyTop = LOCK_BODY.y + LOCK_BODY.h
+    local barLeft = LOCK_SHACKLE_L
+    local barTop  = bodyTop + LOCK_SHACKLE_H - LOCK_BAR
+    local right   = CreateBlock(lock, "ARTWORK", LOCK_SHACKLE_R, bodyTop, LOCK_BAR, LOCK_SHACKLE_H)
+    local parts = {
+        CreateBlock(lock, "ARTWORK", LOCK_BODY.x, LOCK_BODY.y, LOCK_BODY.w, LOCK_BODY.h),
+        CreateBlock(lock, "ARTWORK", barLeft, bodyTop, LOCK_BAR, LOCK_SHACKLE_H),
+        CreateBlock(lock, "ARTWORK", barLeft, barTop, LOCK_SHACKLE_R + LOCK_BAR - barLeft, LOCK_BAR),
+        right,
+    }
+    local hole = CreateBlock(lock, "OVERLAY", LOCK_KEYHOLE.x, LOCK_KEYHOLE.y, LOCK_KEYHOLE.w, LOCK_KEYHOLE.h)
+    hole:SetColorTexture(LOCK_COLOR_HOLE[1], LOCK_COLOR_HOLE[2], LOCK_COLOR_HOLE[3], 1)
+
+    local highlight = lock:CreateTexture(nil, "HIGHLIGHT")
+    highlight:SetAllPoints()
+    highlight:SetColorTexture(1, 1, 1, LOCK_HIGHLIGHT)
+
+    -- Open lock: the right bar of the shackle is missing
+    local function Draw()
+        local color = sizeUnlocked and LOCK_COLOR_OPEN or LOCK_COLOR_CLOSED
+        for _, part in ipairs(parts) do
+            part:SetColorTexture(color[1], color[2], color[3], 1)
+        end
+        right:SetShown(not sizeUnlocked)
+    end
+    Draw()
+
+    lock:SetScript("OnClick", function(self)
+        sizeUnlocked = not sizeUnlocked
+        grip:SetShown(sizeUnlocked)
+        Draw()
+        if GameTooltip:GetOwner() == self then ShowLockTooltip(self) end
+    end)
+    lock:SetScript("OnEnter", ShowLockTooltip)
+    lock:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    return lock
 end
 
 local function CreateUI()
     if mainFrame then return end
 
     mainFrame = CreateFrame("Frame", "AklimeModCTFrame", UIParent, "BackdropTemplate")
-    mainFrame:SetSize(FRAME_WIDTH, FRAME_HEIGHT)
+    mainFrame:SetSize(FRAME_WIDTH, GetSavedHeight())
     mainFrame:SetPoint("CENTER")
     mainFrame:SetFrameStrata("HIGH")
     mainFrame:SetMovable(true)
@@ -813,14 +1030,20 @@ local function CreateUI()
         end
     end)
 
-    local scroll = CreateFrame("ScrollFrame", nil, mainFrame, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT",     mainFrame, "TOPLEFT",     6, -34)
-    scroll:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMRIGHT", -24, 6)
+    CreateGrip()
+    CreateLockButton(charBtn)
 
-    contentFrame = CreateFrame("Frame", nil, scroll)
+    scrollFrame = CreateFrame("ScrollFrame", nil, mainFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT",     mainFrame, "TOPLEFT",     6, -SCROLL_TOP)
+    scrollFrame:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMRIGHT", -24, SCROLL_BOTTOM)
+
+    contentFrame = CreateFrame("Frame", nil, scrollFrame)
     contentFrame:SetWidth(920)
     contentFrame:SetHeight(1000)
-    scroll:SetScrollChild(contentFrame)
+    scrollFrame:SetScrollChild(contentFrame)
+
+    filler = CreateFrame("Frame", nil, mainFrame)
+    filler:Hide()
 end
 
 -- Row
@@ -1213,9 +1436,67 @@ function AklimeMod_CT_Refresh()
         end
     end
 
+    -- ── Professions ──────────────────────────────────────────
+    local PROFESSION_GROUPS = {
+        { key = "primary",   label = L["ct_prof_primary"]   or "Primary Professions" },
+        { key = "secondary", label = L["ct_prof_secondary"] or "Secondary Professions" },
+    }
+    local professionGroups = {}
+    for _, group in ipairs(PROFESSION_GROUPS) do
+        local rows = BuildProfessions(sel, group.key)
+        if #rows > 0 then
+            professionGroups[#professionGroups + 1] = { label = group.label, rows = rows }
+        end
+    end
+
+    if #professionGroups > 0 then
+        y = y + 4
+        local pHdr = MkHdr(contentFrame, y)
+        local pFs  = pHdr:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        pFs:SetPoint("LEFT", pHdr, "LEFT", 8, 0)
+        pFs:SetText(NORMAL_FONT_COLOR_CODE .. (L["ct_sec_professions"] or "Professions") .. FONT_COLOR_CODE_CLOSE)
+        y = y + ROW_H
+
+        for _, group in ipairs(professionGroups) do
+            y = y + 4
+            local sep = contentFrame:CreateTexture(nil, "ARTWORK")
+            sep:SetHeight(1)
+            sep:SetPoint("TOPLEFT",  contentFrame, "TOPLEFT",  0, -y)
+            sep:SetPoint("TOPRIGHT", contentFrame, "TOPRIGHT", 0, -y)
+            sep:SetColorTexture(0.4, 0.35, 0.1, 0.7)
+            y = y + 2
+            local gHdr = MkHdr(contentFrame, y)
+            local gFs  = gHdr:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            gFs:SetPoint("LEFT", gHdr, "LEFT", 8, 0)
+            gFs:SetText(NORMAL_FONT_COLOR_CODE .. group.label .. FONT_COLOR_CODE_CLOSE)
+            y = y + ROW_H + 2
+
+            for ri, prof in ipairs(group.rows) do
+                local row = MkRow(contentFrame, y, ri%2==0)
+                local iconStr = prof.icon and ("|T" .. prof.icon .. ":14:14:0:0|t ") or ""
+                MkTxt(row, iconStr .. NORMAL_FONT_COLOR_CODE .. prof.name .. FONT_COLOR_CODE_CLOSE,
+                    8, LAB_W - 4, "GameFontNormalSmall", "LEFT")
+
+                for ci, ch in ipairs(sel) do
+                    local skill = prof.perChar[ch]
+                    local txt
+                    if skill then
+                        local color = skill.rank >= skill.maxRank and GREEN_FONT_COLOR_CODE or FONT_COLOR_CODE_CLOSE
+                        txt = color .. skill.rank .. "/" .. skill.maxRank .. FONT_COLOR_CODE_CLOSE
+                    else
+                        txt = GRAY_FONT_COLOR_CODE .. "-" .. FONT_COLOR_CODE_CLOSE
+                    end
+                    MkTxt(row, txt, colX + (ci-1)*COL_W, COL_W, "GameFontNormalSmall", "CENTER")
+                end
+                y = y + ROW_H
+            end
+        end
+    end
+
     y = y + 12
     contentFrame:SetHeight(y)
     contentFrame:Show()
+    UpdateFiller()
 end
 
 -- ============================================================
@@ -1372,6 +1653,7 @@ function AklimeMod_CT_ShowChars()
     y = y + 30
     contentFrame:SetHeight(y + 10)
     contentFrame:Show()
+    UpdateFiller()
 end
 
 -- ============================================================

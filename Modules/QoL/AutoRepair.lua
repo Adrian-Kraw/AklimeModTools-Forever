@@ -20,6 +20,16 @@ local function FormatCoins(copper)
         copper % COPPER_PER_SILVER)
 end
 
+-- The withdraw limit alone is not enough: the rank must allow guild repairs
+-- and the guild bank must actually hold the gold.
+local function CanRepairWithGuild(cost)
+    if not IsInGuild() then return false end
+    if CanGuildBankRepair and not CanGuildBankRepair() then return false end
+    if GetGuildBankMoney and GetGuildBankMoney() < cost then return false end
+    local withdrawLimit = GetGuildBankWithdrawMoney()
+    return withdrawLimit and (withdrawLimit == -1 or withdrawLimit >= cost)
+end
+
 local repairFrame = CreateFrame("Frame")
 repairFrame:RegisterEvent("MERCHANT_SHOW")
 repairFrame:SetScript("OnEvent", function()
@@ -30,8 +40,7 @@ repairFrame:SetScript("OnEvent", function()
     if not cost or cost == 0 then return end
 
     if AklimeModDB.autoRepair.useGuild then
-        local gw = GetGuildBankWithdrawMoney()
-        if IsInGuild() and gw and (gw == -1 or gw >= cost) then
+        if CanRepairWithGuild(cost) then
             RepairAllItems(1)
             print("|cFF00CCFFAklime Mod Tools:|r " .. L["repair_guild_done"] .. FormatCoins(cost))
             return

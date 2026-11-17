@@ -1358,18 +1358,6 @@ local function addQoLNodes(dp)
         addInfo(chatIconsNode, L["info_chat_icons"])
     end
 
-    if AklimeMod_ChatIcons then
-        local itemLevelNode = addModule(dp, L["mod_item_level"],
-            function() return AklimeMod_ChatIcons:IsItemLevelEnabled() end,
-            function(v) AklimeMod_ChatIcons:SetItemLevelEnabled(v) end
-        )
-        addToggle(itemLevelNode, L["toggle_show_slot"],
-            function() return AklimeMod_ChatIcons:IsShowSlotEnabled() end,
-            function(v) AklimeMod_ChatIcons:SetShowSlotEnabled(v) end
-        )
-        addInfo(itemLevelNode, L["info_item_level"])
-    end
-
     if currentSearchFilter == "" then
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_social"], centered = true })
     end

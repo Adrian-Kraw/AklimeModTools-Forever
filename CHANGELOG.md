@@ -1,3 +1,21 @@
+## 1.0.3
+
+The height of the Character Tracker window can now be set with a lock and a drag corner. / Die Höhe des Fensters im Charakter-Tracker lässt sich jetzt über ein Schloss und eine Ziehecke einstellen.
+
+**EN**
+
+Character Tracker
+
+* New: A lock to the left of the Characters button unlocks the window. Then the corner at the bottom right can be dragged to set the height of the window. The height is saved.
+* New: Free space below the table is filled with striped rows.
+
+**DE**
+
+Charakter-Tracker
+
+* Neu: Ein Schloss links vom Charaktere-Knopf entsperrt das Fenster. Dann lässt sich die Ecke unten rechts ziehen, um die Höhe des Fensters einzustellen. Die Höhe wird gespeichert.
+* Neu: Freier Platz unter der Tabelle wird mit Streifenzeilen gefüllt.
+
 ## 1.0.2
 
 The Address Book now works with first and last names and shows the faction. The Character Tracker tooltip shows the last name. / Das Adressbuch arbeitet jetzt mit Vor- und Nachnamen und zeigt die Fraktion. Der Tooltip im Charakter-Tracker zeigt den Nachnamen.

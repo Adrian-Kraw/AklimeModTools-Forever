@@ -36,7 +36,7 @@ local CHAT_EVENTS = {
 
 local function GetDB()
     if AklimeModDB and AklimeModDB.chatIcons then return AklimeModDB.chatIcons end
-    return { enabled = false, itemLevel = false, showSlot = false }
+    return { enabled = false }
 end
 
 -- ============================================================
@@ -63,37 +63,6 @@ local function FormatCurrencyLink(link, id)
     return AppendIcon(info and (info.iconFileID or info.icon), link)
 end
 
-local function FormatItemLinkWithLevel(link)
-    -- Extract link parts: hyperlink part, label, suffix
-    local prefix, label, suffix = link:match("^(|Hitem:[^|]+|h)%[(.-)%](|h|r)$")
-    if not prefix or not label or not suffix then return link end
-
-    local level, equipLoc
-    if C_Item and C_Item.GetDetailedItemLevelInfo then
-        level = C_Item.GetDetailedItemLevelInfo(link)
-    end
-    if C_Item and C_Item.GetItemInfo then
-        local _, _, _, baseLevel, _, _, _, _, itemEquipLoc = C_Item.GetItemInfo(link)
-        equipLoc = itemEquipLoc
-        if not level or level == 0 then level = baseLevel end
-    end
-
-    -- Equippable items only
-    if not level or level <= 0 then return link end
-    if not equipLoc or equipLoc == "" or equipLoc == "INVTYPE_NON_EQUIP_IGNORE" then return link end
-
-    local parts = {}
-    if GetDB().showSlot and _G[equipLoc] then
-        parts[#parts + 1] = _G[equipLoc]
-    end
-    parts[#parts + 1] = tostring(level)
-
-    local suffix_text = table.concat(parts, " ")
-    if suffix_text == "" then return link end
-
-    return prefix .. "[" .. label .. " (" .. suffix_text .. ")]" .. suffix
-end
-
 -- ============================================================
 -- Filter
 -- ============================================================
@@ -104,28 +73,19 @@ local function FilterChatMessage(_, event, message, ...)
     if issecretvalue and issecretvalue(message) then return end
     if type(message) ~= "string" or message == "" then return false end
 
-    local db = GetDB()
-
     message = message:gsub(ITEM_LINK_PATTERN, function(link)
-        if db.itemLevel then link = FormatItemLinkWithLevel(link) end
-        if db.enabled   then link = AppendIcon(GetItemTexture(link), link) end
-        return link
+        return AppendIcon(GetItemTexture(link), link)
     end)
 
-    if db.enabled and (event == "CHAT_MSG_LOOT" or event == "CHAT_MSG_CURRENCY") then
+    if event == "CHAT_MSG_LOOT" or event == "CHAT_MSG_CURRENCY" then
         message = message:gsub(CURRENCY_LINK_PATTERN, FormatCurrencyLink)
     end
 
     return false, message, ...
 end
 
-local function NeedsFilter()
-    local db = GetDB()
-    return db.enabled == true or db.itemLevel == true
-end
-
 local function UpdateFilterRegistration()
-    if NeedsFilter() then
+    if GetDB().enabled == true then
         for _, event in ipairs(CHAT_EVENTS) do
             if not registeredEvents[event] then
                 ChatFrame_AddMessageEventFilter(event, FilterChatMessage)
@@ -154,23 +114,6 @@ end
 function M:SetEnabled(v)
     GetDB().enabled = v and true or false
     UpdateFilterRegistration()
-end
-
-function M:IsItemLevelEnabled()
-    return GetDB().itemLevel == true
-end
-
-function M:SetItemLevelEnabled(v)
-    GetDB().itemLevel = v and true or false
-    UpdateFilterRegistration()
-end
-
-function M:IsShowSlotEnabled()
-    return GetDB().showSlot == true
-end
-
-function M:SetShowSlotEnabled(v)
-    GetDB().showSlot = v and true or false
 end
 
 -- ============================================================

@@ -114,8 +114,6 @@ function AklimeMod_InitDB()
 
     db.chatIcons = db.chatIcons or {}
     def(db.chatIcons, "enabled",    false)
-    def(db.chatIcons, "itemLevel",  false)
-    def(db.chatIcons, "showSlot",   false)
 
     db.chatFade = db.chatFade or {}
     def(db.chatFade, "enabled",      false)

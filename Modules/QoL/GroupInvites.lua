@@ -21,6 +21,8 @@ local function IsGuildMember(name)
 end
 
 local function IsFriend(unitID)
+    -- Der Event liefert false statt einer GUID, wenn keine verfuegbar ist
+    if type(unitID) ~= "string" then return false end
     if C_BattleNet and C_BattleNet.GetGameAccountInfoByGUID then
         if C_BattleNet.GetGameAccountInfoByGUID(unitID) then return true end
     end
