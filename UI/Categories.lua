@@ -620,6 +620,14 @@ local function addInterfaceNodes(dp)
         addInfo(gcNode, L["info_gear_check"])
     end
 
+    if AklimeMod_ThreatDisplay then
+        local threatNode = addModule(dp, L["mod_threat_display"],
+            function() return AklimeMod_ThreatDisplay.IsEnabled() end,
+            function(v) AklimeMod_ThreatDisplay.SetEnabled(v) end
+        )
+        addInfo(threatNode, L["info_threat_display"])
+    end
+
     if AklimeMod_CombatTooltip then
         local ttNode = addModule(dp, L["mod_combat_tooltip"],
             function() return AklimeMod_CombatTooltip:IsEnabled() end,
@@ -798,6 +806,14 @@ local function BuildInterfaceContent(filter)
             function(v) AklimeMod_GearCheck.SetEnabled(v) end
         )
         addInfo(gcNode, L["info_gear_check"])
+    end
+
+    if AklimeMod_ThreatDisplay then
+        local threatNode3 = addModule(dp3, L["mod_threat_display"],
+            function() return AklimeMod_ThreatDisplay.IsEnabled() end,
+            function(v) AklimeMod_ThreatDisplay.SetEnabled(v) end
+        )
+        addInfo(threatNode3, L["info_threat_display"])
     end
 
     dp3:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_combat"], centered = true })

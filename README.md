@@ -27,6 +27,7 @@ Visual adjustments to the game client.
 - **Hide Minimap Elements**: Hides individual minimap elements (clock, coordinates, zone, etc.)
 - **Mouse Ring and Trail**: Colored ring and trail effect on the cursor, customizable in color, size and style
 - **Gear Check**: Shows socket icons, item level and enchant status on each equipment slot
+- **Enable Threat Display**: Switches the numeric threat display on the target frame on and off
 - **Hide Tooltip in Combat**: Hides the tooltip during combat
 - **Color Customization**: Colorize unit frames, HUD, micro menu, action bars and numerous windows. All skins can be enabled at once and colored with a shared global color
 
@@ -166,6 +167,7 @@ Visuelle Anpassungen am Spielclient.
 - **Minimap-Elemente ausblenden**: Blendet einzelne Minimap-Elemente aus (Uhr, Koordinaten, Zone usw.)
 - **Mausring und Mausspur**: Farbiger Ring und Trail-Effekt am Mauszeiger, anpassbar in Farbe, Größe und Stil
 - **Ausrüstungs-Prüfung**: Zeigt Sockel-Icons, Itemlevel und Verzauberungsstatus an jedem Equipment-Slot
+- **Bedrohungsanzeige aktivieren**: Schaltet die Bedrohungsanzeige als Zahl am Zielrahmen ein und aus
 - **Tooltip im Kampf ausblenden**: Blendet den Tooltip während des Kampfes aus
 - **Farbliche Anpassungen**: Einfärben von Unit Frames, HUD, Micro Menu, Action Bars und zahlreichen Fenstern. Alle Skins lassen sich auf einmal aktivieren und mit einer gemeinsamen Globalfarbe einfärben
 

@@ -10,6 +10,7 @@ Character Tracker
 Interface
 
 * New: Hide Names with Interface. If you hide the interface with Alt+Z, the names of all players and NPCs and the nameplates are hidden too. When the interface returns, everything is shown as before. You find it under Interface, Interface Fading.
+* New: Enable Threat Display. Switches the numeric threat display on the target frame on and off, like the console command threatShowNumeric. You find it under Interface, Character and Portrait.
 
 **DE**
 
@@ -21,3 +22,4 @@ Charakter-Tracker
 Interface
 
 * Neu: Namen mit Interface ausblenden. Blendest du das Interface mit Alt+Z aus, verschwinden auch die Namen aller Spieler und NPCs sowie die Namensplaketten. Kommt das Interface zurück, wird alles wieder angezeigt wie vorher. Du findest es unter Interface, Interface Ausblendung.
+* Neu: Bedrohungsanzeige aktivieren. Schaltet die Bedrohungsanzeige als Zahl am Zielrahmen ein und aus, wie der Konsolenbefehl threatShowNumeric. Du findest sie unter Interface, Charakter und Portrait.

@@ -39,6 +39,7 @@ local TAG_COLORS = {
 local NEWS_ENTRIES = {
     { title = "news_tracker_title",    tag = "new", text = "news_tracker" },
     { title = "news_hide_names_title", tag = "new", text = "news_hide_names" },
+    { title = "news_threat_title",     tag = "new", text = "news_threat" },
 }
 
 -- Same rounded look as the category buttons on the left
