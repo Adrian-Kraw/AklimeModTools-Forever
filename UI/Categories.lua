@@ -1864,6 +1864,14 @@ local function addQoLNodes(dp)
         addInfo(afkNode, L["info_afk_timer"])
     end
 
+    if AklimeMod_MapNavigation then
+        local navNode = addModule(dp, L["mod_map_navigation"],
+            function() return AklimeMod_MapNavigation.IsEnabled() end,
+            function(v) AklimeMod_MapNavigation.SetEnabled(v) end
+        )
+        addInfo(navNode, L["info_map_navigation"])
+    end
+
 end  -- addQoLNodes
 
 local function BuildQoLContent()

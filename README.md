@@ -72,6 +72,7 @@ Convenience features for everyday gameplay.
 - **Item Level in Chat Links**: Shows the item level of players next to the chat name
 - **Mailbox Address Book**: Saves recipient names for the mailbox with auto-completion
 - **AFK Timer**: Shows a clock in the middle of the screen that counts up how long you have been AFK. Position and size can be changed
+- **Enable Map Navigation**: Switches the in-game navigation of the map on and off
 - **Vendor Window — 20 Items per Page**: Shows 20 instead of 10 items per vendor page
 
 **Gameplay**
@@ -212,6 +213,7 @@ Komfort-Features für den Spielalltag.
 - **Itemlevel in Chat-Links**: Zeigt das Itemlevel von Spielern neben dem Chatnamen
 - **Adressbuch für Post**: Speichert Empfänger-Namen für das Postfach mit Autovervollständigung
 - **AFK-Timer**: Zeigt eine Uhr in der Bildschirmmitte, die hochzählt, wie lange du AFK bist. Position und Größe lassen sich ändern
+- **Kartennavigation aktivieren**: Schaltet die Navigation der Karte im Spiel ein und aus
 - **Händlerfenster — 20 Gegenstände pro Seite**: Zeigt 20 statt 10 Gegenstände pro Händler-Seite
 
 **Gameplay**
