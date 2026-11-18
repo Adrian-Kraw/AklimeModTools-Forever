@@ -16,6 +16,8 @@ local TOLERANCE     = 0.001
 
 local PRESET_CUSTOM  = "custom"
 local PRESET_DEFAULT = "default"
+-- Listed greyed out under Blizzard Default until its values are filled in
+local PRESET_AKLIME = "aklime"
 
 -- Options per group in the order of the menu. Checkboxes use 0 and 1 like the
 -- CVars do, so every option shares the same code path. offAtZero shows "Off"
@@ -389,6 +391,9 @@ local function GetPresetOptions()
     for _, preset in ipairs(PRESETS) do
         options[#options + 1] = { value = preset.key, label = GetPresetLabel(preset.key) }
     end
+    options[#options + 1] = {
+        value = PRESET_AKLIME, label = GetPresetLabel(PRESET_AKLIME), disabled = true,
+    }
     return options
 end
 

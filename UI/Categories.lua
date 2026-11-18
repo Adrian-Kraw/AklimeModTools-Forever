@@ -358,10 +358,13 @@ local function dropdownInitializer(frame, node)
     -- Runs again for recycled rows, so the generator always reads this node
     frame.dropdown:SetupMenu(function(_, rootDescription)
         for _, option in ipairs(data.options) do
-            rootDescription:CreateRadio(option.label,
+            -- A disabled option is shown grey and cannot be chosen
+            local label = option.disabled and ("|cFF808080" .. option.label .. "|r") or option.label
+            local element = rootDescription:CreateRadio(label,
                 function() return data.getVal() == option.value end,
-                function() data.setVal(option.value) end
+                function() if not option.disabled then data.setVal(option.value) end end
             )
+            if option.disabled and element.SetEnabled then element:SetEnabled(false) end
         end
     end)
 

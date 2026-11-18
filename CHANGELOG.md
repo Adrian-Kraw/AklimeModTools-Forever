@@ -30,6 +30,7 @@ Graphics
 * New: Presets Performance, Balanced, Maximum, Classic Look, Modern Look and Blizzard Default. Presets are locked. The button Copy to Custom turns the selected preset into your own set, which has its own saved values and is never changed by a preset.
 * New: A movable FPS display, an FPS comparison after every change and a benchmark of 10 seconds per preset.
 * New: Loot Sparkles like in the original game, Show Nearest Object and Protect Values, which sets your values again after changes in the game's graphics menu.
+* New: A short description under every option explains what it does and why it is there.
 
 **DE**
 
@@ -59,6 +60,7 @@ Grafik
 * Neu: Voreinstellungen Leistung, Ausgewogen, Maximum, Klassischer Look, Moderner Look und Blizzard-Standard. Voreinstellungen sind gesperrt. Der Knopf In Benutzerdefiniert übernehmen macht die gewählte zu deinem eigenen Satz, der eigene gespeicherte Werte hat und nie von einer Voreinstellung verändert wird.
 * Neu: Eine verschiebbare FPS-Anzeige, ein FPS-Vergleich nach jeder Änderung und ein Benchmark von 10 Sekunden pro Voreinstellung.
 * Neu: Loot-Glitzern wie im Originalspiel, Nächstes Objekt anzeigen und Werte schützen, das deine Werte nach Änderungen im Grafikmenü des Spiels erneut setzt.
+* Neu: Eine kurze Beschreibung unter jeder Option erklärt, was sie tut und wozu sie da ist.
 
 ## 1.0.2
 

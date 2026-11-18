@@ -283,7 +283,7 @@ L["news_map_nav"]          = "Switches the in-game navigation of the map on and 
 L["news_mmc_title"]        = "Minimap Button Collector"
 L["news_mmc"]              = "The menu of the Aklime Mod Tools button opens below the button in the opened collector bar.\nThis applies if the button is included in the collector.\nThe menu opens next to the button again, also after it was dragged in the bar."
 L["news_grafik_title"]     = "Graphics Settings"
-L["news_grafik"]           = "The new category Graphics sets many graphics options of WoW Forever, hidden ones too.\nPresets, an FPS display and a benchmark help to find the right values.\nYour own settings are saved at the first login and come back when you turn it off.\nDefault loads the saved settings into all options."
+L["news_grafik"]           = "The new category Graphics sets many graphics options of WoW Forever, hidden ones too.\nPresets, an FPS display and a benchmark help to find the right values.\nPresets are locked, Copy to Custom turns one into your own set.\nEvery option has a short description.\nYour own settings are saved at the first login and come back when you turn it off.\nDefault loads the saved settings into all options."
 
 -- Graphics settings
 L["grafik_off"]                         = "Off"
@@ -324,6 +324,7 @@ L["grafik_preset_max"]                  = "Maximum"
 L["grafik_preset_classic"]              = "Classic Look"
 L["grafik_preset_modern"]               = "Modern Look"
 L["grafik_preset_default"]              = "Blizzard Default"
+L["grafik_preset_aklime"]               = "Aklime Settings"
 L["grafik_fps_overlay"]                 = "FPS Display"
 L["grafik_fps_compare"]                 = "FPS Comparison after Changes"
 L["grafik_protect"]                     = "Protect Values"
@@ -791,7 +792,7 @@ if GetLocale() == "deDE" then
     L["news_mmc_title"]        = "Minimap Button Sammler"
     L["news_mmc"]              = "Das Menü des Aklime Mod Tools-Buttons öffnet sich unter dem Button in der aufgeklappten Leiste.\nDas gilt, wenn der Button im Sammler eingeschlossen ist.\nDas Menü öffnet sich wieder neben dem Button, auch wenn er in der Leiste gezogen wurde."
     L["news_grafik_title"]     = "Grafik-Einstellungen"
-    L["news_grafik"]           = "Die neue Kategorie Grafik stellt viele Grafik-Optionen von WoW Forever ein, auch versteckte.\nVoreinstellungen, eine FPS-Anzeige und ein Benchmark helfen bei der Suche nach den richtigen Werten.\nDeine eigenen Einstellungen werden beim ersten Login gesichert und kommen beim Ausschalten zurück.\nStandard lädt die gesicherten Einstellungen in alle Optionen."
+    L["news_grafik"]           = "Die neue Kategorie Grafik stellt viele Grafik-Optionen von WoW Forever ein, auch versteckte.\nVoreinstellungen, eine FPS-Anzeige und ein Benchmark helfen bei der Suche nach den richtigen Werten.\nVoreinstellungen sind gesperrt, mit In Benutzerdefiniert übernehmen wird eine zu deinem eigenen Satz.\nJede Option hat eine kurze Beschreibung.\nDeine eigenen Einstellungen werden beim ersten Login gesichert und kommen beim Ausschalten zurück.\nStandard lädt die gesicherten Einstellungen in alle Optionen."
 
     -- Grafik-Einstellungen
     L["grafik_off"]                         = "Aus"
@@ -832,6 +833,7 @@ if GetLocale() == "deDE" then
     L["grafik_preset_classic"]              = "Klassischer Look"
     L["grafik_preset_modern"]               = "Moderner Look"
     L["grafik_preset_default"]              = "Blizzard-Standard"
+    L["grafik_preset_aklime"]               = "Aklime Profil"
     L["grafik_fps_overlay"]                 = "FPS-Anzeige"
     L["grafik_fps_compare"]                 = "FPS-Vergleich nach Änderungen"
     L["grafik_protect"]                     = "Werte schützen"
