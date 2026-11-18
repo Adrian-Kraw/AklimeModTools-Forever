@@ -278,6 +278,8 @@ L["news_threat_title"]     = "Threat Display"
 L["news_threat"]           = "Switches the numeric threat display on the target frame on and off.\nYou find it under Interface, Character and Portrait."
 L["news_map_nav_title"]    = "Map Navigation"
 L["news_map_nav"]          = "Switches the in-game navigation of the map on and off.\nYou find it under Quality of Life, Miscellaneous."
+L["news_mmc_title"]        = "Minimap Button Collector"
+L["news_mmc"]              = "The menu of the Aklime Mod Tools button opens below the button in the opened collector bar.\nThis applies if the button is included in the collector.\nThe menu opens next to the button again, also after it was dragged in the bar."
 
 -- Currency expansion categories
 L["curr_cat_professions"] = "Professions"
@@ -698,6 +700,8 @@ if GetLocale() == "deDE" then
     L["news_threat"]           = "Schaltet die Bedrohungsanzeige als Zahl am Zielrahmen ein und aus.\nDu findest sie unter Interface, Charakter und Portrait."
     L["news_map_nav_title"]    = "Kartennavigation"
     L["news_map_nav"]          = "Schaltet die Navigation der Karte im Spiel ein und aus.\nDu findest sie unter Quality of Life, Sonstiges."
+    L["news_mmc_title"]        = "Minimap Button Sammler"
+    L["news_mmc"]              = "Das Menü des Aklime Mod Tools-Buttons öffnet sich unter dem Button in der aufgeklappten Leiste.\nDas gilt, wenn der Button im Sammler eingeschlossen ist.\nDas Menü öffnet sich wieder neben dem Button, auch wenn er in der Leiste gezogen wurde."
 
     L["curr_cat_professions"] = "Berufe"
     L["curr_cat_raids"]  = "Dungeon & Schlachtzug"
