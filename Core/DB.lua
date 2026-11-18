@@ -252,6 +252,17 @@ function AklimeMod_InitDB()
     db.hideNamesWithUI = db.hideNamesWithUI or {}
     def(db.hideNamesWithUI, "enabled", false)
 
+    -- backup is created once at the first login, so it has no default here
+    db.foreverGrafik = db.foreverGrafik or {}
+    def(db.foreverGrafik, "enabled",   false)
+    def(db.foreverGrafik, "preset",    "custom")
+    def(db.foreverGrafik, "protect",   true)
+    def(db.foreverGrafik, "showStats", false)
+    def(db.foreverGrafik, "compare",   true)
+    db.foreverGrafik.custom = db.foreverGrafik.custom or {}   -- the player's own set
+    db.foreverGrafik.bench  = db.foreverGrafik.bench  or {}
+    db.foreverGrafik.values = nil   -- an earlier build kept the chosen values here
+
     db.playedTime = db.playedTime or {}
     db.playedTime.chars = db.playedTime.chars or {}
     def(db.playedTime, "enabled", false)

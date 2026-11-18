@@ -7,6 +7,9 @@ local LSV = function() return AklimeMod_LeftScrollView  end
 
 local function newDP() return CreateTreeDataProvider() end
 
+-- Rows that wait for another option, for example until the graphics feature is on
+local DISABLED_ALPHA = 0.35
+
 -- ============================================================
 -- Shared helpers
 -- ============================================================
@@ -30,23 +33,26 @@ local function addModule(dp, name, getEnabled, setEnabled)
     return node
 end
 
-local function addToggle(node, name, getVal, setVal)
+-- isDisabled is optional and greys the row out while it returns true
+local function addToggle(node, name, getVal, setVal, isDisabled)
     node:Insert({
-        Template = "AklimeMod_ToggleTemplate",
-        name     = name,
-        getVal   = getVal,
-        setVal   = setVal,
+        Template   = "AklimeMod_ToggleTemplate",
+        name       = name,
+        getVal     = getVal,
+        setVal     = setVal,
+        isDisabled = isDisabled,
     })
 end
 
 -- options: list of { value = ..., label = ... }
-local function addDropdown(node, name, options, getVal, setVal)
+local function addDropdown(node, name, options, getVal, setVal, isDisabled)
     node:Insert({
-        Template = "AklimeMod_DropdownTemplate",
-        name     = name,
-        options  = options,
-        getVal   = getVal,
-        setVal   = setVal,
+        Template   = "AklimeMod_DropdownTemplate",
+        name       = name,
+        options    = options,
+        getVal     = getVal,
+        setVal     = setVal,
+        isDisabled = isDisabled,
     })
 end
 
@@ -69,7 +75,7 @@ local function addInfo(node, text)
     })
 end
 
-local function addSlider(node, label, min, max, step, getVal, setVal, formatFn)
+local function addSlider(node, label, min, max, step, getVal, setVal, formatFn, isDisabled)
     node:Insert({
         Template = "AklimeMod_SliderTemplate",
         label    = label,
@@ -79,17 +85,19 @@ local function addSlider(node, label, min, max, step, getVal, setVal, formatFn)
         getVal   = getVal,
         setVal   = setVal,
         formatFn = formatFn,
+        isDisabled = isDisabled,
     })
 end
 
 -- confirm = true: a yes/no dialog appears before execution
-local function addAction(node, label, onClick, extent, confirm)
+local function addAction(node, label, onClick, extent, confirm, isDisabled)
     node:Insert({
         Template = "AklimeMod_ActionButtonTemplate",
         label    = label,
         onClick  = onClick,
         extent   = extent,
         confirm  = confirm,
+        isDisabled = isDisabled,
     })
 end
 
@@ -152,6 +160,16 @@ local function actionInitializer(frame, node)
     AklimeMod_StyleActionButton(btn)
     btn.label:SetText(data.label or "")
     btn:SetWidth(math.max(180, btn.label:GetStringWidth() + 44))
+
+    -- Read again by AklimeMod_RefreshRightToggles, like the toggles
+    local function update()
+        local disabled = data.isDisabled and data.isDisabled()
+        btn:SetEnabled(not disabled)
+        btn:SetAlpha(disabled and DISABLED_ALPHA or 1)
+    end
+    frame._refreshCheckbox = update
+    update()
+
     btn:SetScript("OnClick", function(self)
         if not data.onClick then return end
         if data.confirm then
@@ -222,19 +240,25 @@ end
 
 local function toggleInitializer(button, node)
     local data = node:GetData()
-    button._refreshCheckbox = function() button.toggle:SetChecked(data.getVal()) end
     if button.name then button.name:SetText(data.name or "") end
-    local disabled = data.isDisabled and data.isDisabled()
-    button.toggle:SetChecked(data.getVal())
-    if disabled then
-        button.toggle:Disable()
-        button.toggle:SetAlpha(0.35)
-        if button.name then button.name:SetTextColor(0.4, 0.4, 0.4, 1) end
-    else
-        button.toggle:Enable()
-        button.toggle:SetAlpha(1.0)
-        if button.name then button.name:SetTextColor(1, 0.82, 0, 1) end
+
+    -- AklimeMod_RefreshRightToggles runs this again, so a row greys out or
+    -- wakes up when the option it depends on changes
+    local function update()
+        local disabled = data.isDisabled and data.isDisabled()
+        button.toggle:SetChecked(data.getVal())
+        if disabled then
+            button.toggle:Disable()
+            button.toggle:SetAlpha(DISABLED_ALPHA)
+            if button.name then button.name:SetTextColor(0.4, 0.4, 0.4, 1) end
+        else
+            button.toggle:Enable()
+            button.toggle:SetAlpha(1.0)
+            if button.name then button.name:SetTextColor(1, 0.82, 0, 1) end
+        end
     end
+    button._refreshCheckbox = update
+    update()
     button.toggle:SetScript("OnClick", function(self)
         if data.isDisabled and data.isDisabled() then
             self:SetChecked(not self:GetChecked()); return
@@ -340,6 +364,16 @@ local function dropdownInitializer(frame, node)
             )
         end
     end)
+
+    -- Read again by AklimeMod_RefreshRightToggles, like the toggles
+    local function update()
+        local disabled = data.isDisabled and data.isDisabled()
+        frame.dropdown:SetEnabled(not disabled)
+        frame:SetAlpha(disabled and DISABLED_ALPHA or 1)
+        frame.dropdown:GenerateMenu()
+    end
+    frame._refreshCheckbox = update
+    update()
 end
 
 -- Default factory for QoL and other categories
@@ -376,8 +410,22 @@ function AklimeMod_RightFactory(factory, node)
             end
             frame.slider:SetValue(data.getVal())
             refresh(data.getVal())
+            -- AklimeMod_RefreshRightToggles moves the slider after a value was set from
+            -- outside and greys the row out while its isDisabled returns true
+            local function isDisabled() return data.isDisabled and data.isDisabled() end
+            local function applyDisabled()
+                frame.slider:EnableMouse(not isDisabled())
+                frame:SetAlpha(isDisabled() and DISABLED_ALPHA or 1)
+            end
+            frame._refreshCheckbox = function()
+                local val = data.getVal()
+                frame.slider:SetValue(val)
+                refresh(val)
+                applyDisabled()
+            end
+            applyDisabled()
             frame.slider:SetScript("OnValueChanged", function(_, val, byUser)
-                if not byUser then return end
+                if not byUser or isDisabled() then return end
                 data.setVal(val)
                 refresh(val)
             end)
@@ -1921,6 +1969,112 @@ local function BuildPvPContent()
 end
 AklimeMod_BuildPvPContent = BuildPvPContent
 
+-- ============================================================
+-- Graphics
+-- ============================================================
+-- The switch on top turns the graphics feature on. Every other row stays grey
+-- until then, AklimeMod_RefreshRightToggles wakes them up.
+local function addGraphicsNodes(dp)
+    local G = AklimeMod_ForeverGrafik
+    local S = AklimeMod_ForeverGrafikStats
+    local function isOff() return not G.IsEnabled() end
+
+    local function refresh() AklimeMod_RefreshRightToggles() end
+
+    addToggle(dp, L["mod_forever_grafik"],
+        function() return G.IsEnabled() end,
+        function(v) G.SetEnabled(v); refresh() end
+    )
+    addInfo(dp, L["info_forever_grafik"])
+
+    -- Presets are locked. Copy to Custom makes the selected one the player's own set.
+    addDropdown(dp, L["grafik_preset"], G.GetPresetOptions(),
+        function() return G.GetPreset() end,
+        function(key) G.ApplyPreset(key); refresh() end,
+        isOff
+    )
+    addInfo(dp, L["grafik_info_presets"])
+    addAction(dp, L["grafik_copy_to_custom"], function()
+        G.CopyToCustom()
+        refresh()
+    end, nil, false, function() return isOff() or G.GetPreset() == "custom" end)
+    addAction(dp, L["action_grafik_default"], function()
+        G.ResetToBackup()
+        refresh()
+    end, nil, true, isOff)
+
+    for _, group in ipairs(G.GROUPS) do
+        local options = {}
+        for _, def in ipairs(group.settings) do
+            if G.IsAvailable(def.cvar) then options[#options + 1] = def end
+        end
+
+        if #options > 0 then
+            dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["grafik_group_" .. group.key] })
+            for _, def in ipairs(options) do
+                local name = L["grafik_" .. def.cvar]
+                -- Greyed while the feature is off, a preset is selected or another addon controls it
+                local function isLocked() return G.IsLocked(def) end
+
+                if def.kind == "checkbox" then
+                    addToggle(dp, name,
+                        function() return G.GetValue(def) == 1 end,
+                        function(v) G.SetValue(def, v and 1 or 0) end,
+                        isLocked
+                    )
+                else
+                    addSlider(dp, name, def.min, def.max, def.step,
+                        function() return G.GetValue(def) end,
+                        function(v) G.SetValue(def, v) end,
+                        function(v) return G.FormatValue(def, v) end,
+                        isLocked
+                    )
+                end
+                local tip = L["grafik_tip_" .. def.cvar]
+                if tip then addInfo(dp, tip) end
+            end
+            local info = L["grafik_info_" .. group.key]
+            if info then addInfo(dp, info) end
+        end
+    end
+
+    if S then
+        dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["grafik_group_options"] })
+        addToggle(dp, L["grafik_fps_overlay"],
+            function() return S.IsOverlayShown() end,
+            function(v) S.SetOverlayShown(v) end,
+            isOff
+        )
+        addInfo(dp, L["grafik_tip_fps_overlay"])
+        addToggle(dp, L["grafik_fps_compare"],
+            function() return S.IsCompareEnabled() end,
+            function(v) S.SetCompareEnabled(v) end,
+            isOff
+        )
+        addInfo(dp, L["grafik_tip_fps_compare"])
+        addToggle(dp, L["grafik_protect"],
+            function() return G.IsProtected() end,
+            function(v) G.SetProtected(v) end,
+            isOff
+        )
+        addInfo(dp, L["grafik_tip_protect"])
+        addAction(dp, L["grafik_bench_button"], function() S.ToggleBenchmark() end, nil, false, isOff)
+        addInfo(dp, L["grafik_tip_bench"])
+    end
+end
+
+local function BuildGraphicsContent()
+    lastCategoryFn = BuildGraphicsContent
+    currentBuildFn = nil
+    if _G["AklimeModSearchBox"] then _G["AklimeModSearchBox"]:SetText("") end
+    AklimeMod_SetRightHeader(L["cat_graphics"])
+    ShowScrollView()
+    RSV():SetElementFactory(AklimeMod_RightFactory, function() end)
+    local dp = newDP()
+    if AklimeMod_ForeverGrafik then addGraphicsNodes(dp) end
+    RSV():SetDataProvider(dp)
+end
+
 local function BuildEmpty(header)
     currentBuildFn = nil
     if _G["AklimeModSearchBox"] then _G["AklimeModSearchBox"]:SetText("") end
@@ -2118,7 +2272,8 @@ local categories = {
     { order=4, name=L["cat_qol"], callback=BuildQoLContent                              },
     { order=5, name=L["cat_collecting"], callback=BuildCollectingContent                      },
     { order=6, name="PvP",             callback=function() AklimeMod_BuildPvPContent() end   },
-    { order=7, name=L["cat_news"],     callback=BuildNewsContent                             },
+    { order=7, name=L["cat_graphics"], callback=BuildGraphicsContent                         },
+    { order=8, name=L["cat_news"],     callback=BuildNewsContent                             },
 }
 
 local function SetSelected(clickedButton)

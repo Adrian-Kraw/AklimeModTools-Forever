@@ -42,6 +42,7 @@ local NEWS_ENTRIES = {
     { title = "news_threat_title",     tag = "new", text = "news_threat" },
     { title = "news_map_nav_title",    tag = "new", text = "news_map_nav" },
     { title = "news_mmc_title",        tag = "changed", text = "news_mmc" },
+    { title = "news_grafik_title",     tag = "new", text = "news_grafik" },
 }
 
 -- Same rounded look as the category buttons on the left

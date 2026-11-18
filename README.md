@@ -107,6 +107,17 @@ Character and progress overview across all your characters.
 
 ---
 
+### Graphics
+Graphics options of WoW Forever in one place, hidden ones too. All options stay grey until you tick the switch at the top.
+
+- **Graphics Settings**: Indirect lighting, fog, god rays, water, bloom, brightness, contrast, grass, weather, object detail, camera zoom and sharpening. Your own settings are saved at the first login and come back when you turn it off or press Default
+- **Presets**: Performance, Balanced, Maximum, Classic Look, Modern Look and Blizzard Default. Presets are locked, Copy to Custom turns one into your own set
+- **Classic Details**: Loot sparkles like in the original game and the name of the nearest herb, ore vein or chest above it
+- **FPS Display and Benchmark**: Movable FPS display, FPS comparison after every change and a benchmark of 10 seconds per preset
+- **Protect Values**: Sets your values again after changes in the game's graphics menu
+
+---
+
 ### News
 Shows the most important changes of the installed version as cards, marked as new, fixed or changed. After an update a chat message points to it once.
 
@@ -245,6 +256,17 @@ Charakter- und Fortschrittsübersicht über alle eigenen Charaktere.
 ### PvP
 - **Namensplaketten einfärben**: Färbt Namensplaketten in Arenen und Schlachtfeldern (Grün = eigenes Team, Rot = Gegner)
 - **Chat im PvP blockieren**: Verhindert das Öffnen der Chat-Eingabe in Arenen und Schlachtfeldern
+
+---
+
+### Grafik
+Grafik-Optionen von WoW Forever an einem Ort, auch versteckte. Alle Optionen bleiben ausgegraut, bis du den Schalter oben anhakst.
+
+- **Grafik-Einstellungen**: Indirekte Beleuchtung, Nebel, Lichtstrahlen, Wasser, Bloom, Helligkeit, Kontrast, Gras, Wetter, Objektdetails, Kameradistanz und Schärfe. Deine eigenen Einstellungen werden beim ersten Login gesichert und kommen beim Ausschalten oder mit Standard zurück
+- **Voreinstellungen**: Leistung, Ausgewogen, Maximum, Klassischer Look, Moderner Look und Blizzard-Standard. Voreinstellungen sind gesperrt, mit In Benutzerdefiniert übernehmen wird eine zu deinem eigenen Satz
+- **Klassische Details**: Loot-Glitzern wie im Originalspiel und der Name des nächsten Krauts, Erzvorkommens oder der nächsten Truhe über dem Objekt
+- **FPS-Anzeige und Benchmark**: Verschiebbare FPS-Anzeige, FPS-Vergleich nach jeder Änderung und ein Benchmark von 10 Sekunden pro Voreinstellung
+- **Werte schützen**: Setzt deine Werte nach Änderungen im Grafikmenü des Spiels erneut
 
 ---
 

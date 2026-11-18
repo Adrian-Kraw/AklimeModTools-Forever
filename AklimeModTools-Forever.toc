@@ -70,6 +70,8 @@ Modules\QoL\MapNavigation.lua
 Modules\Mouse\MouseEffects.lua
 
 Modules\PvP\NameplateColorizer.lua
+Modules\PvP\ForeverGrafikSettings.lua
+Modules\PvP\ForeverGrafikStats.lua
 
 Modules\Collecting\CharacterTracker.lua
 

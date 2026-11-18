@@ -1,6 +1,6 @@
 ## 1.0.3
 
-The height of the Character Tracker window can now be set, names can be hidden together with the interface, and the threat display and the map navigation can be switched on. / Die Höhe des Charakter-Trackers lässt sich jetzt einstellen, Namen lassen sich zusammen mit dem Interface ausblenden, und die Bedrohungsanzeige und die Kartennavigation lassen sich einschalten.
+The height of the Character Tracker window can now be set, names can be hidden together with the interface, the threat display and the map navigation can be switched on, and graphics settings can be changed. / Die Höhe des Charakter-Trackers lässt sich jetzt einstellen, Namen lassen sich zusammen mit dem Interface ausblenden, die Bedrohungsanzeige und die Kartennavigation lassen sich einschalten, und Grafik-Einstellungen lassen sich ändern.
 
 **EN**
 
@@ -24,6 +24,13 @@ Quality of Life
 
 * New: Enable Map Navigation. Switches the in-game navigation of the map on and off, like the console command showInGameNavigation. You find it under Quality of Life, Miscellaneous.
 
+Graphics
+
+* New: Graphics Settings. A new category Graphics sets many graphics options of WoW Forever, hidden ones too, like indirect lighting, fog, grass, weather, object detail, camera zoom and sharpening. The options stay grey until you tick the switch at the top. Your own graphics settings are saved at the first login. Turning the feature off brings them back, and the button Default loads them into all options.
+* New: Presets Performance, Balanced, Maximum, Classic Look, Modern Look and Blizzard Default. Presets are locked. The button Copy to Custom turns the selected preset into your own set, which has its own saved values and is never changed by a preset.
+* New: A movable FPS display, an FPS comparison after every change and a benchmark of 10 seconds per preset.
+* New: Loot Sparkles like in the original game, Show Nearest Object and Protect Values, which sets your values again after changes in the game's graphics menu.
+
 **DE**
 
 Charakter-Tracker
@@ -45,6 +52,13 @@ Minimap
 Quality of Life
 
 * Neu: Kartennavigation aktivieren. Schaltet die Navigation der Karte im Spiel ein und aus, wie der Konsolenbefehl showInGameNavigation. Du findest sie unter Quality of Life, Sonstiges.
+
+Grafik
+
+* Neu: Grafik-Einstellungen. Eine neue Kategorie Grafik stellt viele Grafik-Optionen von WoW Forever ein, auch versteckte, zum Beispiel indirekte Beleuchtung, Nebel, Gras, Wetter, Objektdetails, Kameradistanz und Schärfe. Die Optionen bleiben ausgegraut, bis du den Schalter oben anhakst. Deine eigenen Grafik-Einstellungen werden beim ersten Login gesichert. Ausschalten bringt sie zurück, und der Knopf Standard lädt sie in alle Optionen.
+* Neu: Voreinstellungen Leistung, Ausgewogen, Maximum, Klassischer Look, Moderner Look und Blizzard-Standard. Voreinstellungen sind gesperrt. Der Knopf In Benutzerdefiniert übernehmen macht die gewählte zu deinem eigenen Satz, der eigene gespeicherte Werte hat und nie von einer Voreinstellung verändert wird.
+* Neu: Eine verschiebbare FPS-Anzeige, ein FPS-Vergleich nach jeder Änderung und ein Benchmark von 10 Sekunden pro Voreinstellung.
+* Neu: Loot-Glitzern wie im Originalspiel, Nächstes Objekt anzeigen und Werte schützen, das deine Werte nach Änderungen im Grafikmenü des Spiels erneut setzt.
 
 ## 1.0.2
 
