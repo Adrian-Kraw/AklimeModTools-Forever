@@ -344,18 +344,8 @@ end
 -- ============================================================
 -- Main collection function (call on login)
 -- ============================================================
-local function CollectToonData()
-    local db = GetTrackerDB()
-    if not db then return end
-
-    local toonKey = GetToonKey()
-    if not toonKey then return end
-
-    -- Create toon entry
-    db.Toons[toonKey] = db.Toons[toonKey] or {}
-    local t = db.Toons[toonKey]
-
-    -- Basic character info.
+-- Identity, level, gold and similar data that the client knows right at login
+local function CollectBasicInfo(t)
     local lclass, class = UnitClass("player")
     t.LClass = lclass
     t.Class  = class
@@ -386,6 +376,33 @@ local function CollectToonData()
 
     -- Resting state
     t.isResting = IsResting()
+end
+
+-- Adds a character the tracker has not seen yet. Runs right at login, so a
+-- quick logout before the delayed collection cannot keep it out of the tracker.
+local function RegisterNewToon()
+    local db = GetTrackerDB()
+    if not db then return end
+
+    local toonKey = GetToonKey()
+    if not toonKey or db.Toons[toonKey] then return end
+
+    db.Toons[toonKey] = {}
+    CollectBasicInfo(db.Toons[toonKey])
+end
+
+local function CollectToonData()
+    local db = GetTrackerDB()
+    if not db then return end
+
+    local toonKey = GetToonKey()
+    if not toonKey then return end
+
+    -- Create toon entry
+    db.Toons[toonKey] = db.Toons[toonKey] or {}
+    local t = db.Toons[toonKey]
+
+    CollectBasicInfo(t)
 
     -- Collect currencies
     CollectCurrencies(t)
@@ -604,6 +621,7 @@ pcall(eventFrame.RegisterEvent, eventFrame, "TRADE_SKILL_LIST_UPDATE")
 eventFrame:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED_NEW_AREA" then
         if event == "PLAYER_ENTERING_WORLD" then
+            RegisterNewToon()
             CleanExpiredInstances()
             -- EJ cache + toon data after a longer delay
             C_Timer.After(3, function()
