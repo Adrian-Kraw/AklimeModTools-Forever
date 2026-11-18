@@ -37,12 +37,7 @@ local TAG_COLORS = {
 -- title, text and where are locale keys, where is optional. Every line of
 -- text becomes one bullet. tag is a key of TAG_COLORS.
 local NEWS_ENTRIES = {
-    { title = "news_tracker_title",    tag = "new", text = "news_tracker" },
-    { title = "news_hide_names_title", tag = "new", text = "news_hide_names" },
-    { title = "news_threat_title",     tag = "new", text = "news_threat" },
-    { title = "news_map_nav_title",    tag = "new", text = "news_map_nav" },
-    { title = "news_mmc_title",        tag = "changed", text = "news_mmc" },
-    { title = "news_grafik_title",     tag = "new", text = "news_grafik" },
+    { title = "news_hide_names_title", tag = "fixed", text = "news_hide_names" },
 }
 
 -- Same rounded look as the category buttons on the left
