@@ -650,6 +650,39 @@ local function OnChatInputClosed()
     OnChatChanged()
 end
 
+-- An undocked chat tab hangs on UIParent and not on its chat window, so it does not fade with the window.
+-- Blizzard sets the alpha of a tab by itself, for example when the mouse enters or leaves the window.
+-- So the tab gets the alpha Blizzard wants times the alpha of its window.
+local chatFrameOfTab = {}
+local alphaWantedByBlizzard = {}
+local isSettingTabAlpha = false
+
+local function ApplyTabAlpha(tab)
+    local chatFrame = chatFrameOfTab[tab]
+    local alpha = alphaWantedByBlizzard[tab]
+    if not chatFrame.isDocked then alpha = alpha * chatFrame:GetAlpha() end
+    isSettingTabAlpha = true
+    tab:SetAlpha(alpha)
+    isSettingTabAlpha = false
+end
+
+local function HookChatTabs()
+    for i = 1, MAX_CHAT_FRAMES do
+        local chatFrame = _G["ChatFrame" .. i]
+        local tab = _G["ChatFrame" .. i .. "Tab"]
+        if chatFrame and tab and not chatFrameOfTab[tab] then
+            chatFrameOfTab[tab] = chatFrame
+            alphaWantedByBlizzard[tab] = tab:GetAlpha()
+            hooksecurefunc(tab, "SetAlpha", function(_, alpha)
+                if isSettingTabAlpha then return end
+                alphaWantedByBlizzard[tab] = alpha
+                ApplyTabAlpha(tab)
+            end)
+            hooksecurefunc(chatFrame, "SetAlpha", function() ApplyTabAlpha(tab) end)
+        end
+    end
+end
+
 local function HookEditBoxes()
     for i = 1, MAX_CHAT_FRAMES do
         local editBox = _G["ChatFrame" .. i .. "EditBox"]
@@ -665,8 +698,10 @@ local hookFrame = CreateFrame("Frame")
 hookFrame:RegisterEvent("PLAYER_LOGIN")
 hookFrame:SetScript("OnEvent", function()
     HookEditBoxes()
+    HookChatTabs()
     hooksecurefunc("FCF_OpenTemporaryWindow", function()
         HookEditBoxes()
+        HookChatTabs()
         OnChatChanged()
     end)
 end)
