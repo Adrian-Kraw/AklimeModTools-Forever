@@ -227,6 +227,7 @@ function AklimeMod_InitDB()
         db.interfaceFade[k] = db.interfaceFade[k] or {}
         def(db.interfaceFade[k], "enabled", false)
         def(db.interfaceFade[k], "alpha",   60)
+        def(db.interfaceFade[k], "hoverReveal", false)
     end
     def(db.interfaceFade.mode1, "moveDelay", 1)
     def(db.interfaceFade.mode1, "idleDelay", 5)

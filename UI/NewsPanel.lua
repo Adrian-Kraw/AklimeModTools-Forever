@@ -38,6 +38,9 @@ local TAG_COLORS = {
 -- text becomes one bullet. tag is a key of TAG_COLORS.
 local NEWS_ENTRIES = {
     { title = "news_hide_names_title", tag = "fixed", text = "news_hide_names" },
+    { title = "news_hover_title",      tag = "new",   text = "news_hover",      where = "news_where_fading" },
+    { title = "news_chat_title",       tag = "fixed", text = "news_chat",       where = "news_where_fading" },
+    { title = "news_collector_title",  tag = "changed", text = "news_collector" },
 }
 
 -- Same rounded look as the category buttons on the left

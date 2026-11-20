@@ -738,6 +738,13 @@ local function addInterfaceNodes(dp)
                 function() return fade[k].enabled end,
                 setEnabled
             )
+            addToggle(modeNode, L["toggle_hover_reveal"],
+                function() return fade[k].hoverReveal end,
+                function(v)
+                    fade[k].hoverReveal = v
+                    if AklimeMod_HUDFader then AklimeMod_HUDFader:Refresh() end
+                end
+            )
             addSlider(modeNode, L["slider_transparency"], 0, 100, 1,
                 function() return fade[k].alpha end,
                 function(v)
@@ -1067,6 +1074,13 @@ local function BuildInterfaceContent(filter)
             local modeNode = addModule(dp3, modeName,
                 function() return fade[k].enabled end,
                 setEnabled
+            )
+            addToggle(modeNode, L["toggle_hover_reveal"],
+                function() return fade[k].hoverReveal end,
+                function(v)
+                    fade[k].hoverReveal = v
+                    if AklimeMod_HUDFader then AklimeMod_HUDFader:Refresh() end
+                end
             )
             addSlider(modeNode, L["slider_transparency"], 0, 100, 1,
                 function() return fade[k].alpha end,
