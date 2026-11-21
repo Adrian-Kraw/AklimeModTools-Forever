@@ -16,11 +16,16 @@ Interface
 * Fixed: The name of a chat tab that you drag out of the chat window stayed visible while the interface faded. It fades out now as well.
 * Fixed: The minimap moved to the right when you pressed the key that hides the whole interface (Alt+Z by default) while the interface was faded. Interface Fading now leaves everything alone while the interface is hidden.
 * Fixed: The objective tracker on the right stayed bright after you hid the whole interface with that key and showed it again while Interface Fading was active. It now stays faded.
+* Fixed: With Interface Fading, parts of the minimap that the game showed again while the minimap was faded, for example the map of a tunnel, stayed hidden when the minimap came back. The inner circle stayed empty. They are shown again now.
 
 Minimap
 
 * Changed: If the Aklime Mod Tools button sits in a minimap button collector, its menu now opens as a row in the middle of the screen, a little larger, from left to right. You pick what you need. This works with our own collector and with the collectors of other addons and needs no setting. A click anywhere outside of the row closes it. Before, the menu hung below the button, where a bar could cover it, or stayed on the curved arc around the minimap.
 * Fixed: In the collector of another addon the button can no longer be dragged out of the bar.
+
+Quality of Life
+
+* New: Reminder on Instance Entry. When you enter an instance, a popup reminds you of buff food, potions and buffs and asks if everything fits. It does not appear on login or UI reload. You find it under Quality of Life, Group Activities.
 
 **DE**
 
@@ -38,8 +43,13 @@ Interface
 * Behoben: Der Name eines Chat-Tabs, den du aus dem Chatfenster herausgezogen hast, blieb sichtbar, während das Interface ausgeblendet war. Er blendet jetzt auch aus.
 * Behoben: Die Minimap rutschte nach rechts, wenn du die Taste zum Ausblenden der gesamten Benutzeroberfläche (standardmäßig Alt+Z) gedrückt hast, während das Interface ausgeblendet war. Die Interface Ausblendung lässt jetzt alles in Ruhe, solange die Benutzeroberfläche versteckt ist.
 * Behoben: Die Questverfolgung rechts blieb hell, nachdem du die gesamte Benutzeroberfläche mit dieser Taste versteckt und wieder gezeigt hast, während die Interface Ausblendung aktiv war. Sie bleibt jetzt ausgeblendet.
+* Behoben: Bei der Interface Ausblendung blieben Teile der Minimap, die das Spiel während des Ausblendens neu anzeigte, zum Beispiel die Karte eines Tunnels, versteckt, wenn die Minimap zurückkam. Der innere Kreis blieb leer. Sie werden jetzt wieder angezeigt.
 
 Minimap
 
 * Geändert: Sitzt der Aklime Mod Tools-Button in einem Minimap-Button-Sammler, öffnet sich sein Menü jetzt als Reihe in der Mitte des Bildschirms, etwas größer, von links nach rechts. Du suchst dir aus, was du brauchst. Das funktioniert mit unserem eigenen Sammler und mit den Sammlern anderer Addons und braucht keine Einstellung. Ein Klick irgendwo außerhalb der Reihe schließt sie. Vorher hing das Menü unter dem Button, wo es von einer Leiste verdeckt werden konnte, oder blieb auf dem Bogen um die Minimap.
 * Behoben: Im Sammler eines anderen Addons lässt sich der Button nicht mehr aus der Leiste ziehen.
+
+Quality of Life
+
+* Neu: Erinnerung beim Instanz-Eintritt. Betrittst du eine Instanz, erinnert dich ein Popup an Buff-Food, Tränke und Buffs und fragt, ob alles passt. Es erscheint nicht beim Login oder Interface-Neuladen. Du findest sie unter Quality of Life, Gruppenaktivitäten.

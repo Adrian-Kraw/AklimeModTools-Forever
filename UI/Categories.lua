@@ -1545,6 +1545,14 @@ local function addQoLNodes(dp)
         addInfo(rcNode, L["info_ready_check"])
     end
 
+    if AklimeMod_InstanceReminder then
+        local instanceNode = addModule(dp, L["mod_instance_reminder"],
+            function() return AklimeMod_InstanceReminder.IsEnabled() end,
+            function(v) AklimeMod_InstanceReminder.SetEnabled(v) end
+        )
+        addInfo(instanceNode, L["info_instance_reminder"])
+    end
+
     if currentSearchFilter == "" then
         dp:Insert({ Template = "AklimeMod_SeparatorTemplate", label = L["sec_merchant"], centered = true })
     end

@@ -150,6 +150,9 @@ function AklimeMod_InitDB()
     def(db.readyCheck, "enabled", false)
     def(db.readyCheck, "delay",   3)
 
+    db.instanceReminder = db.instanceReminder or {}
+    def(db.instanceReminder, "enabled", false)
+
     db.skipCinematic = db.skipCinematic or {}
     def(db.skipCinematic, "enabled", false)
 

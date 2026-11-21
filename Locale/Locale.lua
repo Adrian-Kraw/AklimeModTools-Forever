@@ -98,6 +98,7 @@ L["mod_auto_summon"]      = "Auto Accept Summons"
 L["mod_chat_font_size"]   = "Set Chat Size for All Characters"
 L["info_chat_font_size"]  = "Sets the chosen chat font size once for each character, only if it has not been set for that character yet.\nPick a size below (same options as the game's own chat font size selection)."
 L["mod_ready_check"]      = "Auto Accept Ready Check"
+L["mod_instance_reminder"] = "Reminder on Instance Entry"
 L["mod_skip_cinematic"]   = "Skip Cutscenes and Cinematics"
 L["mod_auto_repair"]      = "Auto Repair"
 L["mod_reload_ui"]        = "Reload UI"
@@ -430,6 +431,11 @@ L["drink_title"] = "Drink something! Stretch!"
 L["drink_desc"]  = "Time for a short break."
 L["drink_btn"]   = "Got it!"
 
+-- Instance Reminder popup
+L["instance_popup_text"]     = "Instance Reminder\n\n|cFFFFD100%s|r\n\nDon't forget buff food, potions and buffs.\n\nDoes everything fit?"
+L["instance_popup_ok"]       = "Yes, all good"
+L["instance_popup_instance"] = "Instance"
+
 -- Gear Check
 L["gc_enchanted"]     = "Enchanted"
 L["gc_not_enchanted"] = "Not enchanted"
@@ -471,6 +477,7 @@ L["info_block_invite"]     = "Automatically declines all group invites.\nExcepti
 L["info_auto_invite"]      = "Automatically accepts group invites.\nNo filter active: every invite is accepted.\nWith filters: guild and friends can both be active."
 L["info_auto_summon"]      = "Automatically accepts incoming summon requests.\nA message in chat shows who summoned and where.\n\nDelay: how long to wait before accepting.\nAt \"instant\" it is accepted right away, above that you can\nstill answer the dialog yourself during the wait."
 L["info_ready_check"]      = "Automatically accepts ready checks.\nThe countdown is visible on the Yes button."
+L["info_instance_reminder"] = "Shows a popup when entering an instance:\n\"Don't forget buff food, potions and buffs. Does everything fit?\"\n\nDoes not appear on login or UI reload."
 L["info_skip_cinematic"]   = "Automatically skips in-engine cutscenes and pre-rendered video sequences."
 L["skip_cinematic_done"]   = "A cutscene was skipped!"
 L["info_reload_ui"]        = "Fully reloads the interface."
@@ -628,6 +635,7 @@ if GetLocale() == "deDE" then
     L["mod_chat_font_size"]   = "Chatgröße für alle Chars setzen"
     L["info_chat_font_size"]  = "Setzt die gewählte Chatgröße einmalig für jeden Charakter, aber nur falls für diesen Charakter noch keine gesetzt wurde.\nGröße unten auswählen (gleiche Auswahl wie im Chat-Menü des Spiels)."
     L["mod_ready_check"]      = "Bereitschaftsabfrage automatisch annehmen"
+    L["mod_instance_reminder"] = "Erinnerung beim Instanz-Eintritt"
     L["mod_skip_cinematic"]   = "Cutscenes und Cinematics überspringen"
     L["mod_reload_ui"]        = "Interface Neuladen"
     L["mod_easy_delete"]      = "Einfaches Bestätigen und Löschen"
@@ -910,6 +918,7 @@ if GetLocale() == "deDE" then
     L["info_auto_invite"]      = "Nimmt Gruppeneinladungen automatisch an.\nKein Filter aktiv: jede Einladung wird angenommen.\nMit Filtern: Gilde und Freunde können gleichzeitig aktiv sein."
     L["info_auto_summon"]      = "Nimmt eingehende Beschwörungsanfragen automatisch an.\nEine Meldung im Chat zeigt wer beschworen hat und wohin.\n\nVerzögerung: wie lange vor dem Annehmen gewartet wird.\nBei \"sofort\" wird direkt angenommen, darüber kannst du\nwährend der Wartezeit noch selbst auf den Dialog reagieren."
     L["info_ready_check"]      = "Nimmt Bereitschaftsabfragen automatisch an.\nDer Countdown ist am Ja-Button sichtbar."
+    L["info_instance_reminder"] = "Zeigt beim Betreten einer Instanz ein Popup:\n\"Buff-Food, Tränke und Buffs nicht vergessen. Passt alles?\"\n\nErscheint nicht beim Login oder Interface-Neuladen."
     L["info_skip_cinematic"]   = "Überspringt automatisch In-Engine Cutscenes sowie vorgerenderte Videosequenzen."
     L["skip_cinematic_done"]   = "Es wurde eine Cutscene übersprungen!"
     L["info_reload_ui"]        = "Lädt das Interface komplett neu."
@@ -994,6 +1003,11 @@ if GetLocale() == "deDE" then
     L["drink_title"] = "Trink was! Streck dich!"
     L["drink_desc"]  = "Zeit für eine kurze Pause."
     L["drink_btn"]   = "Alles klar!"
+
+    -- Instance Reminder popup
+    L["instance_popup_text"]     = "Instanz-Erinnerung\n\n|cFFFFD100%s|r\n\nBuff-Food, Tränke und Buffs nicht vergessen.\n\nPasst alles?"
+    L["instance_popup_ok"]       = "Ja, alles gut"
+    L["instance_popup_instance"] = "Instanz"
 
     -- Gear Check
     L["gc_enchanted"]     = "Verzaubert"

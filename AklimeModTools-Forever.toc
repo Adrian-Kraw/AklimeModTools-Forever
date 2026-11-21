@@ -55,6 +55,7 @@ Modules\QoL\ChatFontSize.lua
 Modules\QoL\DeathSound.lua
 Modules\QoL\BlockRequests.lua
 Modules\QoL\ReadyCheck.lua
+Modules\QoL\InstanceReminder.lua
 Modules\QoL\SkipCinematic.lua
 Modules\QoL\ChatHistory.lua
 Modules\QoL\Summons.lua

@@ -78,6 +78,7 @@ Convenience features for everyday gameplay.
 **Gameplay**
 - **Death Sound**: Plays a sound when your character dies
 - **Lazy Ready Check**: Automatically confirms ready checks after a configurable delay
+- **Reminder on Instance Entry**: Shows a popup when you enter an instance, reminding you of buff food, potions and buffs
 - **Skip Cutscene**: Automatically skips in-game cutscenes and cinematics
 
 **Quest**
@@ -230,6 +231,7 @@ Komfort-Features für den Spielalltag.
 **Gameplay**
 - **Todessound**: Spielt einen Sound beim Tod des eigenen Charakters
 - **Lazy Ready Check**: Bestätigt Ready Checks automatisch nach einer einstellbaren Verzögerung
+- **Erinnerung beim Instanz-Eintritt**: Zeigt beim Betreten einer Instanz ein Popup, das an Buff-Food, Tränke und Buffs erinnert
 - **Cutscene überspringen**: Überspringt Ingame-Cutscenes und Cinematics automatisch
 
 **Quest**
